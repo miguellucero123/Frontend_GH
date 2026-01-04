@@ -3,9 +3,18 @@
  * Ajustar según tu entorno de desarrollo/producción
  */
 
+// Detectar si estamos en GitHub Pages
+const isGitHubPages = window.location.hostname.includes('github.io') || 
+                      window.location.hostname.includes('github.com');
+
+// Detectar si estamos en localhost
+const isLocalhost = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1';
+
 const CONFIG = {
     // URL base de la API backend (FastAPI)
-    API_BASE_URL: 'http://localhost:8000/api/v1',
+    // En GitHub Pages, usar null para activar modo demo automáticamente
+    API_BASE_URL: isGitHubPages ? null : 'http://localhost:8000/api/v1',
     API_VERSION: 'v1', // FastAPI v1
     OFFLINE_SUPPORT: true, // Fase 4: Soporte Offline Activado
 
@@ -47,6 +56,7 @@ const CONFIG = {
     DEBUG: false,
 
     // Modo DEMO - Permite probar el sistema sin backend
+    // En GitHub Pages, activar automáticamente modo demo
     // true = forzar modo demo (siempre funciona)
     // false = forzar backend (requiere servidor corriendo)
     // null = auto-detect (intenta backend, si falla usa demo)
