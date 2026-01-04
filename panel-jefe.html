@@ -535,13 +535,39 @@
     <script>
         function logout() { auth.logout(); }
         document.addEventListener('DOMContentLoaded', () => {
-            const user = auth.getCurrentUser();
-            if (user) {
-                const nameEl = document.getElementById('userNameHeader');
-                const roleEl = document.getElementById('userRoleHeader');
-                if (nameEl) nameEl.textContent = user.name || user.username;
-                if (roleEl) roleEl.textContent = (user.role || user.rol) === 'jefe' ? 'Gerente de Proyecto' : 'Administrador';
+            // Verificar autenticación primero
+            if (typeof auth === 'undefined' || !auth.isAuthenticated()) {
+                console.warn('Usuario no autenticado, redirigiendo...');
+                window.location.href = 'index.html';
+                return;
             }
+            
+            const user = auth.getCurrentUser();
+            if (!user) {
+                console.warn('Usuario no encontrado, redirigiendo...');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Verificar rol
+            const userRole = user.role || user.rol;
+            if (userRole !== 'jefe' && userRole !== 'admin') {
+                console.warn(`Usuario con rol ${userRole} intentando acceder a panel-jefe, redirigiendo...`);
+                if (typeof auth !== 'undefined' && auth.redirectByRole) {
+                    auth.redirectByRole();
+                } else {
+                    window.location.href = 'index.html';
+                }
+                return;
+            }
+            
+            // Mostrar información del usuario
+            const nameEl = document.getElementById('userNameHeader');
+            const roleEl = document.getElementById('userRoleHeader');
+            if (nameEl) nameEl.textContent = user.name || user.username || 'Usuario';
+            if (roleEl) roleEl.textContent = (userRole === 'jefe') ? 'Gerente de Proyecto' : 'Administrador';
+            
+            console.log('✅ Usuario autenticado:', { name: user.name || user.username, role: userRole });
             
             // Inicializar visualizador de fases
             setTimeout(() => {
