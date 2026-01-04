@@ -630,7 +630,8 @@ class AdvancedReports {
 }
 
 // Inicializar sistema de reportes avanzados
-if (typeof window !== 'undefined') {
-    window.advancedReports = new AdvancedReports();
-}
+// Nota: La inicialización se hace en panel-jefe.js para evitar duplicación
+// if (typeof window !== 'undefined' && typeof window.advancedReports === 'undefined') {
+//     window.advancedReports = new AdvancedReports();
+// }
 
