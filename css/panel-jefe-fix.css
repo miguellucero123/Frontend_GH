@@ -1,0 +1,90 @@
+/* ============================================
+   PANEL JEFE - FIXES PARA SCROLL Y LAYOUT
+   ============================================
+   Corrige problemas de scroll y elementos bloqueados
+   ESTE ARCHIVO DEBE CARGARSE DESPUÉS DE tailwind-override.css
+   ============================================ */
+
+/* IMPORTANTE: Selector muy específico para sobrescribir tailwind-override.css */
+/* Sobrescribir estilos de tailwind-override.css que bloquean scroll */
+html body.gradient-bg.min-h-screen,
+body.gradient-bg.min-h-screen,
+body.min-h-screen.gradient-bg {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+    align-items: unset !important;
+    justify-content: unset !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    position: relative !important;
+}
+
+/* Asegurar que html también permita scroll */
+html {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+}
+
+/* Asegurar que main tenga espacio para scroll */
+main#adminContent {
+    position: relative !important;
+    padding-bottom: 4rem !important;
+    min-height: calc(100vh - 80px) !important;
+    overflow: visible !important;
+}
+
+/* Asegurar que el header sticky no bloquee contenido */
+header.sticky {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+}
+
+/* Asegurar padding en el contenido principal */
+main#adminContent > section {
+    padding-bottom: 2rem !important;
+    overflow: visible !important;
+}
+
+/* Asegurar que los elementos con position fixed no bloqueen */
+#filesPanel {
+    position: fixed !important;
+    z-index: 100 !important;
+}
+
+/* Mejorar scroll en el contenido */
+.content-section {
+    overflow: visible !important;
+}
+
+/* Asegurar que todos los botones sean clickeables */
+button,
+.btn,
+a.button,
+[role="button"] {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 1 !important;
+    position: relative !important;
+}
+
+/* Asegurar que los elementos interactivos funcionen */
+.nav-item,
+button[data-section],
+button[data-action],
+button[type="button"],
+button[type="submit"] {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
+/* Asegurar que no haya overlay bloqueando */
+body::before,
+body::after {
+    pointer-events: none !important;
+}
+
