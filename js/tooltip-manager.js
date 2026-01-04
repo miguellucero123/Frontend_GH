@@ -39,20 +39,27 @@ class TooltipManager {
         // Tooltips automáticos para elementos con title
         document.addEventListener('mouseenter', (e) => {
             const target = e.target;
+            // Verificar que target sea un elemento válido
+            if (!target || typeof target.getAttribute !== 'function') return;
+            
             const title = target.getAttribute('title');
             
-            if (title && !target.hasAttribute('data-tooltip-custom')) {
+            if (title && typeof target.hasAttribute === 'function' && !target.hasAttribute('data-tooltip-custom')) {
                 e.preventDefault();
                 target.removeAttribute('title');
                 target.setAttribute('data-tooltip', title);
                 this.showTooltip(target, title);
-            } else if (target.hasAttribute('data-tooltip')) {
+            } else if (typeof target.hasAttribute === 'function' && target.hasAttribute('data-tooltip')) {
                 this.showTooltip(target, target.getAttribute('data-tooltip'));
             }
         }, true);
 
         document.addEventListener('mouseleave', (e) => {
-            if (e.target.hasAttribute('data-tooltip')) {
+            const target = e.target;
+            // Verificar que target sea un elemento válido
+            if (!target || typeof target.hasAttribute !== 'function') return;
+            
+            if (target.hasAttribute('data-tooltip')) {
                 this.hideTooltip();
             }
         }, true);

@@ -311,8 +311,35 @@
                     response = await api.login(username, password);
                 }
 
+                // Verificar que auth esté disponible
+                if (typeof auth === 'undefined') {
+                    throw new Error('Sistema de autenticación no disponible');
+                }
+                
                 // Guardar sesión usando el manager de autenticación
-                auth.saveSession(response.token || 'demo_token_' + Date.now(), response.user);
+                // El formato esperado: saveSession(accessToken, refreshToken, user)
+                const accessToken = response.access_token || response.token || 'demo_token_' + Date.now();
+                const refreshToken = response.refresh_token || null;
+                const user = response.user || response;
+                
+                // Asegurar que user tenga la estructura correcta
+                if (!user.role && !user.rol) {
+                    // Buscar usuario en la lista demo
+                    const demoUsers = {
+                        'admin@constructora.com': { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                        'admin': { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                        'trabajador@constructora.com': { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                        'trabajador': { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                        'cliente@constructora.com': { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' },
+                        'cliente': { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' }
+                    };
+                    const foundUser = demoUsers[username] || demoUsers[username.toLowerCase()];
+                    if (foundUser) {
+                        Object.assign(user, foundUser);
+                    }
+                }
+                
+                auth.saveSession(accessToken, refreshToken, user);
 
                 btnText.textContent = 'Acceso Concedido';
                 btnIcon.className = 'fas fa-check-circle relative z-10 text-xl text-emerald-400';

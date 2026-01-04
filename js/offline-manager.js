@@ -104,8 +104,21 @@ class OfflineManager {
      * Verificar conexión
      */
     async checkConnection() {
+        // En modo demo o GitHub Pages, siempre estar "online" pero sin backend
+        if (window.CONFIG?.DEMO_MODE === true || window.CONFIG?.API_BASE_URL === null) {
+            this.isOnline = true; // Estamos online, pero en modo demo
+            return;
+        }
+        
         try {
-            const response = await fetch('/api/health', { 
+            // Solo intentar conectar si hay un backend configurado
+            const apiUrl = window.CONFIG?.API_BASE_URL || 'http://localhost:8000/api/v1';
+            if (!apiUrl) {
+                this.isOnline = navigator.onLine;
+                return;
+            }
+            
+            const response = await fetch(`${apiUrl}/health`, { 
                 method: 'HEAD',
                 mode: 'no-cors',
                 cache: 'no-cache'
