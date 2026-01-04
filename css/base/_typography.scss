@@ -1,0 +1,174 @@
+/**
+ * ============================================
+ * TIPOGRAPHY
+ * Sistema tipográfico empresarial
+ * ============================================
+ */
+
+// ===== FONT FAMILIES =====
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+body {
+    font-family: $font-family-base;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', $font-family-heading;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-sm;
+    color: $text-primary;
+    letter-spacing: -0.02em;
+}
+
+h1, .h1 { font-size: $font-size-3xl; }
+h2, .h2 { font-size: $font-size-2xl; }
+h3, .h3 { font-size: $font-size-xl; }
+h4, .h4 { font-size: $font-size-lg; }
+h5, .h5 { font-size: $font-size-base; }
+h6, .h6 { font-size: $font-size-sm; }
+
+// ===== DISPLAY HEADINGS =====
+.display-1 {
+    font-size: 5rem;
+    font-weight: $font-weight-light;
+    line-height: $line-height-sm;
+}
+
+.display-2 {
+    font-size: 4.5rem;
+    font-weight: $font-weight-light;
+    line-height: $line-height-sm;
+}
+
+.display-3 {
+    font-size: 4rem;
+    font-weight: $font-weight-light;
+    line-height: $line-height-sm;
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: $font-weight-light;
+    line-height: $line-height-sm;
+}
+
+// ===== LEAD =====
+.lead {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-normal;
+}
+
+// ===== SMALL =====
+small,
+.small {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-normal;
+}
+
+// ===== TEXT UTILITIES =====
+.text-muted {
+    color: $text-muted !important;
+}
+
+.text-primary {
+    color: $color-primary !important;
+}
+
+.text-secondary {
+    color: $text-secondary !important;
+}
+
+.text-success {
+    color: $color-success !important;
+}
+
+.text-danger {
+    color: $color-danger !important;
+}
+
+.text-warning {
+    color: $color-warning !important;
+}
+
+.text-info {
+    color: $color-info !important;
+}
+
+.text-white {
+    color: $text-inverse !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-lowercase {
+    text-transform: lowercase !important;
+}
+
+.text-capitalize {
+    text-transform: capitalize !important;
+}
+
+.font-weight-light {
+    font-weight: $font-weight-light !important;
+}
+
+.font-weight-normal {
+    font-weight: $font-weight-normal !important;
+}
+
+.font-weight-medium {
+    font-weight: $font-weight-medium !important;
+}
+
+.font-weight-semibold {
+    font-weight: $font-weight-semibold !important;
+}
+
+.font-weight-bold {
+    font-weight: $font-weight-bold !important;
+}
+
+.font-italic {
+    font-style: italic !important;
+}
+
+// ===== TEXT TRUNCATE =====
+.text-truncate {
+    @include text-truncate();
+}
+
+// ===== LINE HEIGHT =====
+.line-height-1 {
+    line-height: 1 !important;
+}
+
+.line-height-sm {
+    line-height: $line-height-sm !important;
+}
+
+.line-height-base {
+    line-height: $line-height-base !important;
+}
+
+.line-height-lg {
+    line-height: $line-height-lg !important;
+}
+

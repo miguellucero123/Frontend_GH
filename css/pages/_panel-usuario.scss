@@ -1,0 +1,100 @@
+/**
+ * ============================================
+ * PANEL USUARIO - Mejoras Profesionales
+ * ============================================
+ */
+
+.panel-page {
+    background: $bg-secondary;
+    min-height: 100vh;
+}
+
+.metadata-card {
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    border: 1px solid $border-color-light;
+    @include box-shadow($box-shadow);
+    
+    .metadata-title {
+        background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+        color: $text-inverse;
+        padding: $spacer * 1.25;
+        margin: (-$spacer * 1.5) (-$spacer * 1.5) $spacer * 1.5;
+        @include border-top-left-radius($border-radius-lg);
+        @include border-top-right-radius($border-radius-lg);
+        font-weight: $font-weight-semibold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: $font-size-sm;
+        border-bottom: none;
+    }
+    
+    .metadata-item {
+        padding: $spacer;
+        @include border-radius($border-radius);
+        @include transition($transition-fast);
+        
+        &:hover {
+            background-color: $bg-tertiary;
+        }
+        
+        i {
+            width: 24px;
+            text-align: center;
+            padding: $spacer * 0.5;
+            background: rgba($color-primary, 0.1);
+            @include border-radius($border-radius);
+            color: $color-primary;
+        }
+    }
+}
+
+.content-header {
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    padding: $spacer * 1.5;
+    margin: (-$spacer * 1.5) (-$spacer * 1.5) $spacer * 1.5;
+    @include border-top-left-radius($border-radius-lg);
+    @include border-top-right-radius($border-radius-lg);
+    border-bottom: 2px solid $border-color;
+}
+
+.files-grid {
+    .file-item,
+    .folder-item {
+        border: 2px solid $border-color-light;
+        @include transition($transition-base);
+        
+        &:hover {
+            border-color: $color-primary;
+            @include box-shadow($box-shadow-md);
+            transform: translateY(-4px);
+        }
+    }
+}
+
+.chat-widget {
+    border: 1px solid $border-color-light;
+    @include box-shadow($box-shadow-lg);
+    
+    .chat-header {
+        background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+        color: $text-inverse;
+        padding: $spacer * 1.25;
+        
+        h3 {
+            color: $text-inverse;
+            font-weight: $font-weight-semibold;
+        }
+    }
+    
+    .chat-messages {
+        background: $bg-secondary;
+    }
+    
+    .message-bubble {
+        @include box-shadow($box-shadow-sm);
+        
+        &.message-sent {
+            background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+        }
+    }
+}

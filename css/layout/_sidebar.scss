@@ -1,0 +1,103 @@
+/**
+ * ============================================
+ * SIDEBAR
+ * Estilos del sidebar profesional
+ * ============================================
+ */
+
+.sidebar-metadata {
+    background-color: $bg-primary;
+    @include border-radius($border-radius-lg);
+    @include box-shadow($box-shadow);
+    padding: $spacer * 1.5;
+    overflow-y: auto;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.metadata-card {
+    .metadata-title {
+        font-size: $font-size-lg;
+        margin-bottom: $spacer * 1.5;
+        padding-bottom: $spacer;
+        border-bottom: $border-width-lg solid $border-color;
+        color: $text-primary;
+        font-weight: $font-weight-semibold;
+    }
+}
+
+.admin-sidebar {
+    background-color: $bg-primary;
+    @include border-radius($border-radius-lg);
+    @include box-shadow($box-shadow);
+    padding: $spacer;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.25;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: $spacer;
+    padding: $spacer * 1.25;
+    color: $text-secondary;
+    @include border-radius($border-radius);
+    @include transition($transition-base);
+    text-decoration: none;
+    position: relative;
+    font-weight: $font-weight-medium;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 0;
+        background: linear-gradient(180deg, $color-primary 0%, $color-primary-dark 100%);
+        @include border-radius(0 $border-radius $border-radius 0);
+        @include transition($transition-base);
+    }
+    
+    &:hover {
+        background: linear-gradient(90deg, rgba($color-primary, 0.1) 0%, transparent 100%);
+        color: $color-primary;
+        padding-left: $spacer * 1.5;
+        
+        &::before {
+            height: 60%;
+        }
+    }
+    
+    &.active {
+        background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+        color: $text-inverse;
+        @include box-shadow($box-shadow-sm);
+        
+        &::before {
+            height: 100%;
+            width: 4px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        i {
+            transform: scale(1.1);
+        }
+    }
+    
+    i {
+        @include transition($transition-base);
+        width: 20px;
+        text-align: center;
+    }
+}
+

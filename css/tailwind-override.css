@@ -1,0 +1,424 @@
+/* ============================================
+   TAILWIND CSS OVERRIDE
+   Asegura que los estilos de Tailwind tengan prioridad
+   ============================================ */
+
+/* RESET COMPLETO - Sobrescribir cualquier CSS anterior */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Forzar estilos del body para login - MÁXIMA PRIORIDAD */
+body {
+    min-height: 100vh !important;
+    background-color: #0f172a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+    color: #ffffff !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+/* Sobrescribir cualquier estilo de body que venga de otros CSS */
+body.min-h-screen.bg-slate-900 {
+    min-height: 100vh !important;
+    background-color: #0f172a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+    color: #ffffff !important;
+}
+
+/* Forzar efectos de fondo */
+.absolute.top-0.left-0.w-full.h-full {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    z-index: 0 !important;
+}
+
+/* Forzar glassmorphism en la card */
+.bg-white\/10.backdrop-blur-lg {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 2rem !important;
+    border-radius: 1.5rem !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    width: 100% !important;
+    max-width: 28rem !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Forzar colores de texto */
+.text-white {
+    color: #ffffff !important;
+}
+
+.text-slate-300 {
+    color: #cbd5e1 !important;
+}
+
+.text-slate-400 {
+    color: #94a3b8 !important;
+}
+
+/* Forzar inputs */
+.bg-slate-800\/50 {
+    background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+.border-slate-700 {
+    border-color: #334155 !important;
+}
+
+/* Forzar botón */
+.bg-gradient-to-r.from-blue-600.to-indigo-600 {
+    background-image: linear-gradient(to right, #2563eb, #4f46e5) !important;
+}
+
+.hover\:from-blue-700:hover {
+    background-image: linear-gradient(to right, #1d4ed8, #4338ca) !important;
+}
+
+/* Forzar efectos de fondo animados */
+.bg-blue-600\/30 {
+    background-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+.bg-indigo-600\/30 {
+    background-color: rgba(79, 70, 229, 0.3) !important;
+}
+
+.rounded-full {
+    border-radius: 9999px !important;
+}
+
+.blur-3xl {
+    filter: blur(64px) !important;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+/* Asegurar que los z-index funcionen */
+.z-0 {
+    z-index: 0 !important;
+}
+
+.z-10 {
+    z-index: 10 !important;
+}
+
+/* Forzar transiciones */
+.transition-all {
+    transition-property: all !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 150ms !important;
+}
+
+.duration-500 {
+    transition-duration: 500ms !important;
+}
+
+/* Forzar hover effects */
+.hover\:shadow-blue-500\/20:hover {
+    box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Forzar focus states */
+.focus\:outline-none:focus {
+    outline: 2px solid transparent !important;
+    outline-offset: 2px !important;
+}
+
+.focus\:ring-2:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+}
+
+.focus\:ring-blue-500:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+}
+
+.focus\:border-transparent:focus {
+    border-color: transparent !important;
+}
+
+/* Forzar disabled states */
+.disabled\:opacity-50:disabled {
+    opacity: 0.5 !important;
+}
+
+.disabled\:cursor-not-allowed:disabled {
+    cursor: not-allowed !important;
+}
+
+/* Forzar transformaciones */
+.transform {
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+}
+
+.active\:scale-95:active {
+    transform: scale(0.95) !important;
+}
+
+/* Forzar flexbox */
+.flex {
+    display: flex !important;
+}
+
+.items-center {
+    align-items: center !important;
+}
+
+.justify-center {
+    justify-content: center !important;
+}
+
+/* Forzar spacing */
+.space-y-6 > * + * {
+    margin-top: 1.5rem !important;
+}
+
+.space-y-2 > * + * {
+    margin-top: 0.5rem !important;
+}
+
+/* Forzar font */
+.font-bold {
+    font-weight: 700 !important;
+}
+
+.font-medium {
+    font-weight: 500 !important;
+}
+
+/* Forzar rounded */
+.rounded-xl {
+    border-radius: 0.75rem !important;
+}
+
+.rounded-3xl {
+    border-radius: 1.5rem !important;
+}
+
+/* Forzar shadow */
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.shadow-blue-900\/50 {
+    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.5), 0 4px 6px -2px rgba(30, 58, 138, 0.5) !important;
+}
+
+/* Forzar width */
+.w-full {
+    width: 100% !important;
+}
+
+.max-w-md {
+    max-width: 28rem !important;
+}
+
+/* Forzar padding */
+.p-4 {
+    padding: 1rem !important;
+}
+
+.p-8 {
+    padding: 2rem !important;
+}
+
+.py-3 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+.pl-10 {
+    padding-left: 2.5rem !important;
+}
+
+.pr-4 {
+    padding-right: 1rem !important;
+}
+
+.pr-12 {
+    padding-right: 3rem !important;
+}
+
+/* Forzar margin */
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-8 {
+    margin-bottom: 2rem !important;
+}
+
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.mt-4 {
+    margin-top: 1rem !important;
+}
+
+.mt-6 {
+    margin-top: 1.5rem !important;
+}
+
+.ml-1 {
+    margin-left: 0.25rem !important;
+}
+
+/* Forzar text */
+.text-3xl {
+    font-size: 1.875rem !important;
+    line-height: 2.25rem !important;
+}
+
+.text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+}
+
+.text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em !important;
+}
+
+/* Forzar position */
+.relative {
+    position: relative !important;
+}
+
+.absolute {
+    position: absolute !important;
+}
+
+/* Forzar iconos */
+.w-5 {
+    width: 1.25rem !important;
+}
+
+.h-5 {
+    height: 1.25rem !important;
+}
+
+.w-20 {
+    width: 5rem !important;
+}
+
+.h-20 {
+    height: 5rem !important;
+}
+
+.w-96 {
+    width: 24rem !important;
+}
+
+.h-96 {
+    height: 24rem !important;
+}
+
+/* Forzar gap */
+.gap-2 {
+    gap: 0.5rem !important;
+}
+
+/* Forzar top/left/right */
+.top-3 {
+    top: 0.75rem !important;
+}
+
+.left-3 {
+    left: 0.75rem !important;
+}
+
+.right-3 {
+    right: 0.75rem !important;
+}
+
+/* Forzar mx-auto */
+.mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Forzar object-cover */
+.object-cover {
+    object-fit: cover !important;
+}
+
+/* Forzar border */
+.border-4 {
+    border-width: 4px !important;
+}
+
+.border-white\/20 {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Forzar hidden */
+.hidden {
+    display: none !important;
+}
+
+/* Forzar group-focus-within */
+.group:focus-within .text-blue-400 {
+    color: #60a5fa !important;
+}
+
+/* Forzar placeholder */
+.placeholder-slate-500::placeholder {
+    color: #64748b !important;
+}
+
+/* Forzar hover en enlaces */
+.hover\:text-white:hover {
+    color: #ffffff !important;
+}
+
+.hover\:text-blue-400:hover {
+    color: #60a5fa !important;
+}
+
+/* Forzar overflow */
+.overflow-hidden {
+    overflow: hidden !important;
+}
+

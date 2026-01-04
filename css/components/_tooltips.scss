@@ -1,0 +1,118 @@
+/**
+ * ============================================
+ * TOOLTIPS
+ * Componente tooltip profesional
+ * ============================================
+ */
+
+.tooltip {
+    position: absolute;
+    z-index: $z-index-tooltip;
+    display: block;
+    margin: 0;
+    font-family: $font-family-base;
+    font-style: normal;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-base;
+    text-align: left;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    white-space: normal;
+    line-break: auto;
+    font-size: $font-size-sm;
+    word-wrap: break-word;
+    opacity: 0;
+    
+    &.show {
+        opacity: 0.9;
+    }
+}
+
+.tooltip-inner {
+    max-width: 200px;
+    padding: 0.5rem 0.75rem;
+    color: $text-inverse;
+    text-align: center;
+    background-color: $bg-dark;
+    @include border-radius($border-radius);
+}
+
+.tooltip-arrow {
+    position: absolute;
+    display: block;
+    width: 0.8rem;
+    height: 0.4rem;
+    
+    &::before {
+        position: absolute;
+        content: "";
+        border-color: transparent;
+        border-style: solid;
+    }
+}
+
+// ===== TOOLTIP POSITIONS =====
+.tooltip-top {
+    padding: 0.4rem 0;
+    
+    .tooltip-arrow {
+        bottom: 0;
+        
+        &::before {
+            top: 0;
+            border-width: 0.4rem 0.4rem 0;
+            border-top-color: $bg-dark;
+        }
+    }
+}
+
+.tooltip-right {
+    padding: 0 0.4rem;
+    
+    .tooltip-arrow {
+        left: 0;
+        width: 0.4rem;
+        height: 0.8rem;
+        
+        &::before {
+            right: 0;
+            border-width: 0.4rem 0.4rem 0.4rem 0;
+            border-right-color: $bg-dark;
+        }
+    }
+}
+
+.tooltip-bottom {
+    padding: 0.4rem 0;
+    
+    .tooltip-arrow {
+        top: 0;
+        
+        &::before {
+            bottom: 0;
+            border-width: 0 0.4rem 0.4rem;
+            border-bottom-color: $bg-dark;
+        }
+    }
+}
+
+.tooltip-left {
+    padding: 0 0.4rem;
+    
+    .tooltip-arrow {
+        right: 0;
+        width: 0.4rem;
+        height: 0.8rem;
+        
+        &::before {
+            left: 0;
+            border-width: 0.4rem 0 0.4rem 0.4rem;
+            border-left-color: $bg-dark;
+        }
+    }
+}
+

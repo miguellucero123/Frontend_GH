@@ -1,0 +1,2 @@
+Status: 200
+Response: {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjb25zdHJ1Y3RvcmEuY29tIiwidXNlcl9pZCI6MSwicm9sIjoiamVmZSIsImV4cCI6MTc2NjYzNzgzNH0.ciG0KXCKmFpyEHwfTUL-HEiCo4HSNnvxXEyYNhWDWek","token_type":"bearer","user":{"nombre":"Administrador General","email":"admin@constructora.com","telefono":null,"rol":"jefe","id":1,"estado":"approved","fecha_registro":"2025-12-24T02:58:06.862336","ultimo_acceso":"2025-12-24T03:01:39.745517"}}

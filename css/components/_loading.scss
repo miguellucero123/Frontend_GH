@@ -1,0 +1,184 @@
+/**
+ * ============================================
+ * LOADING STATES
+ * Estados de carga profesionales
+ * ============================================
+ */
+
+// ===== SPINNER =====
+.spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    @include border-radius($border-radius-circle);
+    animation: spinner 0.75s linear infinite;
+}
+
+.spinner-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.125em;
+}
+
+.spinner-lg {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.375em;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+// ===== SKELETON LOADING =====
+.skeleton {
+    background: linear-gradient(90deg, $bg-secondary 25%, $bg-tertiary 50%, $bg-secondary 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    @include border-radius($border-radius);
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-text {
+    height: 1rem;
+    margin-bottom: 0.5rem;
+    
+    &:last-child {
+        margin-bottom: 0;
+        width: 75%;
+    }
+}
+
+.skeleton-title {
+    height: 1.5rem;
+    width: 60%;
+    margin-bottom: 1rem;
+}
+
+.skeleton-avatar {
+    width: 3rem;
+    height: 3rem;
+    @include border-radius($border-radius-circle);
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 200px;
+}
+
+// ===== PROGRESS BAR =====
+.progress {
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    background-color: $bg-tertiary;
+    @include border-radius($border-radius);
+}
+
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: $text-inverse;
+    text-align: center;
+    white-space: nowrap;
+    background-color: $color-primary;
+    @include transition(width 0.6s ease);
+}
+
+.progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+}
+
+.progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    0% {
+        background-position-x: 1rem;
+    }
+}
+
+// ===== LOADING OVERLAY =====
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: $z-index-modal;
+    @include transition(opacity $transition-base);
+    
+    &.fade-out {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.loading-content {
+    text-align: center;
+    
+    .spinner {
+        margin-bottom: $spacer;
+    }
+    
+    p {
+        color: $text-secondary;
+        margin: 0;
+    }
+}
+
+// ===== BUTTON LOADING =====
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        top: 50%;
+        left: 50%;
+        margin-left: -0.5rem;
+        margin-top: -0.5rem;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        @include border-radius($border-radius-circle);
+        animation: spinner 0.75s linear infinite;
+    }
+}
+
+// ===== PULSE ANIMATION =====
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+

@@ -1,0 +1,167 @@
+/**
+ * ============================================================
+ * ESTILOS SECCIÓN DE CANALES - FASE 3
+ * ============================================================
+ * Estilos para la sección de canales en panel de gerencia
+ */
+
+.channels-container {
+    padding: 1.5rem;
+}
+
+.channels-info {
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    background: #f0f9ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 8px;
+}
+
+.channels-info .info-text {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #0369a1;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.channels-info .info-text i {
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.channels-info .info-text strong {
+    font-weight: 600;
+}
+
+.channels-wrapper {
+    margin-top: 1.5rem;
+}
+
+.channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.channel-card {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.channel-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+}
+
+.channel-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.channel-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.channel-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.channel-info h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.channel-info p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.channel-card-body {
+    padding: 1rem 1.5rem;
+}
+
+.channel-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.unread-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 0.5rem;
+    background: #dc2626;
+    color: white;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.channel-card-footer {
+    padding: 1rem 1.5rem;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-open-channel {
+    width: 100%;
+    justify-content: center;
+}
+
+/* Modal de Canal */
+#channelModal .modal-content {
+    max-width: 800px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#channelModal .modal-body {
+    flex: 1;
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+#channelChatContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .channels-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

@@ -1,0 +1,9 @@
+﻿INFO:     Started server process [10380]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8002): [winerror 10048] solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Starting subprocess in C:\Users\Alicia_Piero\Documents\Repo_AIEP\ERP_Costructora\frontend\backend...
+Process started with PID 10380
+Process EXITED with code 1

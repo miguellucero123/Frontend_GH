@@ -1,0 +1,117 @@
+/**
+ * ============================================
+ * GRID SYSTEM
+ * Sistema de grid estilo Bootstrap
+ * ============================================
+ */
+
+.container,
+.container-fluid {
+    width: 100%;
+    padding-right: $grid-gutter-width * 0.5;
+    padding-left: $grid-gutter-width * 0.5;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@each $breakpoint, $container-max-width in $container-max-widths {
+    .container-#{$breakpoint} {
+        @include media-breakpoint-up($breakpoint) {
+            max-width: $container-max-width;
+        }
+    }
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -$grid-gutter-width * 0.5;
+    margin-left: -$grid-gutter-width * 0.5;
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+    
+    > .col,
+    > [class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+// ===== COLUMNS =====
+.col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.col-auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+}
+
+@for $i from 1 through $grid-columns {
+    .col-#{$i} {
+        flex: 0 0 percentage($i / $grid-columns);
+        max-width: percentage($i / $grid-columns);
+    }
+}
+
+// ===== RESPONSIVE COLUMNS =====
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: if($breakpoint == xs, "", "-#{$breakpoint}");
+    
+    @include media-breakpoint-up($breakpoint) {
+        .col#{$infix} {
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: 100%;
+        }
+        
+        .col#{$infix}-auto {
+            flex: 0 0 auto;
+            width: auto;
+            max-width: 100%;
+        }
+        
+        @for $i from 1 through $grid-columns {
+            .col#{$infix}-#{$i} {
+                flex: 0 0 percentage($i / $grid-columns);
+                max-width: percentage($i / $grid-columns);
+            }
+        }
+        
+        .order#{$infix}-first {
+            order: -1;
+        }
+        
+        .order#{$infix}-last {
+            order: $grid-columns + 1;
+        }
+        
+        @for $i from 0 through $grid-columns {
+            .order#{$infix}-#{$i} {
+                order: $i;
+            }
+            
+            .offset#{$infix}-#{$i} {
+                @if $breakpoint == xs {
+                    margin-left: 0;
+                } @else {
+                    margin-left: percentage($i / $grid-columns);
+                }
+            }
+        }
+    }
+}
+
+[class*="col-"] {
+    position: relative;
+    width: 100%;
+    padding-right: $grid-gutter-width * 0.5;
+    padding-left: $grid-gutter-width * 0.5;
+}
+

@@ -1,0 +1,59 @@
+{
+  "name": "erp-constructora-frontend",
+  "version": "6.0.0",
+  "description": "Sistema de Gestión Documental y Comunicación para empresas constructoras - Frontend PWA Empresarial",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080 -c-1",
+    "dev": "npx http-server -p 8080 -c-1 -o",
+    "build": "npm run build:css && npm run build:js && npm run build:assets",
+    "build:css": "postcss assets/css/main.css -o assets/css/main.min.css --minify",
+    "build:js": "terser assets/js/core/*.js assets/js/**/*.js -o assets/js/bundle.min.js --compress --mangle",
+    "build:assets": "npm run optimize:images",
+    "watch:css": "sass --watch assets/css/main.css:assets/css/main.css --style=expanded",
+    "watch:js": "nodemon --watch assets/js --exec 'npm run build:js'",
+    "optimize:images": "echo 'Optimización de imágenes - Configurar herramienta'",
+    "lint:css": "stylelint 'assets/css/**/*.css'",
+    "lint:js": "eslint 'assets/js/**/*.js'",
+    "test": "echo 'Tests - Configurar framework'",
+    "validate": "npm run lint:css && npm run lint:js"
+  },
+  "keywords": [
+    "pwa",
+    "constructora",
+    "erp",
+    "gestión",
+    "documental",
+    "crm",
+    "enterprise"
+  ],
+  "author": "ERP Constructora G&H",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "canvas": "^2.11.2",
+    "eslint": "^8.57.0",
+    "http-server": "^14.1.1",
+    "lighthouse": "^11.0.0",
+    "nodemon": "^3.0.2",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^9.1.0",
+    "sass": "^1.69.0",
+    "sass-loader": "^13.3.2",
+    "stylelint": "^16.0.0",
+    "tailwindcss": "^4.1.18",
+    "terser": "^5.14.0"
+  },
+  "dependencies": {
+    "recharts": "^3.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

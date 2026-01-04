@@ -1,0 +1,32 @@
+name: Marcar Issues Stale
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Cada lunes
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: 'Este issue ha estado inactivo por 60 días. Se marcará como cerrado si no hay actividad en los próximos 7 días.'
+          close-issue-message: 'Este issue se cerró automáticamente debido a inactividad.'
+          stale-pr-message: 'Este PR ha estado inactivo por 30 días. Se marcará como cerrado si no hay actividad en los próximos 7 días.'
+          close-pr-message: 'Este PR se cerró automáticamente debido a inactividad.'
+          days-before-issue-stale: 60
+          days-before-issue-close: 7
+          days-before-pr-stale: 30
+          days-before-pr-close: 7
+          stale-issue-label: 'stale'
+          exempt-issue-labels: 'pinned,security,bug,enhancement'
+          stale-pr-label: 'stale'
+          exempt-pr-labels: 'work-in-progress,blocked'
+          operations-per-run: 30
+

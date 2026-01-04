@@ -1,0 +1,211 @@
+/**
+ * ============================================
+ * PANEL JEFE - Mejoras Profesionales
+ * ============================================
+ */
+
+.panel-jefe {
+    background: $bg-secondary;
+}
+
+.stats-grid {
+    .stat-card {
+        background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+        border: 1px solid $border-color-light;
+        @include transition($transition-base);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba($color-primary, 0.1) 0%, transparent 70%);
+            @include border-radius($border-radius-circle);
+            transform: translate(30%, -30%);
+        }
+        
+        &:hover {
+            @include box-shadow($box-shadow-lg);
+            transform: translateY(-4px);
+            border-color: $color-primary;
+        }
+        
+        .stat-icon {
+            @include box-shadow($box-shadow);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-info {
+            position: relative;
+            z-index: 1;
+            
+            h3 {
+                font-size: $font-size-2xl;
+                font-weight: $font-weight-bold;
+                margin-bottom: $spacer * 0.5;
+            }
+            
+            p {
+                color: $text-secondary;
+                font-size: $font-size-sm;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: $font-weight-medium;
+            }
+        }
+    }
+}
+
+.projects-grid {
+    .project-card {
+        background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+        border: 1px solid $border-color-light;
+        @include transition($transition-base);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, $color-primary 0%, $color-primary-dark 100%);
+            transform: scaleY(0);
+            @include transition($transition-base);
+        }
+        
+        &:hover {
+            @include box-shadow($box-shadow-lg);
+            transform: translateY(-4px);
+            border-color: $color-primary;
+            
+            &::before {
+                transform: scaleY(1);
+            }
+        }
+        
+        .project-card-header {
+            border-bottom: 1px solid $border-color-light;
+            padding-bottom: $spacer;
+            margin-bottom: $spacer;
+        }
+        
+        .project-card-title {
+            font-weight: $font-weight-bold;
+            color: $text-primary;
+            font-size: $font-size-lg;
+        }
+        
+        .project-cost {
+            font-size: $font-size-xl;
+            font-weight: $font-weight-bold;
+            color: $color-success;
+        }
+    }
+}
+
+.data-table {
+    background: $bg-primary;
+    @include border-radius($border-radius);
+    overflow: hidden;
+    @include box-shadow($box-shadow-sm);
+    
+    thead {
+        background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+        
+        th {
+            font-weight: $font-weight-semibold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: $font-size-xs;
+            color: $text-primary;
+            padding: $spacer * 1.25;
+        }
+    }
+    
+    tbody {
+        tr {
+            @include transition($transition-fast);
+            border-bottom: 1px solid $border-color-light;
+            
+            &:hover {
+                background-color: $bg-secondary;
+            }
+            
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        
+        td {
+            padding: $spacer * 1.25;
+            color: $text-primary;
+        }
+    }
+}
+
+.section-header {
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    padding: $spacer * 1.5 $spacer * 2;
+    margin: (-$spacer * 2) (-$spacer * 2) $spacer * 2;
+    @include border-top-left-radius($border-radius-lg);
+    @include border-top-right-radius($border-radius-lg);
+    border-bottom: 2px solid $border-color;
+    
+    h2 {
+        font-weight: $font-weight-bold;
+        color: $text-primary;
+        font-size: $font-size-2xl;
+        margin: 0;
+    }
+}
+
+.user-card {
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    border: 1px solid $border-color-light;
+    @include transition($transition-base);
+    
+    &:hover {
+        @include box-shadow($box-shadow-md);
+        transform: translateX(4px);
+        border-left: 4px solid $color-primary;
+    }
+    
+    .user-avatar {
+        @include box-shadow($box-shadow-sm);
+        border: 2px solid $border-color-light;
+    }
+}
+
+.message-group {
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    border: 1px solid $border-color-light;
+    @include box-shadow($box-shadow-sm);
+    
+    .message-group-header {
+        background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+        padding: $spacer * 1.25;
+        border-bottom: 2px solid $border-color;
+    }
+    
+    .message-item-admin {
+        border-left: 3px solid $border-color;
+        @include transition($transition-fast);
+        
+        &.unread {
+            border-left-color: $color-danger;
+            background: linear-gradient(90deg, tint($color-danger, 95%) 0%, $bg-primary 100%);
+        }
+        
+        &:hover {
+            background-color: $bg-secondary;
+        }
+    }
+}

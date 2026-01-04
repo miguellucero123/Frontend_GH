@@ -1,0 +1,178 @@
+/**
+ * ============================================
+ * UTILITIES
+ * Clases de utilidad estilo Bootstrap
+ * ============================================
+ */
+
+// ===== SPACING =====
+@each $prop, $abbrev in (margin: m, padding: p) {
+    @each $size, $length in $spacers {
+        .#{$abbrev}-#{$size} {
+            #{$prop}: $length !important;
+        }
+        
+        .#{$abbrev}t-#{$size},
+        .#{$abbrev}y-#{$size} {
+            #{$prop}-top: $length !important;
+        }
+        
+        .#{$abbrev}r-#{$size},
+        .#{$abbrev}x-#{$size} {
+            #{$prop}-right: $length !important;
+        }
+        
+        .#{$abbrev}b-#{$size},
+        .#{$abbrev}y-#{$size} {
+            #{$prop}-bottom: $length !important;
+        }
+        
+        .#{$abbrev}l-#{$size},
+        .#{$abbrev}x-#{$size} {
+            #{$prop}-left: $length !important;
+        }
+    }
+}
+
+// ===== DISPLAY =====
+.d-none { display: none !important; }
+.d-inline { display: inline !important; }
+.d-inline-block { display: inline-block !important; }
+.d-block { display: block !important; }
+.d-table { display: table !important; }
+.d-table-row { display: table-row !important; }
+.d-table-cell { display: table-cell !important; }
+.d-flex { display: flex !important; }
+.d-inline-flex { display: inline-flex !important; }
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: if($breakpoint == xs, "", "-#{$breakpoint}");
+    
+    @include media-breakpoint-up($breakpoint) {
+        .d#{$infix}-none { display: none !important; }
+        .d#{$infix}-inline { display: inline !important; }
+        .d#{$infix}-inline-block { display: inline-block !important; }
+        .d#{$infix}-block { display: block !important; }
+        .d#{$infix}-table { display: table !important; }
+        .d#{$infix}-table-row { display: table-row !important; }
+        .d#{$infix}-table-cell { display: table-cell !important; }
+        .d#{$infix}-flex { display: flex !important; }
+        .d#{$infix}-inline-flex { display: inline-flex !important; }
+    }
+}
+
+// ===== FLEX =====
+.flex-row { flex-direction: row !important; }
+.flex-column { flex-direction: column !important; }
+.flex-wrap { flex-wrap: wrap !important; }
+.flex-nowrap { flex-wrap: nowrap !important; }
+.flex-fill { flex: 1 1 auto !important; }
+.flex-grow-1 { flex-grow: 1 !important; }
+.flex-shrink-1 { flex-shrink: 1 !important; }
+
+.justify-content-start { justify-content: flex-start !important; }
+.justify-content-end { justify-content: flex-end !important; }
+.justify-content-center { justify-content: center !important; }
+.justify-content-between { justify-content: space-between !important; }
+.justify-content-around { justify-content: space-around !important; }
+
+.align-items-start { align-items: flex-start !important; }
+.align-items-end { align-items: flex-end !important; }
+.align-items-center { align-items: center !important; }
+.align-items-baseline { align-items: baseline !important; }
+.align-items-stretch { align-items: stretch !important; }
+
+.align-self-auto { align-self: auto !important; }
+.align-self-start { align-self: flex-start !important; }
+.align-self-end { align-self: flex-end !important; }
+.align-self-center { align-self: center !important; }
+.align-self-baseline { align-self: baseline !important; }
+.align-self-stretch { align-self: stretch !important; }
+
+// ===== POSITION =====
+.position-static { position: static !important; }
+.position-relative { position: relative !important; }
+.position-absolute { position: absolute !important; }
+.position-fixed { position: fixed !important; }
+.position-sticky { position: sticky !important; }
+
+// ===== VISIBILITY =====
+.visible { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
+
+// ===== WIDTH & HEIGHT =====
+.w-25 { width: 25% !important; }
+.w-50 { width: 50% !important; }
+.w-75 { width: 75% !important; }
+.w-100 { width: 100% !important; }
+.w-auto { width: auto !important; }
+
+.h-25 { height: 25% !important; }
+.h-50 { height: 50% !important; }
+.h-75 { height: 75% !important; }
+.h-100 { height: 100% !important; }
+.h-auto { height: auto !important; }
+
+.mw-100 { max-width: 100% !important; }
+.mh-100 { max-height: 100% !important; }
+
+// ===== BORDERS =====
+.border { border: $border-width solid $border-color !important; }
+.border-top { border-top: $border-width solid $border-color !important; }
+.border-right { border-right: $border-width solid $border-color !important; }
+.border-bottom { border-bottom: $border-width solid $border-color !important; }
+.border-left { border-left: $border-width solid $border-color !important; }
+
+.border-0 { border: 0 !important; }
+.border-top-0 { border-top: 0 !important; }
+.border-right-0 { border-right: 0 !important; }
+.border-bottom-0 { border-bottom: 0 !important; }
+.border-left-0 { border-left: 0 !important; }
+
+.rounded { 
+    @include border-radius($border-radius);
+}
+.rounded-top { 
+    @include border-top-left-radius($border-radius);
+    @include border-top-right-radius($border-radius);
+}
+.rounded-right { 
+    @include border-top-right-radius($border-radius);
+    @include border-bottom-right-radius($border-radius);
+}
+.rounded-bottom { 
+    @include border-bottom-left-radius($border-radius);
+    @include border-bottom-right-radius($border-radius);
+}
+.rounded-left { 
+    @include border-top-left-radius($border-radius);
+    @include border-bottom-left-radius($border-radius);
+}
+.rounded-circle { 
+    @include border-radius($border-radius-circle);
+}
+.rounded-0 { 
+    border-radius: 0 !important; 
+}
+
+// ===== SHADOWS =====
+.shadow-sm { 
+    @include box-shadow($box-shadow-sm);
+}
+.shadow { 
+    @include box-shadow($box-shadow);
+}
+.shadow-lg { 
+    @include box-shadow($box-shadow-lg);
+}
+.shadow-none { box-shadow: none !important; }
+
+// ===== OVERFLOW =====
+.overflow-auto { overflow: auto !important; }
+.overflow-hidden { overflow: hidden !important; }
+
+// ===== CURSOR =====
+.cursor-pointer { cursor: pointer !important; }
+.cursor-default { cursor: default !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+

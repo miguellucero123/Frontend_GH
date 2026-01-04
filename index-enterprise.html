@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ERP Constructora G&H - Sistema de Gestión Empresarial">
+    <title>G&H Construcciones - ERP Empresarial</title>
+    
+    <!-- Preconnect para performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Asset Manager - Carga primero -->
+    <script src="assets/config/asset-manager.js"></script>
+    
+    <!-- Core App -->
+    <script src="assets/js/core/app.js"></script>
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    
+    <style>
+        /* Estilos críticos inline para renderizado rápido */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 9999;
+        }
+        
+        .spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main id="appContent" style="display: none;">
+        <div class="gradient-bg min-h-screen flex items-center justify-center p-4">
+            <div class="glass-effect rounded-2xl p-8 max-w-md w-full border border-white/10 shadow-2xl">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 rounded-xl bg-blue-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20">
+                        <span class="text-2xl font-bold text-white">G&H</span>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white mb-2">ERP Constructora</h1>
+                    <p class="text-slate-400">Sistema de Gestión Empresarial</p>
+                </div>
+
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-slate-300 mb-2">
+                            Usuario
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username"
+                            class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            placeholder="Ingresa tu usuario"
+                            required
+                            autocomplete="username">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-slate-300 mb-2">
+                            Contraseña
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            placeholder="Ingresa tu contraseña"
+                            required
+                            autocomplete="current-password">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-blue-500">
+                            <span class="text-sm text-slate-400">Recordar sesión</span>
+                        </label>
+                        <a href="#" class="text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+
+                    <button 
+                        type="submit"
+                        class="btn btn-primary w-full py-3 rounded-lg font-semibold transition-all">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Iniciar Sesión
+                    </button>
+                </form>
+
+                <div id="errorAlert" class="mt-4 hidden p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                    <p id="errorMessage" class="text-sm text-red-400"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/core/auth.js"></script>
+    <script src="js/login.js"></script>
+    
+    <script>
+        // Ocultar loading cuando la app esté lista
+        document.addEventListener('app:ready', () => {
+            const loading = document.getElementById('loadingScreen');
+            const content = document.getElementById('appContent');
+            
+            if (loading) loading.style.display = 'none';
+            if (content) content.style.display = 'block';
+        });
+
+        // Fallback si app:ready no se dispara
+        setTimeout(() => {
+            const loading = document.getElementById('loadingScreen');
+            const content = document.getElementById('appContent');
+            
+            if (loading) loading.style.display = 'none';
+            if (content) content.style.display = 'block';
+        }, 2000);
+    </script>
+</body>
+
+</html>
+

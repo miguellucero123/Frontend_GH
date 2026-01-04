@@ -1,0 +1,64 @@
+/* ============================================
+   LOGIN RESET CSS
+   Resetea todos los estilos que puedan interferir con el login
+   ============================================ */
+
+/* RESET COMPLETO para la página de login - MÁXIMA PRIORIDAD */
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Forzar fondo oscuro - SOBRESCRIBE TODO (incluyendo dark-mode) */
+html,
+body,
+html[data-theme="dark"],
+html[data-theme="light"],
+body.dark-mode,
+body:not(.dark-mode) {
+    background-color: #0f172a !important;
+    background: #0f172a !important;
+    background-image: none !important;
+}
+
+/* Asegurar que el body tenga el estilo correcto - SOBRESCRIBE TODO */
+body,
+body.min-h-screen,
+body.bg-slate-900,
+body.dark-mode,
+body:not(.dark-mode) {
+    min-height: 100vh !important;
+    height: 100vh !important;
+    background-color: #0f172a !important;
+    background: #0f172a !important;
+    background-image: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1rem !important;
+    margin: 0 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    color: #ffffff !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+/* Sobrescribir cualquier estilo inline o de JavaScript */
+body[style*="background"],
+body[style*="backgroundColor"] {
+    background-color: #0f172a !important;
+    background: #0f172a !important;
+    background-image: none !important;
+}
+
+/* Asegurar que dark-mode no interfiera */
+html[data-theme="dark"] body,
+html[data-theme="light"] body,
+body.dark-mode {
+    background-color: #0f172a !important;
+    background: #0f172a !important;
+    background-image: none !important;
+}
+

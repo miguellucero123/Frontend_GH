@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Sistema de Gestión Documental y Comunicación para empresas constructoras">
+    <meta name="theme-color" content="#2563eb">
+    
+    <title>ERP Constructora - Login</title>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        },
+                        slate: {
+                            850: '#151f32',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-900 flex items-center justify-center p-4 relative overflow-hidden" style="font-family: 'Inter', system-ui, sans-serif; background-color: #0f172a !important; min-height: 100vh !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 1rem !important; position: relative !important; overflow: hidden !important; margin: 0 !important;">
+    
+    <!-- Background Effects -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="bg-white/10 backdrop-blur-lg border border-white/20 p-8 rounded-3xl shadow-2xl w-full max-w-md relative z-10 transition-all duration-500">
+        <div class="text-center mb-8">
+            <!-- Status Badge -->
+            <div class="flex justify-center mb-4">
+                <div id="backendStatusBadge" class="px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 bg-slate-500/20 text-slate-400">
+                    <div id="statusDot" class="w-2 h-2 rounded-full bg-slate-500 animate-pulse"></div>
+                    <span id="statusText">API: CHECKING</span>
+                </div>
+            </div>
+            
+            <!-- Logo -->
+            <div class="w-20 h-20 rounded-2xl mx-auto mb-4 shadow-lg flex items-center justify-center border-4 border-white/20 bg-blue-600/30">
+                <span class="text-3xl font-bold text-white">G&H</span>
+            </div>
+            
+            <h1 class="text-3xl font-bold text-white tracking-tight">Bienvenido</h1>
+            <p class="text-slate-300 mt-2">Sistema ERP - G y H Construcciones SPA</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300 ml-1">Usuario</label>
+                <div class="relative group">
+                    <i class="fas fa-user w-5 h-5 text-slate-400 absolute left-3 top-3 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="admin@constructora.com"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300 ml-1">Contraseña</label>
+                <div class="relative group">
+                    <i class="fas fa-lock w-5 h-5 text-slate-400 absolute left-3 top-3 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3 pl-10 pr-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="••••••••"
+                        required
+                    />
+                    <button type="button" class="absolute right-3 top-3 text-slate-400 hover:text-blue-400 transition-colors" id="togglePassword" tabindex="-1">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                id="btnLogin"
+                disabled
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-900/50 flex items-center justify-center gap-2 transform transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <span id="btnLoginText">Ingresar</span>
+                <i class="fas fa-arrow-right" id="btnLoginIcon"></i>
+            </button>
+        </form>
+
+        <!-- Credenciales de Prueba -->
+        <div id="credentialsBox" class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-xs text-slate-300 mt-6">
+            <p class="font-semibold mb-2 text-slate-200">💡 Credenciales de Prueba:</p>
+            <div class="space-y-1.5">
+                <div>
+                    <span class="text-blue-400">Admin:</span> admin@constructora.com / admin123
+                </div>
+                <div>
+                    <span class="text-emerald-400">Trabajador:</span> trabajador@constructora.com / trabajador123
+                </div>
+                <div>
+                    <span class="text-purple-400">Cliente:</span> cliente@constructora.com / cliente123
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorAlert" class="mt-4 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-300 text-sm hidden">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración simplificada
+        const CONFIG = {
+            API_BASE_URL: 'http://localhost:8002/api',
+            DEMO_MODE: true,
+            API_TIMEOUT: 5000
+        };
+
+        // Usuarios demo
+        const demoUsers = [
+            {
+                user_id: 1,
+                username: 'admin',
+                email: 'admin@constructora.com',
+                name: 'Administrador',
+                role: 'jefe',
+                status: 'approved'
+            },
+            {
+                user_id: 2,
+                username: 'trabajador',
+                email: 'trabajador@constructora.com',
+                name: 'Juan Pérez',
+                role: 'trabajador',
+                status: 'approved',
+                project_id: 1
+            },
+            {
+                user_id: 3,
+                username: 'cliente',
+                email: 'cliente@constructora.com',
+                name: 'María González',
+                role: 'cliente',
+                status: 'approved',
+                project_id: 1
+            }
+        ];
+
+        // Estado del backend
+        let backendOnline = false;
+
+        // Funciones auxiliares
+        function updateBackendStatus(status) {
+            const badge = document.getElementById('backendStatusBadge');
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            const btnLogin = document.getElementById('btnLogin');
+            const credentialsBox = document.getElementById('credentialsBox');
+
+            if (status === 'online') {
+                badge.className = 'px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 bg-emerald-500/20 text-emerald-400';
+                dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+                text.textContent = 'API: ONLINE';
+                credentialsBox.classList.add('hidden');
+                btnLogin.disabled = false;
+                backendOnline = true;
+                console.log('✓ Backend está online');
+            } else if (status === 'offline') {
+                badge.className = 'px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 bg-red-500/20 text-red-400';
+                dot.className = 'w-2 h-2 rounded-full bg-red-500';
+                text.textContent = 'API: OFFLINE (Modo Demo)';
+                credentialsBox.classList.remove('hidden');
+                btnLogin.disabled = false;
+                backendOnline = false;
+                console.log('⚠ Backend offline, usando modo demo');
+            }
+        }
+
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorAlert.style.display = 'flex';
+        }
+
+        function hideError() {
+            const errorAlert = document.getElementById('errorAlert');
+            errorAlert.style.display = 'none';
+        }
+
+        // Verificar backend
+        async function checkBackend() {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+                
+                const res = await fetch('http://localhost:8002/api/health', {
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (res.ok) {
+                    updateBackendStatus('online');
+                } else {
+                    updateBackendStatus('offline');
+                }
+            } catch (e) {
+                updateBackendStatus('offline');
+            }
+        }
+
+        // Manejar login
+        async function handleLogin(e) {
+            e.preventDefault();
+            hideError();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const btnLogin = document.getElementById('btnLogin');
+            const btnLoginText = document.getElementById('btnLoginText');
+            const btnLoginIcon = document.getElementById('btnLoginIcon');
+
+            // Validar
+            if (!username || !password) {
+                showError('Por favor completa todos los campos');
+                return;
+            }
+
+            // Mostrar loading
+            btnLogin.disabled = true;
+            btnLoginText.textContent = 'Iniciando...';
+            btnLoginIcon.classList.add('hidden');
+
+            try {
+                // Buscar usuario en demo
+                const user = demoUsers.find(u => 
+                    (u.email === username || u.username === username) && 
+                    (CONFIG.DEMO_MODE ? true : password === 'admin123')
+                );
+
+                if (!user) {
+                    showError('Usuario o contraseña incorrectos');
+                    return;
+                }
+
+                // Simular autenticación
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Guardar sesión
+                const token = 'demo_token_' + Date.now();
+                localStorage.setItem('auth_token', token);
+                localStorage.setItem('auth_user', JSON.stringify(user));
+
+                console.log('✓ Login exitoso:', user);
+
+                // Redirigir según rol
+                setTimeout(() => {
+                    if (user.role === 'jefe') {
+                        window.location.href = 'panel-jefe.html';
+                    } else if (user.role === 'cliente') {
+                        window.location.href = 'dashboard-cliente.html';
+                    } else if (user.role === 'trabajador') {
+                        window.location.href = 'dashboard-trabajador.html';
+                    } else {
+                        window.location.href = 'panel-usuario.html';
+                    }
+                }, 500);
+
+            } catch (error) {
+                console.error('Error en login:', error);
+                showError('Error al iniciar sesión. Intenta nuevamente.');
+            } finally {
+                btnLogin.disabled = false;
+                btnLoginText.textContent = 'Ingresar';
+                btnLoginIcon.classList.remove('hidden');
+            }
+        }
+
+        // Toggle password
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('togglePassword').querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✓ Página cargada');
+
+            // Verificar backend
+            checkBackend();
+
+            // Event listeners
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('togglePassword').addEventListener('click', (e) => {
+                e.preventDefault();
+                togglePassword();
+            });
+
+            // Enter key
+            ['username', 'password'].forEach(id => {
+                document.getElementById(id).addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+                    }
+                });
+            });
+
+            // Focus
+            document.getElementById('username').focus();
+
+            console.log('✓ Inicialización completada');
+        });
+    </script>
+</body>
+</html>

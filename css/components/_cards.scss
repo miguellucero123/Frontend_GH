@@ -1,0 +1,141 @@
+/**
+ * ============================================
+ * CARDS
+ * Componente de tarjetas profesional
+ * ============================================
+ */
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: $bg-primary;
+    background-clip: border-box;
+    border: $card-border-width solid $border-color-light;
+    @include border-radius($card-border-radius);
+    @include box-shadow($card-box-shadow);
+    @include transition($transition-base);
+    overflow: hidden;
+    
+    &:hover {
+        @include box-shadow($box-shadow-md);
+        border-color: $border-color;
+        transform: translateY(-2px);
+    }
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: $card-spacer-y $card-spacer-x;
+}
+
+.card-title {
+    margin-bottom: $card-spacer-y * 0.5;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+}
+
+.card-subtitle {
+    margin-top: -$card-spacer-y * 0.25;
+    margin-bottom: 0;
+    font-size: $font-size-sm;
+    color: $text-muted;
+}
+
+.card-text {
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.card-header {
+    padding: $card-spacer-y $card-spacer-x;
+    margin-bottom: 0;
+    background: linear-gradient(135deg, $bg-secondary 0%, $bg-tertiary 100%);
+    border-bottom: $card-border-width solid $border-color;
+    @include border-top-left-radius($card-border-radius);
+    @include border-top-right-radius($card-border-radius);
+    font-weight: $font-weight-semibold;
+    
+    &:first-child {
+        @include border-radius($card-border-radius $card-border-radius 0 0);
+    }
+}
+
+.card-footer {
+    padding: $card-spacer-y $card-spacer-x;
+    background-color: $bg-secondary;
+    border-top: $card-border-width solid $border-color;
+    @include border-bottom-left-radius($card-border-radius);
+    @include border-bottom-right-radius($card-border-radius);
+    
+    &:last-child {
+        @include border-radius(0 0 $card-border-radius $card-border-radius);
+    }
+}
+
+// ===== CARD VARIANTS =====
+.card-primary {
+    @include card-variant($color-primary-lighter, $color-primary);
+    border-color: $color-primary;
+}
+
+.card-success {
+    @include card-variant(tint($color-success, 90%), $color-success);
+    border-color: $color-success;
+}
+
+.card-danger {
+    @include card-variant(tint($color-danger, 90%), $color-danger);
+    border-color: $color-danger;
+}
+
+// ===== CARD IMAGES =====
+.card-img-top {
+    width: 100%;
+    @include border-top-left-radius($card-border-radius);
+    @include border-top-right-radius($card-border-radius);
+}
+
+.card-img-bottom {
+    width: 100%;
+    @include border-bottom-left-radius($card-border-radius);
+    @include border-bottom-right-radius($card-border-radius);
+}
+
+// ===== CARD GROUPS =====
+.card-group {
+    display: flex;
+    flex-direction: column;
+    
+    > .card {
+        margin-bottom: $grid-gutter-width;
+    }
+    
+    @include media-breakpoint-up(sm) {
+        flex-flow: row wrap;
+        
+        > .card {
+            flex: 1 0 0%;
+            margin-bottom: 0;
+            
+            + .card {
+                margin-left: 0;
+                border-left: 0;
+            }
+            
+            &:not(:last-child) {
+                @include border-top-right-radius(0);
+                @include border-bottom-right-radius(0);
+            }
+            
+            &:not(:first-child) {
+                @include border-top-left-radius(0);
+                @include border-bottom-left-radius(0);
+            }
+        }
+    }
+}
+

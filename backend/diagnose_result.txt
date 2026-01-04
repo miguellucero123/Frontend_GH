@@ -1,0 +1,7 @@
+--- 1. Verificando Base de Datos ---
+❌ EL USUARIO NO EXISTE EN LA BASE DE DATOS.
+
+--- 2. Probando API Login (http://localhost:8000/api/auth/login) ---
+Status Code: 401
+❌ Fallo el Login via API
+   Respuesta: {"detail":"Email o contraseña incorrectos"}

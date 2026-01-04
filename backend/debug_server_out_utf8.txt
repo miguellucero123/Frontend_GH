@@ -1,0 +1,7 @@
+﻿INFO:     Started server process [22592]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+Starting subprocess in C:\Users\Alicia_Piero\Documents\Repo_AIEP\ERP_Costructora\frontend\backend...
+Process started with PID 22592
+Process is STILL RUNNING.

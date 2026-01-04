@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G&H Construcciones SPA</title>
+    <!-- Asset Manager - Sistema Empresarial -->
+    <script src="assets/config/asset-manager.js"></script>
+    <script src="assets/js/core/app.js"></script>
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e293b">
+    <style>
+        /* Estabilización de Inputs para Enterprise v2 */
+        #loginForm input {
+            background-color: rgba(2, 6, 23, 0.6) !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        #loginForm input:focus {
+            background-color: rgba(15, 23, 42, 0.8) !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        .animate-shake {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+    <!-- Background Effects -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse"
+            style="animation-delay: 1s;"></div>
+    </div>
+
+    <!-- Login Card -->
+    <div
+        class="glass-effect border border-white/20 p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md relative z-10 mx-auto">
+        <div class="text-center mb-10">
+            <!-- Status Badge -->
+            <div class="flex justify-center mb-6">
+                <div id="statusBadge"
+                    class="px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span>Enterprise System Online</span>
+                </div>
+            </div>
+
+            <!-- Logo -->
+            <div
+                class="w-24 h-24 rounded-3xl mx-auto mb-6 shadow-2xl flex items-center justify-center border border-white/20 bg-gradient-to-br from-blue-600/40 to-indigo-900/40 backdrop-blur-xl group">
+                <span
+                    class="text-4xl font-black text-white group-hover:scale-110 transition-transform duration-500">G&H</span>
+            </div>
+
+            <h1 class="text-4xl font-black text-white tracking-tight mb-2">Acceso Seguro</h1>
+            <p class="text-slate-400 text-sm font-medium uppercase tracking-widest">Signature Edition v2.0</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <!-- Usuario -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Identificación</label>
+                <div class="relative group">
+                    <div
+                        class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors pointer-events-none">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <input type="text" id="username" placeholder="admin@constructora.com"
+                        class="w-full bg-slate-950/40 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-slate-900/60 transition-all duration-300"
+                        required>
+                </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Clave de
+                    Seguridad</label>
+                <div class="relative group">
+                    <div
+                        class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors pointer-events-none">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <input type="password" id="password" placeholder="••••••••"
+                        class="w-full bg-slate-950/40 border border-white/5 rounded-2xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-slate-900/60 transition-all duration-300"
+                        required>
+                    <button type="button" id="btnTogglePassword"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors">
+                        <i class="fas fa-eye" id="toggleIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" id="btnLogin"
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-4 rounded-2xl shadow-2xl shadow-blue-500/20 flex items-center justify-center gap-3 transition-all duration-300 active:scale-[0.98] group overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                </div>
+                <span id="btnText" class="relative z-10 uppercase tracking-widest text-sm">Validar Credenciales</span>
+                <i class="fas fa-fingerprint relative z-10 text-xl" id="btnIcon"></i>
+            </button>
+        </form>
+
+        <!-- Credenciales de Prueba -->
+        <div id="credentialsBox" class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-6 mt-8">
+            <p class="font-bold text-[10px] uppercase tracking-widest text-blue-400 mb-3 flex items-center gap-2">
+                <i class="fas fa-info-circle"></i> Entorno de Demostración
+            </p>
+            <div class="space-y-2 text-[11px] font-medium">
+                <div class="flex justify-between items-center text-slate-400">
+                    <span>Admin:</span>
+                    <span class="text-slate-200">admin / admin123</span>
+                </div>
+                <div class="flex justify-between items-center text-slate-400">
+                    <span>Obras:</span>
+                    <span class="text-slate-200">trabajador / admin123</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorAlert"
+            class="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-xs font-bold hidden animate-shake">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-shield-virus text-lg"></i>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Usuarios disponibles
+        const users = [
+            { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+            { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+            { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' }
+        ];
+
+        // Toggle password visibility
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('toggleIcon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Mostrar error
+        function showError(msg) {
+            const errorAlert = document.getElementById('errorAlert');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = msg;
+            errorAlert.classList.remove('hidden');
+            errorAlert.classList.add('animate-shake');
+            setTimeout(() => errorAlert.classList.remove('animate-shake'), 500);
+        }
+
+        // Ocultar error
+        function hideError() {
+            document.getElementById('errorAlert').classList.add('hidden');
+        }
+
+        // Manejar login
+        async function handleLogin(e) {
+            e.preventDefault();
+            hideError();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const btnLogin = document.getElementById('btnLogin');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+
+            // Validar campos
+            if (!username || !password) {
+                showError('Por favor completa todos los campos');
+                return false;
+            }
+
+            // Mostrar loading
+            btnLogin.disabled = true;
+            const originalText = btnText.textContent;
+            btnText.textContent = 'Verificando...';
+            btnIcon.className = 'fas fa-spinner fa-spin relative z-10 text-xl';
+
+            try {
+                // Intentar login real a través de la API
+                const response = await api.login(username, password);
+
+                // Guardar sesión usando el manager de autenticación
+                auth.saveSession(response.token || 'demo_token_' + Date.now(), response.user);
+
+                btnText.textContent = 'Acceso Concedido';
+                btnIcon.className = 'fas fa-check-circle relative z-10 text-xl text-emerald-400';
+
+                // Redirigir según rol
+                setTimeout(() => {
+                    auth.redirectByRole();
+                }, 1000);
+
+            } catch (error) {
+                console.error('Login error:', error);
+
+                // Fallback para modo demo si falla o si es modo demo forzado
+                if (window.CONFIG?.DEMO_MODE) {
+                    console.log('Modo DEMO: Validando credenciales locales...');
+
+                    // Simular latencia
+                    await new Promise(r => setTimeout(r, 800));
+
+                    // Usuarios demo (solo si la API falla o está en modo demo)
+                    const demoUsers = [
+                        { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                        { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                        { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' }
+                    ];
+
+                    const user = demoUsers.find(u => u.email === username || u.username === username);
+
+                    if (user && password === 'admin123') {
+                        auth.saveSession('demo_token_' + Date.now(), user);
+                        btnText.textContent = 'Modo Demo Activo';
+                        btnIcon.className = 'fas fa-vial relative z-10 text-xl text-amber-400';
+                        setTimeout(() => auth.redirectByRole(), 1000);
+                        return;
+                    }
+                }
+
+                showError(error.message || 'Credenciales inválidas o error de conexión');
+                btnLogin.disabled = false;
+                btnText.textContent = originalText;
+                btnIcon.className = 'fas fa-fingerprint relative z-10 text-xl';
+            }
+
+            return false;
+        }
+
+        // Verificar estado de la API al cargar
+        async function checkAPIStatus() {
+            const statusBadge = document.getElementById('statusBadge');
+            const statusDot = statusBadge.querySelector('div');
+            const statusText = statusBadge.querySelector('span');
+
+            try {
+                // Una petición simple para ver si el server responde
+                await api.get('/auth/pending', { retry: false, timeout: 5000 });
+
+                statusBadge.className = "px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                statusDot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse";
+                statusText.textContent = "Enterprise System Online";
+            } catch (e) {
+                if (window.CONFIG?.DEMO_MODE) {
+                    statusBadge.className = "px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 bg-amber-500/10 text-amber-400 border border-amber-500/20";
+                    statusDot.className = "w-1.5 h-1.5 rounded-full bg-amber-500";
+                    statusText.textContent = "API Offline - Modo Demo Activo";
+                } else {
+                    statusBadge.className = "px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 bg-red-500/10 text-red-400 border border-red-500/20";
+                    statusDot.className = "w-1.5 h-1.5 rounded-full bg-red-500";
+                    statusText.textContent = "System Connection Error";
+                }
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar scripts necesarios si no están disponibles
+            if (typeof api === 'undefined' || typeof auth === 'undefined') {
+                console.warn('API o Auth no cargados. Verificando scripts...');
+            }
+
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('btnTogglePassword').addEventListener('click', togglePassword);
+            document.getElementById('username').focus();
+
+            checkAPIStatus();
+        });
+    </script>
+    
+    <!-- Integración Backend FastAPI -->
+    <script src="js/api-backend-integration.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+============================================================
+    INSTRUCCIONES PARA EJECUTAR EL PROYECTO
+    Puerto 5174
+============================================================
+
+PASO 1: INICIAR EL SERVIDOR
+----------------------------
+Doble click en: INICIAR_SERVIDOR.bat
+
+Esto iniciará el servidor en el puerto 5174.
+NO CIERRES la ventana que se abre.
+
+PASO 2: ABRIR EN EL NAVEGADOR
+-----------------------------
+El navegador se abrirá automáticamente.
+
+Si no se abre, ejecuta: ABRIR_5174.bat
+O abre manualmente: http://localhost:5174
+
+CREDENCIALES DE PRUEBA
+----------------------
+Admin:      admin@constructora.com / admin123
+Trabajador: trabajador@constructora.com / trabajador123
+Cliente:    cliente@constructora.com / cliente123
+
+SOLUCIÓN DE PROBLEMAS
+---------------------
+1. Si dice "Python no encontrado":
+   - Instala Python desde: https://www.python.org/
+   - O ejecuta: INICIAR_5174.bat
+
+2. Si el puerto 5174 está ocupado:
+   - Cierra otras ventanas de servidor
+   - O cambia el puerto en el script
+
+3. Si no se ve el formato correcto:
+   - Presiona Ctrl + F5 para limpiar caché
+   - O abre en modo incógnito (Ctrl + Shift + N)
+
+============================================================
+

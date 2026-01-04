@@ -1,0 +1,118 @@
+{
+  "name": "Workflows de Ejemplo para ERP Constructora",
+  "description": "Workflows básicos para automatización del sistema ERP",
+  "workflows": [
+    {
+      "name": "Procesar Excel de Proyecto",
+      "description": "Procesa archivos Excel y actualiza proyectos en el ERP",
+      "nodes": [
+        {
+          "type": "n8n-nodes-base.webhook",
+          "name": "Webhook - Recibir Excel",
+          "parameters": {
+            "httpMethod": "POST",
+            "path": "process-excel",
+            "responseMode": "responseNode"
+          }
+        },
+        {
+          "type": "n8n-nodes-base.readBinaryFile",
+          "name": "Leer Archivo",
+          "parameters": {
+            "fileName": "={{ $json.body.file }}"
+          }
+        },
+        {
+          "type": "n8n-nodes-base.spreadsheetFile",
+          "name": "Parsear Excel",
+          "parameters": {
+            "options": {
+              "headerRow": true
+            }
+          }
+        },
+        {
+          "type": "n8n-nodes-base.set",
+          "name": "Transformar Datos",
+          "parameters": {
+            "values": {
+              "string": [
+                {
+                  "name": "project_id",
+                  "value": "={{ $json.project_id }}"
+                },
+                {
+                  "name": "nombre_mandante",
+                  "value": "={{ $json.nombre_mandante }}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "n8n-nodes-base.httpRequest",
+          "name": "Actualizar Proyecto",
+          "parameters": {
+            "method": "PUT",
+            "url": "={{ $env.ERP_API_URL }}/projects/{{ $json.project_id }}",
+            "authentication": "genericCredentialType",
+            "genericAuthType": "httpHeaderAuth",
+            "sendBody": true,
+            "bodyParameters": {
+              "parameters": [
+                {
+                  "name": "nombre_mandante",
+                  "value": "={{ $json.nombre_mandante }}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notificación de Evento",
+      "description": "Envía notificaciones cuando ocurre un evento en el sistema",
+      "nodes": [
+        {
+          "type": "n8n-nodes-base.webhook",
+          "name": "Webhook - Recibir Evento",
+          "parameters": {
+            "httpMethod": "POST",
+            "path": "trigger-event",
+            "responseMode": "responseNode"
+          }
+        },
+        {
+          "type": "n8n-nodes-base.switch",
+          "name": "Tipo de Evento",
+          "parameters": {
+            "rules": {
+              "values": [
+                {
+                  "value": "task_completed"
+                },
+                {
+                  "value": "message_new"
+                },
+                {
+                  "value": "project_updated"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "n8n-nodes-base.httpRequest",
+          "name": "Enviar Notificación",
+          "parameters": {
+            "method": "POST",
+            "url": "={{ $env.ERP_API_URL }}/notifications",
+            "sendBody": true
+          }
+        }
+      ]
+    }
+  ]
+}
+

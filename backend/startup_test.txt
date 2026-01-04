@@ -1,0 +1,4 @@
+starting
+main ok
+db ok
+tables ok

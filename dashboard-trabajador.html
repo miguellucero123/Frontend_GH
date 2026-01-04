@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Trabajador - ERP Constructora</title>
+    <!-- Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/services/VisualService.js"></script>
+    <script src="js/utils.js" defer></script>
+    <style>
+        /* FASE 2: Field Optimized Styles */
+        @media (max-width: 768px) {
+            .glass-effect {
+                background: rgba(15, 23, 42, 0.8) !important;
+                /* Fondo más oscuro para mayor contraste al sol */
+                border-width: 2px;
+            }
+
+            .btn-field {
+                padding: 1.25rem !important;
+                font-size: 1.1rem !important;
+                font-weight: 700 !important;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            h2,
+            h3 {
+                color: #fff !important;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .field-button-primary {
+            background: linear-gradient(to right, #10b981, #059669) !important;
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+            color: white !important;
+            border: none;
+        }
+    </style>
+</head>
+
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect border-b border-white/20 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-emerald-600/30 border-2 border-white/20 flex items-center justify-center">
+                    <span class="text-xl font-bold text-white">G&H</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Mi Panel de Trabajo</h1>
+                    <p class="text-xs text-slate-400">Mis proyectos y tareas</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div id="userInfo" class="text-right text-sm">
+                    <p class="text-white font-semibold" id="userName"></p>
+                    <p class="text-slate-400" id="userRole"></p>
+                </div>
+                <button onclick="logout()"
+                    class="px-4 py-2 rounded-lg bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/30 text-sm font-medium transition-all">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Salir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Bienvenida -->
+        <div class="glass-effect border border-white/20 rounded-2xl p-8 mb-8">
+            <div class="flex items-center gap-4 mb-4">
+                <div
+                    class="w-12 h-12 rounded-full bg-emerald-600/30 border-2 border-emerald-500/50 flex items-center justify-center">
+                    <i class="fas fa-hard-hat text-2xl text-emerald-400"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Bienvenido a tu panel de trabajo</h2>
+                    <p class="text-slate-300 mt-1">Aquí encontrarás tus proyectos asignados y tareas diarias</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de Funcionalidades -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Mis Proyectos -->
+            <div
+                class="glass-effect border border-white/20 rounded-2xl p-6 hover:border-emerald-500/50 transition-all cursor-pointer hover:shadow-lg hover:shadow-emerald-900/30">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-600/30 flex items-center justify-center">
+                        <i class="fas fa-list-check text-2xl text-emerald-400"></i>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300">4
+                        Activos</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Mis Proyectos</h3>
+                <p class="text-slate-400 text-sm mb-4">Proyectos asignados donde estoy trabajando</p>
+                <button id="btnVerProyectos" data-action="verProyectos"
+                    class="w-full py-2 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 text-sm font-medium transition-all">
+                    Ver Proyectos <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Tareas Pendientes -->
+            <div
+                class="glass-effect border border-white/20 rounded-2xl p-6 hover:border-orange-500/50 transition-all cursor-pointer hover:shadow-lg hover:shadow-orange-900/30">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-orange-600/30 flex items-center justify-center">
+                        <i class="fas fa-tasks text-2xl text-orange-400"></i>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-orange-500/20 text-orange-300">8
+                        Pendientes</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Tareas Diarias</h3>
+                <p class="text-slate-400 text-sm mb-4">Tus tareas asignadas para hoy y próximos días</p>
+                <button id="btnVerTareas" data-action="verTareas"
+                    class="w-full py-2 rounded-lg bg-orange-600/30 hover:bg-orange-600/50 text-orange-300 text-sm font-medium transition-all">
+                    Ver Tareas <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Reportes de Avance -->
+            <div class="glass-effect border border-white/20 rounded-2xl p-6 card-hover transition-all cursor-pointer">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-600/30 flex items-center justify-center">
+                        <i class="fas fa-chart-bar text-2xl text-blue-400"></i>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300">Hoy</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Mi Avance</h3>
+                <p class="text-slate-400 text-sm mb-4">Reportes de progreso en tus tareas</p>
+                <div class="flex gap-2">
+                    <button id="btnAbrirModalReporte"
+                        class="flex-grow py-3 rounded-xl btn-field field-button-primary transition-all">
+                        <i class="fas fa-plus mr-1"></i> NUEVO REPORTE
+                    </button>
+                    <button class="px-3 py-2 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-white transition-all">
+                        <i class="fas fa-history"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documentos -->
+            <div
+                class="glass-effect border border-white/20 rounded-2xl p-6 hover:border-purple-500/50 transition-all cursor-pointer hover:shadow-lg hover:shadow-purple-900/30">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-600/30 flex items-center justify-center">
+                        <i class="fas fa-file-alt text-2xl text-purple-400"></i>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300">12
+                        Docs</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Documentos</h3>
+                <p class="text-slate-400 text-sm mb-4">Manuales, especificaciones y documentación</p>
+                <button id="btnVerDocumentos" data-action="verDocumentos"
+                    class="w-full py-2 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 text-sm font-medium transition-all">
+                    Ver Docs <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Comunicación -->
+            <div
+                class="glass-effect border border-white/20 rounded-2xl p-6 hover:border-pink-500/50 transition-all cursor-pointer hover:shadow-lg hover:shadow-pink-900/30">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-600/30 flex items-center justify-center">
+                        <i class="fas fa-comments text-2xl text-pink-400"></i>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-pink-500/20 text-pink-300">3
+                        Nuevos</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Mensajes</h3>
+                <p class="text-slate-400 text-sm mb-4">Comunícate con tu equipo y supervisores</p>
+                <button id="btnVerMensajes" data-action="verMensajes"
+                    class="w-full py-2 rounded-lg bg-pink-600/30 hover:bg-pink-600/50 text-pink-300 text-sm font-medium transition-all">
+                    Ver Mensajes <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Gráfico de Actividad Semanal -->
+            <div class="glass-effect border border-white/20 rounded-2xl p-6 mt-8">
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <i class="fas fa-chart-column text-emerald-400"></i>
+                    Mi Actividad Semanal (Horas)
+                </h3>
+                <div class="h-[250px]">
+                    <canvas id="workerHoursChart"></canvas>
+                </div>
+            </div>
+            <div
+                class="glass-effect border border-white/20 rounded-2xl p-6 hover:border-slate-500/50 transition-all cursor-pointer hover:shadow-lg hover:shadow-slate-900/30">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-slate-600/30 flex items-center justify-center">
+                        <i class="fas fa-tools text-2xl text-slate-400"></i>
+                    </div>
+                    <span
+                        class="px-3 py-1 rounded-full text-xs font-medium bg-slate-500/20 text-slate-300">Utilidades</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Herramientas</h3>
+                <p class="text-slate-400 text-sm mb-4">Calculadoras y herramientas de trabajo</p>
+                <button id="btnVerHerramientas" data-action="verHerramientas"
+                    class="w-full py-2 rounded-lg bg-slate-600/30 hover:bg-slate-600/50 text-slate-300 text-sm font-medium transition-all">
+                    Acceder <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Estadísticas Rápidas -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+            <div class="glass-effect border border-white/20 rounded-xl p-6 relative group">
+                <button id="btnEditCompletedTasks" data-action="editKpi" data-field="completed_tasks"
+                    class="absolute top-4 right-4 text-slate-500 hover:text-emerald-400 opacity-0 group-hover:opacity-100 transition-all">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <p class="text-slate-400 text-sm mb-2">Tareas Completadas</p>
+                <p class="text-4xl font-bold text-emerald-400" id="statCompletedTasks">0</p>
+                <p class="text-xs text-slate-400 mt-2"><span id="activeTasks">0</span> en ejecución</p>
+            </div>
+            <div class="glass-effect border border-white/20 rounded-xl p-6 relative group">
+                <button id="btnEditAssignedProjects" data-action="editKpi" data-field="assigned_projects"
+                    class="absolute top-4 right-4 text-slate-500 hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-all">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <p class="text-slate-400 text-sm mb-2">Proyectos Activos</p>
+                <p class="text-4xl font-bold text-blue-400" id="statAssignedProjects">0</p>
+                <p class="text-xs text-slate-400 mt-2">En progreso</p>
+            </div>
+            <div class="glass-effect border border-white/20 rounded-xl p-6 relative group">
+                <button id="btnEditTotalHours" data-action="editKpi" data-field="total_hours"
+                    class="absolute top-4 right-4 text-slate-500 hover:text-orange-400 opacity-0 group-hover:opacity-100 transition-all">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <p class="text-slate-400 text-sm mb-2">Horas Registradas</p>
+                <p class="text-4xl font-bold text-orange-400" id="statTotalHours">0h</p>
+                <p class="text-xs text-slate-400 mt-2">Hoy: <span id="todayHours">0h</span></p>
+            </div>
+            <div class="glass-effect border border-white/20 rounded-xl p-6 relative group">
+                <button id="btnEditPerformance" data-action="editKpi" data-field="performance"
+                    class="absolute top-4 right-4 text-slate-500 hover:text-purple-400 opacity-0 group-hover:opacity-100 transition-all">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <p class="text-slate-400 text-sm mb-2">Desempeño</p>
+                <p class="text-4xl font-bold text-purple-400" id="statPerformance">0%</p>
+                <p class="text-xs text-slate-400 mt-2">Calculado semanal</p>
+            </div>
+        </div>
+
+        <!-- MODAL EDICIÓN KPI (Dinamizado) -->
+        <div class="modal fade" id="modalEdicionKPI" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content glass-effect">
+                    <div class="modal-header border-white/10">
+                        <h5 class="modal-title font-bold" id="kpiModalTitle">Editar Indicador</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-6">
+                        <form id="formEdicionKPI">
+                            <input type="hidden" id="kpiFieldId">
+                            <div class="mb-4">
+                                <label class="form-label text-slate-400 text-sm" id="kpiLabel">Nuevo Valor</label>
+                                <input type="number" id="kpiValue" class="form-control" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer border-white/10">
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="btnGuardarKPI" class="btn btn-primary px-4">Guardar
+                            Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE REPORTE -->
+    <div class="modal fade" id="modalReporte" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-effect">
+                <div class="modal-header border-white/10">
+                    <h5 class="modal-title font-bold">Reportar Avance de Tarea</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formReporte" class="space-y-4">
+                        <div>
+                            <label class="form-label text-slate-300">Seleccionar Tarea</label>
+                            <select class="form-select bg-slate-800 border-white/10 text-white">
+                                <option>Hormigonado de losa (Casa Moderna)</option>
+                                <option>Instalación de tuberías (Edificio Costanera)</option>
+                                <option>Pintura fachadas (Condominio Norte)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label text-slate-300">Progreso (%)</label>
+                            <input type="range" class="form-range" min="0" max="100" step="5" id="progresoRange">
+                            <output class="text-blue-400 font-bold">50</output><span
+                                class="text-blue-400 font-bold">%</span>
+                        </div>
+                        <div>
+                            <label class="form-label text-slate-300">Observaciones / Comentarios</label>
+                            <textarea class="form-control bg-slate-800 border-white/10 text-white" rows="3"
+                                placeholder="Describe los avances del día..."></textarea>
+                        </div>
+                        <div>
+                            <label class="form-label text-slate-300">Adjuntar Foto</label>
+                            <input type="file" class="form-control bg-slate-800 border-white/10 text-white">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-white/10">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnEnviarReporte" class="btn btn-success px-4">Enviar Reporte</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <!-- Router y Navegación -->
+    <script src="js/core/router.js"></script>
+    <script src="js/core/phase-manager.js"></script>
+    <script src="js/core/navigation.js"></script>
+    
+    <script src="js/panel-trabajador.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Sistema de Gestión Documental y Comunicación para empresas constructoras">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ERP Constructora">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- iOS Splash Screens -->
+    <!-- 
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192x192.png">
+    -->
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <!-- 
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    -->
+    
+    <title>ERP Constructora - Login</title>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN (Diseño Moderno React) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        },
+                        slate: {
+                            850: '#151f32',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Reset para Login (DEBE IR PRIMERO para resetear estilos) -->
+    <link rel="stylesheet" href="css/login-reset.css">
+    <!-- CSS PWA y Mobile (complementarios) -->
+    <link rel="stylesheet" href="css/pwa.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <!-- CSS Override para asegurar que Tailwind tenga prioridad (DEBE IR ÚLTIMO) -->
+    <link rel="stylesheet" href="css/tailwind-override.css">
+    <!-- Nota: Tailwind CSS se carga desde CDN arriba, no necesitamos CSS adicional para el diseño -->
+</head>
+<body class="min-h-screen bg-slate-900 flex items-center justify-center p-4 relative overflow-hidden" style="font-family: 'Inter', system-ui, sans-serif; background-color: #0f172a !important; min-height: 100vh !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 1rem !important; position: relative !important; overflow: hidden !important; margin: 0 !important;">
+    <!-- Background Effects (igual que React) -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+
+    <!-- Login Card (glassmorphism como React) -->
+    <div class="bg-white/10 backdrop-blur-lg border border-white/20 p-8 rounded-3xl shadow-2xl w-full max-w-md relative z-10 transition-all duration-500 hover:shadow-blue-500/20">
+        <div class="text-center mb-8">
+            <!-- Status Badge (igual que React) -->
+            <div class="flex justify-center mb-4">
+                <div id="backendStatusBadge" class="px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 bg-slate-500/20 text-slate-400">
+                    <div id="statusDot" class="w-2 h-2 rounded-full bg-slate-500 animate-pulse"></div>
+                    <span id="statusText">API: CHECKING</span>
+                </div>
+            </div>
+            
+            <!-- Logo (igual que React) -->
+            <img
+                src="assets/logo.jpg"
+                alt="Logo Constructora"
+                class="w-20 h-20 rounded-2xl mx-auto mb-4 shadow-lg object-cover border-4 border-white/20"
+            />
+            <h1 class="text-3xl font-bold text-white tracking-tight">Bienvenido</h1>
+            <p class="text-slate-300 mt-2">Sistema ERP - G y H Construcciones SPA</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300 ml-1">Usuario</label>
+                <div class="relative group">
+                    <i class="fas fa-user w-5 h-5 text-slate-400 absolute left-3 top-3 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="admin@constructora.com"
+                        required
+                        autocomplete="username"
+                    />
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300 ml-1">Contraseña</label>
+                <div class="relative group">
+                    <i class="fas fa-lock w-5 h-5 text-slate-400 absolute left-3 top-3 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3 pl-10 pr-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="••••••••"
+                        required
+                        autocomplete="current-password"
+                    />
+                    <button type="button" class="absolute right-3 top-3 text-slate-400 hover:text-blue-400 transition-colors" id="togglePassword" tabindex="-1">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                id="btnLogin"
+                disabled
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-900/50 flex items-center justify-center gap-2 transform transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <span id="btnLoginText">Ingresar</span>
+                <i class="fas fa-arrow-right" id="btnLoginIcon"></i>
+                <span class="btn-loader hidden" id="btnLoader"></span>
+            </button>
+        </form>
+
+        <div class="mt-6 space-y-3">
+            <div class="text-center">
+                <a href="#" class="text-sm text-slate-400 hover:text-white transition-colors">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+            
+            <!-- Credenciales de Prueba (igual que React) -->
+            <div id="credentialsBox" class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-xs text-slate-300 hidden">
+                <p class="font-semibold mb-2 text-slate-200">💡 Credenciales de Prueba:</p>
+                <div class="space-y-1.5">
+                    <div>
+                        <span class="text-blue-400">Admin:</span> admin@constructora.com / admin123
+                    </div>
+                    <div>
+                        <span class="text-emerald-400">Trabajador:</span> trabajador@constructora.com / trabajador123
+                    </div>
+                    <div>
+                        <span class="text-purple-400">Cliente:</span> cliente@constructora.com / cliente123
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorAlert" class="mt-4 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-300 text-sm hidden">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
+        
+        <!-- Botón de Instalación PWA -->
+        <button id="btnInstallApp" class="mt-4 w-full bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/50 text-purple-300 px-4 py-2 rounded-xl text-sm font-medium transition-all hidden">
+            <i class="fas fa-download mr-2"></i>
+            <span>Instalar App</span>
+        </button>
+    </div>
+
+    <!-- Scripts Base -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/breadcrumbs.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/retry-manager.js"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/connection-manager.js"></script>
+    <script src="js/rate-limiter.js"></script>
+    <script src="js/state-manager.js"></script>
+    <script src="js/form-validator.js"></script>
+    
+    <!-- Scripts de Autenticación y API -->
+    <script src="js/auth.js"></script>
+    <script src="js/demo-mode.js"></script>
+    <script src="js/api.js"></script>
+    
+    <!-- Scripts de Utilidades -->
+    <script src="js/debug.js"></script>
+    <script src="js/pwa.js"></script>
+    <!-- dark-mode.js se carga pero no se ejecuta en login (ver dark-mode.js) -->
+    <script src="js/dark-mode.js"></script>
+    <script src="js/keyboard-shortcuts.js"></script>
+    
+    <!-- Mejoras: Gestión de Estado y Navegación -->
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/notification-manager.js"></script>
+    <script src="js/state-sync.js"></script>
+    
+    <!-- Login Style Enforcer - DEBE IR DESPUÉS DE dark-mode.js -->
+    <script src="js/login-style-enforcer.js"></script>
+    
+    <!-- Script Principal de Login -->
+    <script src="js/login.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico - ERP Constructora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #334155;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #334155;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #93c5fd;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            background: #0f172a;
+        }
+        .check-item.success {
+            background: #064e3b;
+            border-left: 4px solid #10b981;
+        }
+        .check-item.error {
+            background: #7f1d1d;
+            border-left: 4px solid #ef4444;
+        }
+        .check-item.warning {
+            background: #78350f;
+            border-left: 4px solid #f59e0b;
+        }
+        .check-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            min-width: 20px;
+        }
+        .check-text {
+            flex: 1;
+        }
+        .loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .button:hover {
+            background: #2563eb;
+        }
+        pre {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Diagnóstico - Sistema ERP</h1>
+        
+        <div class="section">
+            <h2>Estado de Carga</h2>
+            <div id="loadingStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2>Verificación de Archivos JavaScript</h2>
+            <div id="jsStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2>Verificación de Configuración</h2>
+            <div id="configStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2>Errores en Consola</h2>
+            <div id="errors"></div>
+        </div>
+
+        <div class="section">
+            <h2>Modo Demo</h2>
+            <div id="demoStatus"></div>
+        </div>
+
+        <button class="button" onclick="goToLogin()">Ir al Login</button>
+    </div>
+
+    <script>
+        const checks = {
+            loading: [],
+            js: [],
+            config: [],
+            errors: [],
+            demo: []
+        };
+
+        const errorLog = [];
+        
+        // Capturar errores
+        window.addEventListener('error', (e) => {
+            errorLog.push({
+                type: 'error',
+                message: e.message,
+                file: e.filename,
+                line: e.lineno,
+                col: e.colno
+            });
+            updateErrors();
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            errorLog.push({
+                type: 'unhandledRejection',
+                message: e.reason?.message || String(e.reason)
+            });
+            updateErrors();
+        });
+
+        // Inicializar verificación de carga
+        function addLoadingCheck(name, status) {
+            checks.loading.push({ name, status, time: new Date().toLocaleTimeString() });
+            updateStatus();
+        }
+
+        function addJSCheck(name, status) {
+            checks.js.push({ name, status });
+            updateStatus();
+        }
+
+        function addConfigCheck(name, status) {
+            checks.config.push({ name, status });
+            updateStatus();
+        }
+
+        function addDemoCheck(name, status) {
+            checks.demo.push({ name, status });
+            updateStatus();
+        }
+
+        addLoadingCheck('Página iniciada', 'success');
+
+        // Verificar CONFIG
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                // Verificar que CONFIG esté cargado
+                if (typeof window.CONFIG !== 'undefined') {
+                    addConfigCheck('CONFIG cargado', 'success');
+                    addConfigCheck(`DEMO_MODE: ${window.CONFIG.DEMO_MODE}`, 'success');
+                } else {
+                    addConfigCheck('CONFIG no cargado', 'error');
+                }
+
+                // Verificar auth
+                if (typeof window.auth !== 'undefined') {
+                    addJSCheck('auth.js cargado', 'success');
+                } else {
+                    addJSCheck('auth.js NO cargado', 'error');
+                }
+
+                // Verificar demoMode
+                if (typeof window.demoMode !== 'undefined') {
+                    addJSCheck('demo-mode.js cargado', 'success');
+                    addDemoCheck(`DemoMode activo: ${window.demoMode.isActive}`, 'success');
+                    
+                    if (window.demoMode.demoUsers && window.demoMode.demoUsers.length > 0) {
+                        addDemoCheck(`Usuarios demo disponibles: ${window.demoMode.demoUsers.length}`, 'success');
+                    }
+                } else {
+                    addJSCheck('demo-mode.js NO cargado', 'error');
+                }
+
+                // Verificar api
+                if (typeof window.api !== 'undefined') {
+                    addJSCheck('api.js cargado', 'success');
+                } else {
+                    addJSCheck('api.js NO cargado', 'warning');
+                }
+
+                // Verificar DOM
+                const loginForm = document.getElementById('loginForm');
+                if (loginForm) {
+                    addJSCheck('Formulario de login encontrado', 'success');
+                } else {
+                    addJSCheck('Formulario de login NO encontrado', 'error');
+                }
+
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+                if (usernameInput && passwordInput) {
+                    addJSCheck('Campos de input encontrados', 'success');
+                } else {
+                    addJSCheck('Campos de input NO encontrados', 'error');
+                }
+            }, 1000);
+        });
+
+        function updateStatus() {
+            // Actualizar carga
+            const loadingHtml = checks.loading.map(c => 
+                `<div class="check-item success">
+                    <div class="check-icon">✓</div>
+                    <div class="check-text">${c.name} (${c.time})</div>
+                </div>`
+            ).join('');
+            document.getElementById('loadingStatus').innerHTML = loadingHtml || '<p>Esperando...</p>';
+
+            // Actualizar JS
+            const jsHtml = checks.js.map(c => 
+                `<div class="check-item ${c.status}">
+                    <div class="check-icon">${c.status === 'success' ? '✓' : '✗'}</div>
+                    <div class="check-text">${c.name}</div>
+                </div>`
+            ).join('');
+            document.getElementById('jsStatus').innerHTML = jsHtml || '<p>Esperando...</p>';
+
+            // Actualizar CONFIG
+            const configHtml = checks.config.map(c => 
+                `<div class="check-item ${c.status}">
+                    <div class="check-icon">${c.status === 'success' ? '✓' : '✗'}</div>
+                    <div class="check-text">${c.name}</div>
+                </div>`
+            ).join('');
+            document.getElementById('configStatus').innerHTML = configHtml || '<p>Esperando...</p>';
+
+            // Actualizar Demo
+            const demoHtml = checks.demo.map(c => 
+                `<div class="check-item ${c.status}">
+                    <div class="check-icon">${c.status === 'success' ? '✓' : '✗'}</div>
+                    <div class="check-text">${c.name}</div>
+                </div>`
+            ).join('');
+            document.getElementById('demoStatus').innerHTML = demoHtml || '<p>Esperando...</p>';
+        }
+
+        function updateErrors() {
+            const errorHtml = errorLog.map((e, i) => 
+                `<div class="check-item error">
+                    <div class="check-icon">⚠</div>
+                    <div class="check-text">
+                        <strong>Error ${i + 1}:</strong> ${e.message}
+                        ${e.file ? `<br>Archivo: ${e.file}:${e.line}:${e.col}` : ''}
+                    </div>
+                </div>`
+            ).join('');
+            document.getElementById('errors').innerHTML = errorHtml || '<div class="check-item success"><div class="check-icon">✓</div><div class="check-text">Sin errores</div></div>';
+        }
+
+        function goToLogin() {
+            window.location.href = 'index.html';
+        }
+
+        updateStatus();
+        updateErrors();
+    </script>
+
+    <!-- Cargar archivos JavaScript en orden correcto -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/breadcrumbs.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/retry-manager.js"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/connection-manager.js"></script>
+    <script src="js/rate-limiter.js"></script>
+    <script src="js/state-manager.js"></script>
+    <script src="js/form-validator.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/demo-mode.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/debug.js"></script>
+    <script src="js/pwa.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/keyboard-shortcuts.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/notification-manager.js"></script>
+    <script src="js/state-sync.js"></script>
+    <script src="js/login-style-enforcer.js"></script>
+</body>
+</html>

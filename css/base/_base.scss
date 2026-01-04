@@ -1,0 +1,140 @@
+/**
+ * ============================================
+ * BASE STYLES
+ * Estilos base de la aplicación
+ * ============================================
+ */
+
+// ===== ROOT VARIABLES =====
+:root {
+    // Colores
+    --color-primary: #{$color-primary};
+    --color-primary-dark: #{$color-primary-dark};
+    --color-primary-light: #{$color-primary-light};
+    --color-secondary: #{$color-secondary};
+    --color-success: #{$color-success};
+    --color-danger: #{$color-danger};
+    --color-warning: #{$color-warning};
+    --color-info: #{$color-info};
+    
+    // Backgrounds
+    --bg-primary: #{$bg-primary};
+    --bg-secondary: #{$bg-secondary};
+    --bg-tertiary: #{$bg-tertiary};
+    
+    // Text
+    --text-primary: #{$text-primary};
+    --text-secondary: #{$text-secondary};
+    --text-muted: #{$text-muted};
+    
+    // Borders
+    --border-color: #{$border-color};
+    --border-radius: #{$border-radius};
+    --border-radius-lg: #{$border-radius-lg};
+    
+    // Shadows
+    --box-shadow-sm: #{$box-shadow-sm};
+    --box-shadow: #{$box-shadow};
+    --box-shadow-lg: #{$box-shadow-lg};
+    
+    // Transitions
+    --transition-base: #{$transition-base};
+}
+
+// ===== HTML & BODY =====
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    min-height: 100vh;
+}
+
+// ===== SELECTION =====
+::selection {
+    background-color: $color-primary;
+    color: $text-inverse;
+}
+
+::-moz-selection {
+    background-color: $color-primary;
+    color: $text-inverse;
+}
+
+// ===== FOCUS STYLES =====
+:focus {
+    outline: 0;
+}
+
+:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+}
+
+// ===== SCROLLBAR =====
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: $bg-secondary;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $border-color;
+    @include border-radius($border-radius);
+    
+    &:hover {
+        background: mix($border-color, black, 90%);
+    }
+}
+
+// ===== PRINT STYLES =====
+@if $enable-print-styles {
+    @media print {
+        *,
+        *::before,
+        *::after {
+            background: transparent !important;
+            color: #000 !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+        }
+        
+        a,
+        a:visited {
+            text-decoration: underline;
+        }
+        
+        pre,
+        blockquote {
+            border: 1px solid #999;
+            page-break-inside: avoid;
+        }
+        
+        thead {
+            display: table-header-group;
+        }
+        
+        tr,
+        img {
+            page-break-inside: avoid;
+        }
+        
+        p,
+        h2,
+        h3 {
+            orphans: 3;
+            widows: 3;
+        }
+        
+        h2,
+        h3 {
+            page-break-after: avoid;
+        }
+    }
+}
+

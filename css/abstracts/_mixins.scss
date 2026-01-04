@@ -1,0 +1,248 @@
+/**
+ * ============================================
+ * MIXINS
+ * Funciones reutilizables
+ * ============================================
+ */
+
+// ===== RESPONSIVE BREAKPOINTS =====
+@mixin media-breakpoint-up($name) {
+    $min: map-get($grid-breakpoints, $name);
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin media-breakpoint-down($name) {
+    $max: map-get($grid-breakpoints, $name) - 0.02;
+    @if $max {
+        @media (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin media-breakpoint-between($lower, $upper) {
+    $min: map-get($grid-breakpoints, $lower);
+    $max: map-get($grid-breakpoints, $upper) - 0.02;
+    
+    @if $min != null and $max != null {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    } @else if $max == null {
+        @include media-breakpoint-up($lower) {
+            @content;
+        }
+    } @else if $min == null {
+        @include media-breakpoint-down($upper) {
+            @content;
+        }
+    }
+}
+
+// ===== BUTTON VARIANTS =====
+@mixin button-variant($background, $border, $color: $text-inverse, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+    
+    &:hover {
+        color: $color;
+        background-color: $hover-background;
+        border-color: $hover-border;
+    }
+    
+    &:focus {
+        box-shadow: 0 0 0 0.2rem rgba($background, 0.5);
+    }
+    
+    &:active {
+        color: $color;
+        background-color: $active-background;
+        border-color: $active-border;
+    }
+    
+    &:disabled {
+        opacity: 0.65;
+    }
+}
+
+// ===== BUTTON OUTLINE VARIANT =====
+@mixin button-outline-variant($color, $color-hover: $text-inverse, $active-background: $color, $active-border: $color) {
+    color: $color;
+    border-color: $color;
+    background-color: transparent;
+    
+    &:hover {
+        color: $color-hover;
+        background-color: $active-background;
+        border-color: $active-border;
+    }
+    
+    &:focus {
+        box-shadow: 0 0 0 0.2rem rgba($color, 0.5);
+    }
+    
+    &:active {
+        color: $color-hover;
+        background-color: $active-background;
+        border-color: $active-border;
+    }
+    
+    &:disabled {
+        color: $color;
+        background-color: transparent;
+    }
+}
+
+// ===== FORM CONTROL FOCUS =====
+@mixin form-control-focus() {
+    &:focus {
+        color: $text-primary;
+        background-color: $bg-primary;
+        border-color: $input-focus-border-color;
+        outline: 0;
+        box-shadow: $input-focus-box-shadow;
+    }
+}
+
+// ===== CLEARFIX =====
+@mixin clearfix() {
+    &::after {
+        display: block;
+        clear: both;
+        content: "";
+    }
+}
+
+// ===== TEXT TRUNCATE =====
+@mixin text-truncate() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// ===== SCROLLBAR STYLING =====
+@mixin custom-scrollbar($thumb-color: $color-secondary, $track-color: $bg-tertiary, $width: 8px) {
+    &::-webkit-scrollbar {
+        width: $width;
+        height: $width;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: $track-color;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: $thumb-color;
+        border-radius: $border-radius;
+        
+        &:hover {
+            background: mix($thumb-color, black, 90%);
+        }
+    }
+}
+
+// ===== CARD =====
+@mixin card-variant($background, $border) {
+    background-color: $background;
+    border-color: $border;
+}
+
+// ===== GRADIENT =====
+@mixin gradient-x($start-color: $color-primary, $end-color: $color-primary-dark, $start-percent: 0%, $end-percent: 100%) {
+    background-image: linear-gradient(to right, $start-color $start-percent, $end-color $end-percent);
+}
+
+@mixin gradient-y($start-color: $color-primary, $end-color: $color-primary-dark, $start-percent: 0%, $end-percent: 100%) {
+    background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent);
+}
+
+// ===== TRANSITION =====
+@mixin transition($transition...) {
+    @if $enable-transitions {
+        transition: $transition;
+    }
+}
+
+// ===== TRANSFORM =====
+@mixin transform($transforms) {
+    transform: $transforms;
+}
+
+// ===== ANIMATION =====
+@mixin animation($animation) {
+    animation: $animation;
+}
+
+// ===== FLEXBOX UTILITIES =====
+@mixin flex-center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between() {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// ===== SHADOW =====
+@mixin box-shadow($shadows...) {
+    @if $enable-shadows {
+        box-shadow: $shadows;
+    }
+}
+
+// ===== BORDER RADIUS =====
+@mixin border-radius($radius: $border-radius) {
+    @if $enable-rounded {
+        border-radius: $radius;
+    }
+}
+
+@mixin border-top-left-radius($radius: $border-radius) {
+    @if $enable-rounded {
+        border-top-left-radius: $radius;
+    }
+}
+
+@mixin border-top-right-radius($radius: $border-radius) {
+    @if $enable-rounded {
+        border-top-right-radius: $radius;
+    }
+}
+
+@mixin border-bottom-left-radius($radius: $border-radius) {
+    @if $enable-rounded {
+        border-bottom-left-radius: $radius;
+    }
+}
+
+@mixin border-bottom-right-radius($radius: $border-radius) {
+    @if $enable-rounded {
+        border-bottom-right-radius: $radius;
+    }
+}
+
+// ===== RESPONSIVE FONT SIZE =====
+@mixin responsive-font-size($min-size, $max-size, $min-width: 320px, $max-width: 1200px) {
+    font-size: $min-size;
+    
+    @media (min-width: $min-width) {
+        font-size: calc(#{$min-size} + (#{$max-size} - #{$min-size}) * ((100vw - #{$min-width}) / (#{$max-width} - #{$min-width})));
+    }
+    
+    @media (min-width: $max-width) {
+        font-size: $max-size;
+    }
+}
+

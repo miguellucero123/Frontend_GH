@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    }
+}
+
+/* Glassmorphism Utilities */
+.glass {
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
+}
+
+.glass-dark {
+    @apply bg-slate-900/80 backdrop-blur-lg border border-slate-700/50 shadow-xl;
+}
+
+.card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+}
+
+/* Animaciones personalizadas */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+

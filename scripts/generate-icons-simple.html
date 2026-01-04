@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Iconos - ERP Constructora</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .info {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .upload-area {
+            border: 2px dashed #2563eb;
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+        .upload-area:hover {
+            background: #f0f4ff;
+            border-color: #1e40af;
+        }
+        .upload-area.dragover {
+            background: #e0e7ff;
+            border-color: #1e40af;
+        }
+        input[type="file"] { display: none; }
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn:hover { background: #1e40af; }
+        .btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        .preview {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .preview img {
+            max-width: 200px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+        .sizes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .size-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .size-item canvas {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            background: white;
+        }
+        .download-all {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .status {
+            text-align: center;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            display: none;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Generador de Iconos PWA</h1>
+        
+        <div class="info">
+            <strong>Instrucciones:</strong>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Sube una imagen cuadrada (recomendado: 512x512px o mayor)</li>
+                <li>Revisa las previsualizaciones de todos los tamaños</li>
+                <li>Descarga todos los iconos generados</li>
+                <li>Coloca los archivos en la carpeta <code>assets/icons/</code></li>
+            </ol>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">📁 Arrastra una imagen aquí</p>
+            <p style="color: #64748b; font-size: 0.9rem;">o haz clic para seleccionar</p>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="preview" id="preview" style="display: none;">
+            <h3 style="margin-bottom: 1rem;">Vista Previa del Icono Original</h3>
+            <img id="previewImg" alt="Preview">
+        </div>
+
+        <div id="sizesContainer" style="display: none;">
+            <h3 style="margin-bottom: 1rem;">Iconos Generados</h3>
+            <div class="sizes" id="sizes"></div>
+            
+            <div class="download-all">
+                <button class="btn" id="downloadAll">📥 Descargar Todos los Iconos (ZIP)</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+        const sizes = [16, 32, 72, 96, 128, 144, 152, 192, 384, 512];
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const previewImg = document.getElementById('previewImg');
+        const sizesContainer = document.getElementById('sizesContainer');
+        const sizesDiv = document.getElementById('sizes');
+        const downloadAllBtn = document.getElementById('downloadAll');
+        const status = document.getElementById('status');
+
+        let originalImage = null;
+        const generatedIcons = {};
+
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+            setTimeout(() => {
+                status.className = 'status';
+            }, 5000);
+        }
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFile(file);
+            } else {
+                showStatus('Por favor, selecciona una imagen válida', 'error');
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+
+        downloadAllBtn.addEventListener('click', async () => {
+            if (Object.keys(generatedIcons).length === 0) {
+                showStatus('No hay iconos para descargar', 'error');
+                return;
+            }
+
+            try {
+                const zip = new JSZip();
+                
+                for (const [size, url] of Object.entries(generatedIcons)) {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    zip.file(`icon-${size}x${size}.png`, blob);
+                }
+
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(zipBlob);
+                link.download = 'pwa-icons.zip';
+                link.click();
+                
+                showStatus('¡Iconos descargados exitosamente!', 'success');
+            } catch (error) {
+                console.error('Error al crear ZIP:', error);
+                showStatus('Error al crear el archivo ZIP', 'error');
+            }
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    originalImage = img;
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                    generateIcons();
+                    showStatus('Iconos generados correctamente', 'success');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function generateIcons() {
+            sizesDiv.innerHTML = '';
+            generatedIcons = {};
+            
+            sizes.forEach(size => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.drawImage(originalImage, 0, 0, size, size);
+                
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    generatedIcons[size] = url;
+                    
+                    const sizeItem = document.createElement('div');
+                    sizeItem.className = 'size-item';
+                    sizeItem.innerHTML = `
+                        <canvas width="${size}" height="${size}"></canvas>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">${size}x${size}</div>
+                        <a href="${url}" download="icon-${size}x${size}.png" class="btn" style="display: inline-block; text-decoration: none; margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem;">Descargar</a>
+                    `;
+                    
+                    const visualCanvas = sizeItem.querySelector('canvas');
+                    const visualCtx = visualCanvas.getContext('2d');
+                    visualCtx.drawImage(canvas, 0, 0);
+                    
+                    sizesDiv.appendChild(sizeItem);
+                }, 'image/png');
+            });
+            
+            sizesContainer.style.display = 'block';
+            downloadAllBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>
+

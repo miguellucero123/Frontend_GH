@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Login - Debug</title>
+</head>
+<body>
+    <h1>Test de Login</h1>
+    <button onclick="testLogin()">Probar Login</button>
+    <div id="result"></div>
+
+    <script>
+        // Cargar scripts necesarios
+        const scripts = [
+            'js/config.js',
+            'js/utils.js',
+            'js/auth.js',
+            'js/demo-mode.js',
+            'js/api.js'
+        ];
+
+        let loaded = 0;
+        scripts.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => {
+                loaded++;
+                if (loaded === scripts.length) {
+                    initTest();
+                }
+            };
+            script.onerror = () => {
+                console.error('Error cargando:', src);
+            };
+            document.head.appendChild(script);
+        });
+
+        function initTest() {
+            console.log('Scripts cargados');
+            console.log('CONFIG:', window.CONFIG);
+            console.log('DEMO_MODE:', window.CONFIG?.DEMO_MODE);
+            console.log('demoMode:', window.demoMode);
+            console.log('auth:', typeof auth !== 'undefined' ? auth : 'NO DEFINIDO');
+        }
+
+        async function testLogin() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Probando...';
+            
+            try {
+                if (!window.demoMode || !window.demoMode.isActive) {
+                    result.innerHTML = '❌ Modo demo no está activo';
+                    return;
+                }
+
+                const response = await window.demoMode.handleLogin('admin', 'admin123');
+                result.innerHTML = `
+                    <h2>✅ Login Exitoso</h2>
+                    <pre>${JSON.stringify(response, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `
+                    <h2>❌ Error</h2>
+                    <pre>${JSON.stringify(error, null, 2)}</pre>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
+

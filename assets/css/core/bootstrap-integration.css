@@ -1,0 +1,307 @@
+/**
+ * ============================================================================
+ * INTEGRACIÓN BOOTSTRAP 5.3.3 EMPRESARIAL
+ * ============================================================================
+ * Personalización profesional de Bootstrap para el sistema ERP
+ * ============================================================================
+ */
+
+/* ============================================================================
+   OVERRIDE DE VARIABLES BOOTSTRAP
+   ============================================================================ */
+:root {
+    /* Colores Bootstrap personalizados */
+    --bs-primary: var(--color-primary);
+    --bs-primary-rgb: 59, 130, 246;
+    --bs-secondary: var(--color-secondary);
+    --bs-success: var(--color-success);
+    --bs-warning: var(--color-warning);
+    --bs-danger: var(--color-danger);
+    --bs-info: var(--color-info);
+    --bs-dark: var(--bg-primary);
+    --bs-light: var(--bg-secondary);
+
+    /* Tipografía */
+    --bs-font-sans-serif: var(--font-family-base);
+    --bs-font-monospace: var(--font-family-mono);
+    --bs-body-font-size: var(--font-size-base);
+    --bs-body-font-weight: var(--font-weight-normal);
+    --bs-body-line-height: var(--line-height-normal);
+    --bs-body-color: var(--text-primary);
+    --bs-body-bg: var(--bg-primary);
+
+    /* Bordes */
+    --bs-border-width: 1px;
+    --bs-border-style: solid;
+    --bs-border-color: var(--border-color);
+    --bs-border-radius: var(--border-radius);
+    --bs-border-radius-sm: var(--border-radius-sm);
+    --bs-border-radius-lg: var(--border-radius-lg);
+
+    /* Sombras */
+    --bs-box-shadow: var(--shadow);
+    --bs-box-shadow-sm: var(--shadow-sm);
+    --bs-box-shadow-lg: var(--shadow-lg);
+
+    /* Transiciones */
+    --bs-transition-base: var(--transition-base);
+    --bs-transition-fade: opacity 0.15s linear;
+    --bs-transition-collapse: height 0.35s ease;
+}
+
+/* ============================================================================
+   COMPONENTES BOOTSTRAP PERSONALIZADOS
+   ============================================================================ */
+
+/* Botones */
+.btn {
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--border-radius);
+    transition: var(--transition-all);
+    padding: 0.625rem 1.25rem;
+    font-size: var(--font-size-sm);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border: none;
+    box-shadow: var(--shadow-colored);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Cards */
+.card {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    backdrop-filter: blur(10px);
+    transition: var(--transition-all);
+}
+
+.card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+.card-header {
+    background: var(--bg-glass-dark);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Modals */
+.modal-content {
+    background: var(--bg-glass-dark);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-xl);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-lg);
+}
+
+.modal-body {
+    padding: var(--spacing-lg);
+    color: var(--text-primary);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-lg);
+}
+
+/* Forms */
+.form-control {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    padding: 0.625rem 1rem;
+    transition: var(--transition-all);
+}
+
+.form-control:focus {
+    background: var(--bg-tertiary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+    color: var(--text-primary);
+}
+
+.form-label {
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Navbar */
+.navbar {
+    background: var(--bg-glass-dark);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    transition: var(--transition-base);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-primary);
+    background: var(--bg-glass);
+}
+
+/* Badges */
+.badge {
+    padding: 0.375rem 0.75rem;
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+}
+
+/* Alerts */
+.alert {
+    border-radius: var(--border-radius);
+    border: 1px solid;
+    padding: var(--spacing-md);
+    backdrop-filter: blur(10px);
+}
+
+.alert-primary {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--color-primary);
+    color: var(--color-primary-light);
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: var(--color-warning);
+    color: var(--color-warning);
+}
+
+.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+/* Tables */
+.table {
+    color: var(--text-primary);
+    background: transparent;
+}
+
+.table thead th {
+    background: var(--bg-glass);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.05em;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid var(--border-color-light);
+    transition: var(--transition-base);
+}
+
+.table tbody tr:hover {
+    background: var(--bg-glass);
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background: var(--bg-glass-dark);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-sm);
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+    border-radius: var(--border-radius-sm);
+    padding: 0.5rem 1rem;
+    transition: var(--transition-base);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-glass);
+    color: var(--color-primary);
+}
+
+/* Progress */
+.progress {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    height: 0.75rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+    transition: width var(--transition-slow);
+}
+
+/* Tooltips */
+.tooltip {
+    --bs-tooltip-bg: var(--bg-glass-dark);
+    --bs-tooltip-color: var(--text-primary);
+}
+
+.tooltip-inner {
+    background: var(--bg-glass-dark);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.75rem;
+    font-size: var(--font-size-sm);
+}
+
+/* Spinners */
+.spinner-border {
+    border-color: var(--color-primary);
+    border-right-color: transparent;
+}
+
+.spinner-grow {
+    background-color: var(--color-primary);
+}
+
+/* Utilities personalizadas */
+.glass-effect {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    min-height: 100vh;
+}
+

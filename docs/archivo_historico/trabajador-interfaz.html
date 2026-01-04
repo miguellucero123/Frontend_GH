@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Trabajador</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Portal Trabajador</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="dashboard-gerencia.html">Dashboard</a></li>
+                <li><a href="mensajeria.html">Mensajería</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="tareas-diarias">
+            <h2>Tareas Diarias</h2>
+            <ul>
+                <li>Tarea 1: Completar cimentación</li>
+                <li>Tarea 2: Revisar planos eléctricos</li>
+                <li>Tarea 3: Inspeccionar materiales recibidos</li>
+            </ul>
+        </section>
+        <section class="biblioteca-recursos">
+            <h2>Biblioteca de Recursos</h2>
+            <div class="recursos">
+                <div class="recurso">
+                    <h3>Procedimientos Constructivos</h3>
+                    <p>Guías y manuales para tareas específicas.</p>
+                </div>
+                <div class="recurso">
+                    <h3>Seguridad en Obra</h3>
+                    <p>Normas y recomendaciones para un trabajo seguro.</p>
+                </div>
+            </div>
+        </section>
+        <section class="reporte-avance">
+            <h2>Reporte de Avance</h2>
+            <form>
+                <label>Tarea completada:</label>
+                <select>
+                    <option value="tarea1">Tarea 1</option>
+                    <option value="tarea2">Tarea 2</option>
+                </select>
+                <label>Estado:</label>
+                <div>
+                    <input type="radio" name="estado" value="completada"> Completada<br>
+                    <input type="radio" name="estado" value="parcial"> Parcial<br>
+                    <input type="radio" name="estado" value="incompleta"> Incompleta<br>
+                </div>
+                <label>Observaciones:</label>
+                <textarea></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 G&H Construcciones SPA</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Documental</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Gestión Documental</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="dashboard-gerencia.html">Dashboard</a></li>
+                <li><a href="mensajeria.html">Mensajería</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="estructura-carpetas">
+            <h2>Estructura de Carpetas</h2>
+            <ul>
+                <li>Gerencia
+                    <ul>
+                        <li>Cliente-Gerencia</li>
+                        <li>Gerencia-Trabajadores</li>
+                        <li>Administración</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <section class="permisos">
+            <h2>Permisos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Carpeta</th>
+                        <th>Gerencia</th>
+                        <th>Cliente</th>
+                        <th>Trabajador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cliente-Gerencia</td>
+                        <td>Leer, Escribir, Eliminar</td>
+                        <td>Leer, Escribir</td>
+                        <td>Sin acceso</td>
+                    </tr>
+                    <tr>
+                        <td>Gerencia-Trabajadores</td>
+                        <td>Leer, Escribir, Eliminar</td>
+                        <td>Sin acceso</td>
+                        <td>Leer, Comentar</td>
+                    </tr>
+                    <tr>
+                        <td>Administración</td>
+                        <td>Leer, Escribir, Eliminar</td>
+                        <td>Sin acceso</td>
+                        <td>Sin acceso</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 G&H Construcciones SPA</p>
+    </footer>
+</body>
+</html>

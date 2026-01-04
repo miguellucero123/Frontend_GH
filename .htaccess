@@ -1,0 +1,100 @@
+# Configuración Apache para PWA
+# Colocar en la raíz del servidor web
+
+# Habilitar compresión
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache de archivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Imágenes
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS y JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # HTML
+    ExpiresByType text/html "access plus 0 seconds"
+    
+    # Manifest y Service Worker (no cachear)
+    ExpiresByType application/manifest+json "access plus 0 seconds"
+    ExpiresByType text/cache-manifest "access plus 0 seconds"
+</IfModule>
+
+# Headers de seguridad
+<IfModule mod_headers.c>
+    # HSTS (HTTP Strict Transport Security)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    
+    # X-Content-Type-Options
+    Header set X-Content-Type-Options "nosniff"
+    
+    # X-Frame-Options
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # X-XSS-Protection
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permisos de la PWA
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+    # Content Security Policy (CSP)
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
+
+    # Agregar protección contra CSRF
+    Header set X-CSRF-Token "1"
+</IfModule>
+
+# Service Worker - No cachear
+<FilesMatch "sw\.js$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</FilesMatch>
+
+# Manifest - Cache corto
+<FilesMatch "manifest\.json$">
+    Header set Cache-Control "public, max-age=3600"
+</FilesMatch>
+
+# Digital Asset Links para TWA
+<FilesMatch "^\.well-known/assetlinks\.json$">
+    Header set Content-Type "application/json"
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+# Redirección HTTPS (descomentar en producción)
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# Prevenir acceso a archivos sensibles
+<FilesMatch "\.(env|log|md|git|json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Habilitar CORS para API (ajustar según necesidad)
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+# Manejo de errores personalizados
+ErrorDocument 404 /index.html
+ErrorDocument 500 /index.html
+

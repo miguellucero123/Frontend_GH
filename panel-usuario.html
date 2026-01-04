@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Panel de usuario - ERP Constructora">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ERP Constructora">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192x192.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    
+    <title>Panel de Usuario - ERP Constructora</title>
+    <!-- CSS Base y Variables -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- CSS Principal (Arquitectura 7-1) -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- CSS Específico del Panel de Usuario -->
+    <link rel="stylesheet" href="css/panel-usuario.css">
+    <!-- CSS PWA y Mobile (complementarios) -->
+    <link rel="stylesheet" href="css/pwa.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <!-- CSS Sistema de Archivos - FASE 2 -->
+    <link rel="stylesheet" href="css/file-system-manager.css">
+    <!-- CSS Canales de Comunicación - FASE 3 -->
+    <link rel="stylesheet" href="css/chat-channels.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="panel-page">
+    <!-- Header -->
+    <header class="panel-header">
+        <div class="header-left">
+            <img src="assets/logo.jpg" alt="Logo" class="logo-small">
+            <h1 class="project-title" id="projectTitle">Proyecto Asignado</h1>
+        </div>
+        <div class="header-right">
+            <div class="user-menu">
+                <span class="user-name" id="userName">Usuario</span>
+                <button class="btn-icon" id="btnLogout" title="Cerrar Sesión">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="panel-container">
+        <!-- Sidebar - Metadatos del Proyecto -->
+        <aside class="sidebar-metadata">
+            <div class="metadata-card">
+                <h2 class="metadata-title">Información del Proyecto</h2>
+                <div class="metadata-content">
+                    <div class="metadata-item">
+                        <i class="fas fa-building"></i>
+                        <div class="metadata-info">
+                            <label>Mandante</label>
+                            <span id="metadataMandante">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metadata-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="metadata-info">
+                            <label>Dirección</label>
+                            <span id="metadataDireccion">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metadata-item">
+                        <i class="fas fa-city"></i>
+                        <div class="metadata-info">
+                            <label>Ciudad</label>
+                            <span id="metadataCiudad">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metadata-item">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="metadata-info">
+                            <label>Descripción</label>
+                            <span id="metadataDescripcion">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metadata-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div class="metadata-info">
+                            <label>Inicio</label>
+                            <span id="metadataFechaInicio">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metadata-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <div class="metadata-info">
+                            <label>Fin Estimado</label>
+                            <span id="metadataFechaFin">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Área Principal - Gestor Documental -->
+        <main class="main-content">
+            <div class="content-header">
+                <h2 class="content-title">
+                    <i class="fas fa-folder-open"></i>
+                    Documentos del Proyecto
+                </h2>
+                <div class="view-controls">
+                    <button class="btn-view active" id="btnGridView" title="Vista de Grilla">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="btn-view" id="btnListView" title="Vista de Lista">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" id="breadcrumb">
+                <a href="#" class="breadcrumb-item" data-folder-id="0">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </nav>
+            
+            <!-- Vista de Archivos -->
+            <div class="files-container" id="filesContainer">
+                <div class="files-grid" id="filesGrid">
+                    <!-- Los archivos y carpetas se cargarán dinámicamente aquí -->
+                </div>
+                
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="fas fa-folder-open"></i>
+                    <p>No hay documentos disponibles</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Widget de Chat - FASE 3: Canal Separado -->
+        <aside class="chat-widget" id="chatWidget">
+            <div id="chatChannelsContainer">
+                <!-- Sistema de canales se renderizará aquí según el rol -->
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Modal de Vista Previa de Archivo -->
+    <div class="modal" id="filePreviewModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="previewFileName">Vista Previa</h3>
+                <button class="btn-icon btn-close" id="btnClosePreview">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="previewContent">
+                <!-- Contenido de vista previa -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts Base -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/breadcrumbs.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/retry-manager.js"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/connection-manager.js"></script>
+    <script src="js/rate-limiter.js"></script>
+    <script src="js/state-manager.js"></script>
+    <script src="js/form-validator.js"></script>
+    
+    <!-- Scripts de Utilidades -->
+    <script src="js/pwa.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/keyboard-shortcuts.js"></script>
+    
+    <!-- Scripts de Autenticación y API -->
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/file-manager.js"></script>
+    
+    <!-- Mejoras: Gestión de Estado, Navegación y Notificaciones -->
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/notification-manager.js"></script>
+    <script src="js/state-sync.js"></script>
+    
+    <!-- FASE 1: Modelo de Datos -->
+    <script src="js/project-data-model.js"></script>
+    
+    <!-- FASE 2: Sistema de Archivos con Carpetas Separadas -->
+    <script src="js/file-system-manager.js"></script>
+    
+    <!-- FASE 3: Canales de Comunicación Separados -->
+    <script src="js/chat-channels-manager.js"></script>
+    <script src="js/chat.js"></script>
+    
+    <!-- Script Principal del Panel -->
+    <!-- Router y Navegación -->
+    <script src="js/core/router.js"></script>
+    <script src="js/core/phase-manager.js"></script>
+    <script src="js/core/navigation.js"></script>
+    
+    <script src="js/panel-usuario.js"></script>
+</body>
+</html>
+

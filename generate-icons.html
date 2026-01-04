@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generador de Iconos</title>
+</head>
+<body>
+    <h1>Generando iconos...</h1>
+    <script>
+        // Crear un canvas y generar iconos
+        function createIcon(size, filename) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Fondo azul
+            ctx.fillStyle = '#2563eb';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Texto "G&H"
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${Math.round(size * 0.5)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('G&H', size / 2, size / 2);
+            
+            // Convertir a blob y descargar
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                console.log(`Descargado: ${filename}`);
+            });
+        }
+        
+        // Crear iconos de diferentes tamaños
+        setTimeout(() => {
+            createIcon(32, 'icon-32x32.png');
+            setTimeout(() => createIcon(144, 'icon-144x144.png'), 500);
+            setTimeout(() => createIcon(152, 'icon-152x152.png'), 1000);
+            setTimeout(() => createIcon(192, 'icon-192x192.png'), 1500);
+        }, 500);
+    </script>
+</body>
+</html>

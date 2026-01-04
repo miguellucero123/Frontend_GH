@@ -1,0 +1,378 @@
+/* ============================================
+   OPTIMIZACIONES ESPECÍFICAS PARA MÓVILES
+   ============================================ */
+
+/* Mejoras generales para pantallas pequeñas */
+@media (max-width: 768px) {
+    /* Aumentar tamaño de fuente para legibilidad */
+    body {
+        font-size: 16px; /* Previene zoom automático en iOS */
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* Mejorar área táctil */
+    button,
+    .btn,
+    a,
+    input[type="button"],
+    input[type="submit"] {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 16px;
+    }
+
+    /* Mejorar inputs para móvil */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select {
+        font-size: 16px; /* Previene zoom en iOS */
+        padding: 12px 16px;
+    }
+
+    /* Mejorar scroll en móviles */
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Ocultar scrollbar en móviles (opcional) */
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+}
+
+/* Optimizaciones para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    /* Ajustar espaciado */
+    :root {
+        --spacing-md: 0.75rem;
+        --spacing-lg: 1rem;
+        --spacing-xl: 1.25rem;
+    }
+
+    /* Mejorar contenedores */
+    .container,
+    .panel-container,
+    .admin-container {
+        padding: 0.75rem;
+    }
+
+    /* Ajustar modales */
+    .modal-content {
+        margin: 0.5rem;
+        max-height: 95vh;
+        border-radius: var(--border-radius-lg);
+    }
+
+    /* Mejorar formularios */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    /* Ajustar tablas */
+    .data-table {
+        font-size: var(--font-size-sm);
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table thead {
+        display: none;
+    }
+
+    .data-table tbody,
+    .data-table tr,
+    .data-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .data-table tr {
+        margin-bottom: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-sm);
+    }
+
+    .data-table td {
+        text-align: right;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: var(--spacing-sm);
+        font-weight: 600;
+        text-align: left;
+    }
+}
+
+/* Optimizaciones para orientación landscape en móviles */
+@media (max-width: 768px) and (orientation: landscape) {
+    .panel-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .panel-header h1 {
+        font-size: var(--font-size-lg);
+    }
+
+    .sidebar-metadata {
+        display: none; /* Ocultar sidebar en landscape */
+    }
+
+    .main-content {
+        width: 100%;
+    }
+}
+
+/* Mejoras de rendimiento para móviles */
+@media (max-width: 768px) {
+    /* Acelerar animaciones con GPU */
+    .btn,
+    .btn-icon,
+    .file-item,
+    .folder-item,
+    .modal-content {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+
+    /* Reducir sombras para mejor rendimiento */
+    .card,
+    .modal-content {
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Optimizar imágenes */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Mejoras de accesibilidad táctil */
+@media (hover: none) and (pointer: coarse) {
+    /* Feedback visual mejorado */
+    .btn:active,
+    .btn-icon:active,
+    .file-item:active,
+    .folder-item:active {
+        opacity: 0.7;
+        transform: scale(0.98);
+    }
+
+    /* Mejorar área de toque */
+    .nav-item,
+    .breadcrumb-item {
+        padding: var(--spacing-md);
+        margin: var(--spacing-xs) 0;
+    }
+
+    /* Mejorar inputs de formulario */
+    .form-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    label {
+        margin-bottom: var(--spacing-sm);
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Ajustes específicos para iOS */
+@supports (-webkit-touch-callout: none) {
+    /* iOS Safari específico */
+    input,
+    textarea,
+    select {
+        font-size: 16px; /* Previene zoom automático */
+        border-radius: 0; /* Mejora rendimiento */
+    }
+
+    /* Mejorar scroll en iOS */
+    .chat-messages,
+    .files-panel-content,
+    .main-content {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Ajustes para Android */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    /* Mejorar renderizado en Android */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Mejorar navegación en móviles */
+@media (max-width: 768px) {
+    /* Sidebar móvil */
+    .admin-sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        z-index: var(--z-modal);
+        transition: left var(--transition-base);
+        overflow-y: auto;
+    }
+
+    .admin-sidebar.open {
+        left: 0;
+    }
+
+    /* Overlay para sidebar */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-overlay);
+        z-index: calc(var(--z-modal) - 1);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    /* Botón de menú móvil */
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        cursor: pointer;
+        margin-right: var(--spacing-md);
+    }
+}
+
+/* Mejorar chat en móviles */
+@media (max-width: 768px) {
+    .chat-widget {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60vh;
+        max-height: 600px;
+        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        z-index: var(--z-fixed);
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-widget.minimized {
+        height: 60px;
+    }
+
+    .chat-messages {
+        max-height: calc(60vh - 120px);
+    }
+}
+
+/* Mejorar gestor de archivos en móviles */
+@media (max-width: 768px) {
+    .files-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+
+    .file-item,
+    .folder-item {
+        padding: var(--spacing-md);
+    }
+
+    .file-icon,
+    .folder-icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* Optimizar modales en móviles */
+@media (max-width: 480px) {
+    .modal {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        margin: 0;
+    }
+
+    .modal-header {
+        position: sticky;
+        top: 0;
+        background: var(--bg-primary);
+        z-index: 1;
+    }
+}
+
+/* Mejorar estadísticas en móviles */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+
+    .stat-card {
+        padding: var(--spacing-md);
+    }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* Mejorar proyectos en móviles */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-card {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Ajustes de safe area para dispositivos con notch */
+@supports (padding: max(0px)) {
+    @media (max-width: 768px) {
+        .panel-header {
+            padding-top: max(1rem, env(safe-area-inset-top));
+        }
+
+        .chat-input-container {
+            padding-bottom: max(1rem, env(safe-area-inset-bottom));
+        }
+
+        .btn-install-pwa {
+            bottom: max(20px, env(safe-area-inset-bottom) + 10px);
+        }
+    }
+}
+

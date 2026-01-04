@@ -1,0 +1,64 @@
+/**
+ * ============================================
+ * ARQUITECTURA CSS 7-1
+ * ============================================
+ * 
+ * Estructura:
+ * 1. abstracts/    - Variables, funciones, mixins
+ * 2. base/          - Reset, tipografía, elementos base
+ * 3. components/    - Componentes reutilizables
+ * 4. layout/        - Header, footer, grid, sidebar
+ * 5. pages/         - Estilos específicos de páginas
+ * 6. themes/        - Temas (light, dark)
+ * 7. vendors/       - Librerías externas
+ * 
+ * main.scss - Archivo principal que importa todo
+ */
+
+// 1. Abstracts
+@import 'abstracts/variables';
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+
+// 2. Base
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/base';
+
+// 3. Components
+@import 'components/buttons';
+@import 'components/forms';
+@import 'components/cards';
+@import 'components/modals';
+@import 'components/tables';
+@import 'components/badges';
+@import 'components/alerts';
+@import 'components/loading';
+@import 'components/dropdown';
+@import 'components/tooltips';
+@import 'components/connection-status';
+@import 'components/professional-enhancements';
+@import 'components/animations';
+
+// 4. Layout
+@import 'layout/grid';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/sidebar';
+@import 'layout/container';
+
+// 5. Pages
+@import 'pages/login';
+@import 'pages/panel-usuario';
+@import 'pages/panel-jefe';
+
+// 6. Themes
+@import 'themes/default';
+@import 'themes/dark';
+
+// 7. Vendors
+@import 'vendors/fontawesome';
+
+// Utilidades (al final para poder sobrescribir)
+@import 'abstracts/utilities';
+

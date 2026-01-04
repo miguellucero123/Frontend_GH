@@ -1,0 +1,5 @@
+--- DEBUG IMPORT START ---
+Python path: ['C:\\Users\\Alicia_Piero\\Documents\\Repo_AIEP\\ERP_Costructora\\frontend\\backend', 'D:\\Miguel\\Anaconda_AIEP\\python312.zip', 'D:\\Miguel\\Anaconda_AIEP\\DLLs', 'D:\\Miguel\\Anaconda_AIEP\\Lib', 'D:\\Miguel\\Anaconda_AIEP', 'C:\\Users\\Alicia_Piero\\AppData\\Roaming\\Python\\Python312\\site-packages', 'D:\\Miguel\\Anaconda_AIEP\\Lib\\site-packages', 'D:\\Miguel\\Anaconda_AIEP\\Lib\\site-packages\\win32', 'D:\\Miguel\\Anaconda_AIEP\\Lib\\site-packages\\win32\\lib', 'D:\\Miguel\\Anaconda_AIEP\\Lib\\site-packages\\Pythonwin']
+Importing main...
+Main imported OK
+--- DEBUG IMPORT END ---

@@ -1,0 +1,367 @@
+/**
+ * ============================================================
+ * ESTILOS SISTEMA DE ARCHIVOS - FASE 2
+ * ============================================================
+ * Estilos para la gestión documental con carpetas separadas
+ */
+
+/* ========== ESTRUCTURA DE CARPETAS ========== */
+.folders-structure {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.folder-card {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.folder-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+}
+
+.folder-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.folder-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid;
+    flex-shrink: 0;
+}
+
+.folder-icon-wrapper i {
+    font-size: 1.5rem;
+}
+
+.folder-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.folder-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+}
+
+.folder-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.folder-card-body {
+    padding: 1rem 1.5rem;
+}
+
+.folder-stats {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.stat-item i {
+    color: #9ca3af;
+}
+
+.folder-card-footer {
+    padding: 1rem 1.5rem;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-open-folder {
+    width: 100%;
+    justify-content: center;
+}
+
+/* ========== CONTENIDO DE CARPETA ========== */
+.files-container {
+    padding: 1.5rem;
+}
+
+.files-actions-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-folder {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    font-size: 0.875rem;
+}
+
+.breadcrumb-item {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.breadcrumb-item:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.breadcrumb-separator {
+    color: #9ca3af;
+}
+
+.breadcrumb-current {
+    color: #111827;
+    font-weight: 600;
+}
+
+/* ========== GRID DE ARCHIVOS ========== */
+.files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.file-item {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+
+.file-item:hover {
+    border-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.file-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid;
+    margin-bottom: 0.75rem;
+}
+
+.file-icon-wrapper i {
+    font-size: 2rem;
+}
+
+.file-info {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.file-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+    line-height: 1.3;
+}
+
+.file-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.file-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.file-item:hover .file-actions {
+    opacity: 1;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #6b7280;
+}
+
+.btn-icon:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-icon.danger:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* ========== SUBCARPETAS ========== */
+.subfolders-container {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #e5e7eb;
+}
+
+.subfolders-container h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.subfolder-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.subfolder-item:hover {
+    background: #f3f4f6;
+    transform: translateX(4px);
+}
+
+.subfolder-item .folder-icon {
+    color: #f59e0b;
+    font-size: 1.25rem;
+}
+
+.subfolder-name {
+    font-weight: 500;
+    color: #374151;
+}
+
+/* ========== ESTADO VACÍO ========== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #9ca3af;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ========== INDICADORES DE PERMISOS ========== */
+.folder-card[data-folder-type="mandante"] {
+    border-left: 4px solid #8b5cf6;
+}
+
+.folder-card[data-folder-type="obra"] {
+    border-left: 4px solid #f59e0b;
+}
+
+.folder-card[data-folder-type="gerencia"] {
+    border-left: 4px solid #2563eb;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .folders-structure {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .files-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .files-actions-bar {
+        flex-direction: column;
+    }
+
+    .files-actions-bar .btn {
+        width: 100%;
+    }
+}
+
+/* ========== ANIMACIONES ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.folder-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.file-item {
+    animation: fadeIn 0.2s ease-out;
+}
+

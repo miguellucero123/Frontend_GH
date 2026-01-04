@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Sistema ERP para gestión de proyectos de construcción - G y H Construcciones SPA" />
+  <meta name="author" content="G y H Construcciones SPA" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ERP G y H Construcciones" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/logo.jpg" />
+  <title>ERP G y H Construcciones SPA - Gestión de Proyectos</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

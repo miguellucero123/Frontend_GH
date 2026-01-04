@@ -1,0 +1,482 @@
+/* ============================================
+   ESTILOS PARA PANEL DE USUARIO (Trabajador/Cliente)
+   ============================================ */
+
+.panel-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.panel-header {
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    box-shadow: var(--shadow-sm);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.logo-small {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.project-title {
+    font-size: var(--font-size-xl);
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.user-name {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* Container Principal */
+.panel-container {
+    display: grid;
+    grid-template-columns: 300px 1fr 350px;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar de Metadatos */
+.sidebar-metadata {
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+}
+
+.metadata-card {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-lg);
+}
+
+.metadata-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.metadata-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.metadata-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.metadata-item i {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary);
+    margin-top: var(--spacing-xs);
+    min-width: 24px;
+}
+
+.metadata-info {
+    flex: 1;
+}
+
+.metadata-info label {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.metadata-info span {
+    display: block;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    word-break: break-word;
+}
+
+/* Área Principal - Gestor Documental */
+.main-content {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content-title {
+    font-size: var(--font-size-xl);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.view-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+    background-color: var(--bg-tertiary);
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius);
+}
+
+.btn-view {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-view:hover {
+    background-color: var(--bg-primary);
+    color: var(--color-primary);
+}
+
+.btn-view.active {
+    background-color: var(--bg-primary);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.breadcrumb-item:hover {
+    background-color: var(--bg-tertiary);
+    color: var(--color-primary);
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--spacing-sm);
+    color: var(--text-tertiary);
+}
+
+/* Vista de Archivos */
+.files-container {
+    min-height: 400px;
+}
+
+.files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.file-item,
+.folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-align: center;
+}
+
+.file-item:hover,
+.folder-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.file-icon,
+.folder-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-primary);
+}
+
+.file-name,
+.folder-name {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    word-break: break-word;
+    font-weight: 500;
+}
+
+.file-size {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    margin-top: var(--spacing-xs);
+}
+
+/* Vista de Lista */
+.files-grid.list-view {
+    grid-template-columns: 1fr;
+}
+
+.files-grid.list-view .file-item,
+.files-grid.list-view .folder-item {
+    flex-direction: row;
+    text-align: left;
+    padding: var(--spacing-md);
+}
+
+.files-grid.list-view .file-icon,
+.files-grid.list-view .folder-icon {
+    font-size: 2rem;
+    margin-bottom: 0;
+    margin-right: var(--spacing-md);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-tertiary);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+/* Widget de Chat */
+.chat-widget {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+    overflow: hidden;
+}
+
+.chat-widget.minimized {
+    height: auto;
+}
+
+.chat-widget.minimized .chat-messages,
+.chat-widget.minimized .chat-input-container {
+    display: none;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+}
+
+.chat-header h3 {
+    margin: 0;
+    font-size: var(--font-size-base);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    background-color: var(--bg-secondary);
+}
+
+.message-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-bubble {
+    max-width: 80%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    word-wrap: break-word;
+}
+
+.message-sent {
+    align-self: flex-end;
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+
+.message-received {
+    align-self: flex-start;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: var(--border-radius-sm);
+}
+
+.message-time {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    margin-top: var(--spacing-xs);
+    opacity: 0.7;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+}
+
+.chat-input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-sm);
+}
+
+.chat-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-danger);
+    color: var(--text-inverse);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .panel-container {
+        grid-template-columns: 250px 1fr 300px;
+    }
+}
+
+@media (max-width: 968px) {
+    .panel-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+    
+    .sidebar-metadata {
+        height: auto;
+        position: static;
+    }
+    
+    .main-content {
+        height: auto;
+        min-height: 400px;
+    }
+    
+    .chat-widget {
+        height: 400px;
+        position: static;
+        order: 3;
+    }
+    
+    .metadata-card {
+        margin-bottom: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 768px) {
+    .panel-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .project-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .files-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: var(--spacing-md);
+    }
+    
+    .chat-widget {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 50vh;
+        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        z-index: var(--z-fixed);
+    }
+}
+

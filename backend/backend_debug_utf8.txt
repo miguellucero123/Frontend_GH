@@ -1,0 +1,17 @@
+﻿python : INFO:     Started server process 
+[22900]
+En línea: 1 Carácter: 1
++ python run_server.py > backend_debug.txt 
+2>&1
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( 
+   INFO:     Started server process [22900]:  
+  String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandEr 
+   ror
+ 
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on 
+http://0.0.0.0:8001 (Press CTRL+C to quit)

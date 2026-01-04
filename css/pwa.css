@@ -1,0 +1,177 @@
+/* ============================================
+   ESTILOS PARA PROGRESSIVE WEB APP
+   ============================================ */
+
+/* Botón de Instalación */
+.btn-install-pwa {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--text-inverse);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    z-index: var(--z-fixed);
+    transition: all var(--transition-base);
+    animation: slideInUp 0.3s ease-out;
+}
+
+.btn-install-pwa:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-install-pwa:active {
+    transform: translateY(0);
+}
+
+.btn-install-pwa i {
+    font-size: var(--font-size-lg);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Notificación de Actualización */
+.update-notification {
+    animation: slideInUp 0.3s ease-out;
+}
+
+.update-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.update-content i {
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Ajustes para modo standalone (app instalada) */
+@media (display-mode: standalone) {
+    body {
+        /* Ajustes específicos para cuando está instalada */
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Ocultar barra de dirección en algunos navegadores */
+    .panel-header {
+        padding-top: env(safe-area-inset-top);
+    }
+}
+
+/* Safe Area para dispositivos con notch */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+    }
+    
+    .panel-header {
+        padding-top: max(1rem, env(safe-area-inset-top));
+    }
+}
+
+/* Mejoras para touch en móviles */
+@media (hover: none) and (pointer: coarse) {
+    /* Aumentar área táctil en móviles */
+    .btn,
+    .btn-icon,
+    .file-item,
+    .folder-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Mejorar feedback táctil */
+    .btn:active,
+    .btn-icon:active {
+        opacity: 0.7;
+        transform: scale(0.98);
+    }
+}
+
+/* Optimizaciones para pantallas pequeñas */
+@media (max-width: 480px) {
+    .btn-install-pwa {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        justify-content: center;
+    }
+}
+
+/* Splash Screen (cuando se abre la app) */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeOut 0.5s ease-out 2s forwards;
+}
+
+.splash-screen img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: var(--spacing-lg);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.splash-screen h1 {
+    color: white;
+    font-size: var(--font-size-2xl);
+    margin: 0;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Ocultar splash después de cargar */
+body.loaded .splash-screen {
+    display: none;
+}
+

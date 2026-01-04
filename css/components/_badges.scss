@@ -1,0 +1,61 @@
+/**
+ * ============================================
+ * BADGES
+ * Componente de badges profesional
+ * ============================================
+ */
+
+.badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    @include border-radius($border-radius-pill);
+    
+    &:empty {
+        display: none;
+    }
+}
+
+// ===== BADGE VARIANTS =====
+.badge-primary {
+    color: $text-inverse;
+    background-color: $color-primary;
+}
+
+.badge-secondary {
+    color: $text-inverse;
+    background-color: $color-secondary;
+}
+
+.badge-success {
+    color: $text-inverse;
+    background-color: $color-success;
+}
+
+.badge-danger {
+    color: $text-inverse;
+    background-color: $color-danger;
+}
+
+.badge-warning {
+    color: $text-primary;
+    background-color: $color-warning;
+}
+
+.badge-info {
+    color: $text-inverse;
+    background-color: $color-info;
+}
+
+// ===== BADGE PILL =====
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    @include border-radius($border-radius-pill);
+}
+

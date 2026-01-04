@@ -1,0 +1,402 @@
+/**
+ * ============================================================
+ * ESTILOS CANALES DE COMUNICACIÓN - FASE 3
+ * ============================================================
+ * Estilos para el sistema de chat con canales separados
+ */
+
+/* ========== CONTENEDOR DE CANALES ========== */
+.chat-channel-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-management-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== PESTAÑAS DE CANALES (GERENCIA) ========== */
+.chat-tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e5e7eb;
+    padding: 0.5rem;
+    gap: 0.5rem;
+}
+
+.chat-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    color: #6b7280;
+    position: relative;
+}
+
+.chat-tab:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.chat-tab.active {
+    background: white;
+    color: #2563eb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chat-tab.active[data-channel="cliente-gerencia"] {
+    border-left: 4px solid #8b5cf6;
+}
+
+.chat-tab.active[data-channel="trabajador-gerencia"] {
+    border-left: 4px solid #f59e0b;
+}
+
+.chat-tab i {
+    font-size: 1.125rem;
+}
+
+.tab-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 0.375rem;
+    background: #dc2626;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 0.25rem;
+}
+
+.tab-badge:not(:empty) {
+    display: inline-flex;
+}
+
+/* ========== PANEL DE CANAL (GERENCIA) ========== */
+.chat-channel-panel {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+
+.chat-channel-panel.active {
+    display: flex;
+}
+
+/* ========== HEADER DE CHAT ========== */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.chat-header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.chat-channel-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+
+.chat-header-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.chat-subtitle {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.btn-minimize-chat {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-minimize-chat:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+/* ========== ÁREA DE MENSAJES ========== */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.chat-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: #9ca3af;
+    gap: 0.5rem;
+}
+
+.chat-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: #9ca3af;
+    text-align: center;
+}
+
+.chat-empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.chat-empty-state p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* ========== MENSAJES ========== */
+.message-item {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    word-wrap: break-word;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.message-sent {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.message-received {
+    background: white;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+.message-sender {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+}
+
+.message-sent .message-sender {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.message-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.message-time {
+    font-size: 0.625rem;
+    opacity: 0.7;
+    align-self: flex-end;
+}
+
+.message-read {
+    font-size: 0.625rem;
+    opacity: 0.8;
+    margin-left: 0.25rem;
+}
+
+/* ========== INPUT DE CHAT ========== */
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-top: 2px solid #e5e7eb;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 24px;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.chat-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-send {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-send:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: scale(1.05);
+}
+
+.btn-send:active {
+    transform: scale(0.95);
+}
+
+/* ========== BADGE DE NOTIFICACIONES ========== */
+.chat-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 0.375rem;
+    background: #dc2626;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    z-index: 10;
+}
+
+/* ========== INDICADORES DE CANAL ========== */
+.chat-channel-container[data-channel="cliente-gerencia"] .chat-header {
+    border-left: 4px solid #8b5cf6;
+}
+
+.chat-channel-container[data-channel="trabajador-gerencia"] .chat-header {
+    border-left: 4px solid #f59e0b;
+}
+
+.chat-channel-panel[data-channel="cliente-gerencia"] .chat-header {
+    border-left: 4px solid #8b5cf6;
+}
+
+.chat-channel-panel[data-channel="trabajador-gerencia"] .chat-header {
+    border-left: 4px solid #f59e0b;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .chat-tabs {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .chat-tab {
+        width: 100%;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+    }
+}
+
+/* ========== ANIMACIONES ========== */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-item {
+    animation: slideIn 0.3s ease-out;
+}
+
+.chat-channel-panel.active {
+    animation: slideIn 0.2s ease-out;
+}
+
+/* ========== ESTADO MINIMIZADO ========== */
+.chat-widget.minimized .chat-messages,
+.chat-widget.minimized .chat-input-container {
+    display: none;
+}
+
+.chat-widget.minimized {
+    height: auto;
+}
+

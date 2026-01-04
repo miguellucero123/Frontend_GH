@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - ERP Constructora G&H</title>
+    <!-- Asset Manager - Sistema Empresarial -->
+    <script src="assets/config/asset-manager.js"></script>
+    <script src="assets/js/core/app.js"></script>
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/excel-upload.css">
+    <link rel="stylesheet" href="css/chat-channels.css">
+    <link rel="stylesheet" href="css/file-system-manager.css">
+</head>
+
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <span class="text-xl font-bold text-white">G&H</span>
+                </div>
+                <div class="hidden sm:block">
+                    <h1 class="text-xl font-bold text-white">ERP Constructora</h1>
+                </div>
+            </div>
+
+            <nav class="flex items-center gap-2" role="navigation" aria-label="Navegación principal">
+                <button data-section="dashboard"
+                    class="nav-item active px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5">
+                    <i class="fas fa-th-large mr-2"></i><span class="hidden md:inline">Dashboard</span>
+                </button>
+                <button data-section="proyectos"
+                    class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5">
+                    <i class="fas fa-project-diagram mr-2"></i><span class="hidden md:inline">Proyectos</span>
+                </button>
+                <button data-section="usuarios"
+                    class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5">
+                    <i class="fas fa-users mr-2"></i><span class="hidden md:inline">Usuarios</span>
+                </button>
+                <button data-section="mensajeria"
+                    class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5">
+                    <i class="fas fa-comment-alt mr-2"></i><span class="hidden md:inline">Mensajería</span>
+                </button>
+                <button data-section="configuracion"
+                    class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5">
+                    <i class="fas fa-cog mr-2"></i><span class="hidden md:inline">Configuración</span>
+                </button>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden md:block">
+                    <p class="text-xs text-slate-400" id="userRoleHeader">Gerente de Proyecto</p>
+                    <p class="text-sm font-bold text-white" id="userNameHeader">Admin</p>
+                </div>
+                <button onclick="logout()"
+                    class="w-10 h-10 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8" id="adminContent" role="main" aria-label="Contenido principal del dashboard">
+
+        <!-- SECTION: DASHBOARD -->
+        <section id="sectionDashboard" class="content-section active">
+            <!-- Visualizador de Fases -->
+            <div id="phasesVisualizerContainer" class="mb-8"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Proyectos Activos -->
+                <div class="glass-effect rounded-2xl p-6 stat-card relative group">
+                    <button data-action="editKPI" data-field="total_projects"
+                        class="absolute top-4 right-4 text-slate-500 hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-all">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                            <i class="fas fa-briefcase text-2xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-blue-400 uppercase">Activos</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Total Proyectos</p>
+                    <h3 class="text-3xl font-bold mt-1" id="statTotalProjects">0</h3>
+                </div>
+
+                <!-- Usuarios -->
+                <div class="glass-effect rounded-2xl p-6 stat-card relative group">
+                    <button data-action="editKPI" data-field="total_users"
+                        class="absolute top-4 right-4 text-slate-500 hover:text-emerald-400 opacity-0 group-hover:opacity-100 transition-all">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                            <i class="fas fa-users text-2xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-400 uppercase">Personal</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Equipo Total</p>
+                    <h3 class="text-3xl font-bold mt-1" id="statTotalUsers">0</h3>
+                </div>
+
+                <!-- Mensajes -->
+                <div class="glass-effect rounded-2xl p-6 stat-card relative group">
+                    <button data-action="editKPI" data-field="unread_messages"
+                        class="absolute top-4 right-4 text-slate-500 hover:text-amber-400 opacity-0 group-hover:opacity-100 transition-all">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                            <i class="fas fa-envelope text-2xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 uppercase">Pendientes</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Mensajes No Leídos</p>
+                    <h3 class="text-3xl font-bold mt-1" id="statUnreadMessages">0</h3>
+                </div>
+
+                <!-- Presupuesto -->
+                <div class="glass-effect rounded-2xl p-6 stat-card relative group">
+                    <button data-action="editKPI" data-field="total_cost"
+                        class="absolute top-4 right-4 text-slate-500 hover:text-purple-400 opacity-0 group-hover:opacity-100 transition-all">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
+                            <i class="fas fa-dollar-sign text-2xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-purple-400 uppercase">Inversión</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Costo Total Estimado</p>
+                    <h3 class="text-3xl font-bold mt-1" id="statTotalCost">$0</h3>
+                </div>
+            </div>
+
+            <!-- FASE 2: Visualización Financiera Pro -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <div class="glass-effect rounded-2xl p-6 h-[400px] flex flex-col">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-chart-line text-emerald-400"></i>
+                        Evolución Financiera
+                    </h3>
+                    <div class="flex-grow relative">
+                        <canvas id="financialChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 h-[400px] flex flex-col">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-blue-400"></i>
+                        Inversión por Proyecto
+                    </h3>
+                    <div class="flex-grow relative">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 h-[400px] flex flex-col">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-tasks text-amber-400"></i>
+                        Cumplimiento de Hitos
+                    </h3>
+                    <div class="flex-grow relative">
+                        <canvas id="milestonesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEJORA: Análisis Predictivo Visual -->
+            <div id="predictiveAnalysisSection" class="glass-effect rounded-2xl p-6 mb-8 border border-purple-500/20">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                        <i class="fas fa-crystal-ball text-purple-400"></i>
+                        Análisis Predictivo
+                    </h3>
+                    <button id="btnRefreshPredictions" 
+                        class="px-3 py-2 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 text-sm font-medium transition-all">
+                        <i class="fas fa-sync-alt mr-2"></i>Actualizar
+                    </button>
+                </div>
+                <div id="predictiveContent" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Contenido se carga dinámicamente -->
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white">Vista General de Proyectos</h2>
+                <div class="flex gap-2">
+                    <button id="btnUploadExcel"
+                        class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium transition-all">
+                        <i class="fas fa-file-excel mr-2"></i>Cargar Excel/Word
+                    </button>
+                    <button id="btnNewProject"
+                        class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-all">
+                        <i class="fas fa-plus mr-2"></i>Nuevo Proyecto
+                    </button>
+                </div>
+            </div>
+
+            <!-- FASE 6: Carga de Excel -->
+            <div id="excelUploadSection" class="glass-effect rounded-2xl p-8 mb-8 border-emerald-500/30"
+                style="display: none;">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-emerald-400">Procesar Datos Externos</h3>
+                    <button id="btnCloseExcelUpload" class="text-slate-400 hover:text-white"><i
+                            class="fas fa-times"></i></button>
+                </div>
+
+                <div id="excelUploadArea"
+                    class="upload-area border-2 border-dashed border-slate-700 rounded-xl p-10 text-center hover:border-emerald-500/50 transition-all cursor-pointer">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-slate-500 mb-4"></i>
+                    <p class="text-slate-300">Arrastra tu archivo Excel o Word aquí, o haz clic para seleccionar</p>
+                    <input type="file" id="excelFileInput" class="hidden" accept=".xlsx,.xls,.docx,.doc">
+                </div>
+
+                <div id="excelUploadProgress" class="mt-6 hidden">
+                    <div class="flex justify-between mb-2">
+                        <span id="excelProgressText" class="text-sm text-slate-400">Procesando...</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2">
+                        <div id="excelProgressBar" class="bg-emerald-500 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div id="excelProcessingStatus" class="mt-4 hidden p-4 rounded-lg"></div>
+
+                <div class="mt-6 flex justify-between items-center">
+                    <button id="btnDownloadTemplate" class="text-sm text-emerald-400 hover:underline">
+                        <i class="fas fa-download mr-1"></i>Descargar Plantilla Estándar
+                    </button>
+                    <div class="flex gap-2">
+                        <button id="btnCancelExcel"
+                            class="px-4 py-2 text-slate-400 hover:text-white transition-all">Cancelar</button>
+                        <button id="btnProcessExcel"
+                            class="px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-50"
+                            disabled>Procesar Archivo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de Proyectos -->
+            <div id="projectsGrid" class="projects-grid">
+                <div class="col-span-full py-20 text-center text-slate-500">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                    <p>Cargando proyectos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PROYECTOS -->
+        <section id="sectionProyectos" class="content-section">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold">Gestión de Proyectos</h2>
+                    <p class="text-slate-400">Administra y monitorea el estado detallado de cada obra</p>
+                </div>
+            </div>
+
+            <div class="glass-effect rounded-2xl p-6 mb-8">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fas fa-stream text-blue-400"></i>
+                    Cronograma Global (Gantt)
+                </h3>
+                <div id="ganttContainer" class="overflow-x-auto min-h-[300px] rounded-xl bg-white/5 p-4">
+                    <!-- Gantt Chart will render here -->
+                </div>
+            </div>
+
+            <div class="glass-effect rounded-2xl p-6">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fas fa-table text-blue-400"></i>
+                    Listado Detallado de Obras
+                </h3>
+                <div id="projectsTableContainer">
+                    <p class="text-slate-500 italic text-center py-10">Use la vista de Dashboard para gestionar los
+                        proyectos individuales.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: USUARIOS -->
+        <section id="sectionUsuarios" class="content-section">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold">Personal y Accesos</h2>
+                    <p class="text-slate-400">Gestiona aprobaciones y roles del equipo</p>
+                </div>
+            </div>
+
+            <div class="glass-effect rounded-2xl p-6">
+                <div class="flex border-b border-white/10 mb-6">
+                    <button class="tab-btn active px-6 py-3 text-sm font-medium border-b-2 border-blue-500"
+                        data-tab="pending">Pendientes de Aprobación</button>
+                    <button
+                        class="tab-btn px-6 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-white"
+                        data-tab="approved">Usuarios Activos</button>
+                </div>
+
+                <div id="usersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- SECTION: MENSAJERIA -->
+        <section id="sectionMensajeria" class="content-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold">Canales de Comunicación</h2>
+                <p class="text-slate-400">Mensajería centralizada por proyectos y roles</p>
+            </div>
+
+            <div id="channelsContainer" class="space-y-6"></div>
+        </section>
+
+        <!-- SECTION: CONFIGURACION -->
+        <section id="sectionConfiguracion" class="content-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold">Configuración del Sistema</h2>
+                <p class="text-slate-400">Ajustes generales y parámetros del ERP</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-effect rounded-2xl p-8">
+                    <h3 class="text-xl font-bold mb-4">Ajustes Generales</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                            <p class="font-medium">Modo Oscuro Forzado</p>
+                            <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked
+                                    disabled></div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                            <p class="font-medium">Notificaciones Push</p>
+                            <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl p-8">
+                    <h3 class="text-xl font-bold mb-4">Exportación de Datos Ejecutivos</h3>
+                    <div class="flex flex-col gap-3">
+                        <button id="btnGenerateReport"
+                            class="w-full py-3 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white border border-blue-500/30 transition-all font-medium">
+                            <i class="fas fa-file-pdf mr-2"></i>Reporte Consolidado PDF
+                        </button>
+                        <button
+                            class="w-full py-3 rounded-xl bg-slate-700 hover:bg-slate-600 transition-all font-medium">
+                            <i class="fas fa-file-excel mr-2"></i>Exportar Maestro a Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALES -->
+    <div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-effect">
+                <div class="modal-header border-white/10">
+                    <h5 class="modal-title font-bold" id="projectModalTitle">Nuevo Proyecto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-6">
+                    <form id="projectForm" class="row g-4">
+                        <div class="col-md-6"><label class="form-label text-slate-400 text-sm">Mandante</label><input
+                                type="text" name="mandante_nombre" id="mandante_nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6"><label class="form-label text-slate-400 text-sm">Ciudad</label><input
+                                type="text" name="ciudad" id="ciudad" class="form-control" required></div>
+                        <div class="col-12"><label class="form-label text-slate-400 text-sm">Dirección</label><input
+                                type="text" name="direccion" id="direccion" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label text-slate-400 text-sm">Fecha
+                                Inicio</label><input type="date" name="fecha_inicio" id="fecha_inicio"
+                                class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label text-slate-400 text-sm">Fecha Término
+                                Estimada</label><input type="date" name="fecha_termino_estimada"
+                                id="fecha_termino_estimada" class="form-control" required></div>
+                        <div class="col-md-4"><label class="form-label text-slate-400 text-sm">Costo
+                                Inicial</label><input type="number" name="costo_inicial" id="costoInicial"
+                                class="form-control" value="0"></div>
+                        <div class="col-md-4"><label class="form-label text-slate-400 text-sm">Adicionales</label><input
+                                type="number" name="costo_adicionales" id="costoAdicionales" class="form-control"
+                                value="0"></div>
+                        <div class="col-md-4"><label class="form-label text-slate-400 text-sm">Extras</label><input
+                                type="number" name="costo_extras" id="costoExtras" class="form-control" value="0"></div>
+                        <div class="col-12"><label class="form-label text-slate-400 text-sm">Presupuesto Final
+                                Calculado</label><input type="number" name="costo_final" id="costoFinal"
+                                class="form-control bg-blue-500/10" readonly value="0"></div>
+                    </form>
+                </div>
+                <div class="modal-footer border-white/10">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="projectForm" class="btn btn-primary px-5">Guardar Proyecto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDICIÓN KPI (Dinamizado) -->
+    <div class="modal fade" id="modalEdicionKPI" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-effect">
+                <div class="modal-header border-white/10">
+                    <h5 class="modal-title font-bold" id="kpiModalTitle">Editar Indicador</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-6">
+                    <form id="formEdicionKPI">
+                        <input type="hidden" id="kpiFieldId">
+                        <div class="mb-4">
+                            <label class="form-label text-slate-400 text-sm" id="kpiLabel">Nuevo Valor</label>
+                            <input type="number" id="kpiValue" class="form-control" required>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Este cambio se guardará en el Objeto Maestro y se reflejará en tiempo real.
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer border-white/10">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnGuardarKPI" class="btn btn-primary px-4">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL GESTOR ARCHIVOS -->
+    <div id="filesPanel"
+        class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4"
+        style="display: none;">
+        <div class="bg-slate-900 border border-white/10 rounded-3xl w-full max-w-6xl h-[85vh] flex flex-col shadow-2xl">
+            <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                <div>
+                    <h3 id="filesPanelTitle" class="text-2xl font-bold">Gestor Documental</h3>
+                    <p id="userRoleInfo" class="text-xs text-slate-400 mt-1">Cargando permisos...</p>
+                </div>
+                <button id="btnCloseFilesPanel"
+                    class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 transition-all"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div id="filesPanelContent" class="flex-grow overflow-auto p-6"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+
+    <!-- Enterprise Core & Services -->
+    <script src="js/services/CoreState.js"></script>
+    <script src="js/services/ProjectService.js"></script>
+    <script src="js/services/UserService.js"></script>
+
+    <!-- Animation & Visualization Libraries (Phase 2) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.css">
+    <script src="js/services/VisualService.js"></script>
+    <script src="js/services/DocumentService.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/services/ReportingService.js"></script>
+
+    <script src="js/pwa-init.js"></script>
+    <script src="js/notification-manager.js"></script>
+    <script src="js/excel-processor.js"></script>
+    <script src="js/file-system-manager.js"></script>
+    <script src="js/chat-channels-manager.js"></script>
+    
+    <!-- Chart.js para gráficos interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Nuevos módulos de mejoras -->
+    <script src="js/data-maestro.js"></script>
+    <script src="js/modulos-fase1.js"></script>
+    <script src="js/dashboard-interactive.js"></script>
+    <script src="js/notification-system.js"></script>
+    <script src="js/kpi-details-modal.js"></script>
+    <script src="js/export-manager.js"></script>
+    <script src="js/predictive-analysis.js"></script>
+    <script src="js/predictive-widget.js"></script>
+    <script src="js/multi-project-manager.js"></script>
+    <script src="js/risks-panel.js"></script>
+    <script src="js/smart-cache.js"></script>
+    <script src="js/global-search.js"></script>
+    <script src="js/keyboard-shortcuts.js"></script>
+    <script src="js/theme-manager.js"></script>
+    <script src="js/offline-manager.js"></script>
+    <script src="js/accessibility-manager.js"></script>
+    <script src="js/analytics-manager.js"></script>
+    <script src="js/tooltip-manager.js"></script>
+    <script src="js/lazy-loader.js"></script>
+    <script src="js/dashboard-customizer.js"></script>
+    <script src="js/comments-system.js"></script>
+    <script src="js/calendar-view.js"></script>
+    <script src="js/templates-system.js"></script>
+    <script src="js/advanced-reports.js"></script>
+    <script src="js/audit-logger.js"></script>
+    
+    <!-- Router y Navegación -->
+    <script src="js/core/router.js"></script>
+    <script src="js/core/phase-manager.js"></script>
+    <script src="js/core/phases-enhancements.js"></script>
+    <script src="js/core/phases-visualizer.js"></script>
+    <script src="js/core/navigation.js"></script>
+    
+    <!-- Integración Backend FastAPI -->
+    <script src="js/api-backend-integration.js"></script>
+    
+    <script src="js/panel-jefe.js"></script>
+
+    <script>
+        function logout() { auth.logout(); }
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = auth.getCurrentUser();
+            if (user) {
+                const nameEl = document.getElementById('userNameHeader');
+                const roleEl = document.getElementById('userRoleHeader');
+                if (nameEl) nameEl.textContent = user.name || user.username;
+                if (roleEl) roleEl.textContent = (user.role || user.rol) === 'jefe' ? 'Gerente de Proyecto' : 'Administrador';
+            }
+            
+            // Inicializar visualizador de fases
+            setTimeout(() => {
+                if (typeof PhasesVisualizer !== 'undefined' && document.getElementById('phasesVisualizerContainer')) {
+                    window.phasesVisualizer = new PhasesVisualizer('phasesVisualizerContainer');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

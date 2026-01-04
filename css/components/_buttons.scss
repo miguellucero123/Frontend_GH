@@ -1,0 +1,179 @@
+/**
+ * ============================================
+ * BUTTONS
+ * Sistema de botones estilo Bootstrap
+ * ============================================
+ */
+
+.btn {
+    display: inline-block;
+    font-weight: $btn-font-weight;
+    line-height: $line-height-base;
+    color: $text-primary;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: $border-width solid transparent;
+    padding: $btn-padding-y $btn-padding-x;
+    font-size: $btn-font-size;
+    @include border-radius($btn-border-radius);
+    @include transition($transition-base);
+    
+    &:hover {
+        text-decoration: none;
+    }
+    
+    &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25);
+    }
+    
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
+
+// ===== BUTTON VARIANTS =====
+.btn-primary {
+    @include button-variant($color-primary, $color-primary);
+}
+
+.btn-secondary {
+    @include button-variant($color-secondary, $color-secondary);
+}
+
+.btn-success {
+    @include button-variant($color-success, $color-success);
+}
+
+.btn-danger {
+    @include button-variant($color-danger, $color-danger);
+}
+
+.btn-warning {
+    @include button-variant($color-warning, $color-warning, $text-primary);
+}
+
+.btn-info {
+    @include button-variant($color-info, $color-info);
+}
+
+// ===== OUTLINE BUTTONS =====
+.btn-outline-primary {
+    @include button-outline-variant($color-primary);
+}
+
+.btn-outline-secondary {
+    @include button-outline-variant($color-secondary);
+}
+
+.btn-outline-success {
+    @include button-outline-variant($color-success);
+}
+
+.btn-outline-danger {
+    @include button-outline-variant($color-danger);
+}
+
+.btn-outline-warning {
+    @include button-outline-variant($color-warning, $text-primary);
+}
+
+.btn-outline-info {
+    @include button-outline-variant($color-info);
+}
+
+// ===== BUTTON SIZES =====
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: $font-size-lg;
+    @include border-radius($border-radius-lg);
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: $font-size-sm;
+    @include border-radius($border-radius-sm);
+}
+
+// ===== BLOCK BUTTON =====
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+// ===== BUTTON GROUPS =====
+.btn-group {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    
+    > .btn {
+        position: relative;
+        flex: 1 1 auto;
+        
+        &:not(:first-child) {
+            margin-left: -$border-width;
+        }
+        
+        &:not(:last-child):not(.dropdown-toggle) {
+            @include border-radius(0);
+        }
+        
+        &:first-child {
+            @include border-top-right-radius(0);
+            @include border-bottom-right-radius(0);
+        }
+        
+        &:last-child {
+            @include border-top-left-radius(0);
+            @include border-bottom-left-radius(0);
+        }
+    }
+}
+
+// ===== ICON BUTTONS =====
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    @include border-radius($border-radius);
+    
+    i {
+        font-size: 1.125rem;
+    }
+}
+
+// ===== LOADING STATE =====
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        top: 50%;
+        left: 50%;
+        margin-left: -0.5rem;
+        margin-top: -0.5rem;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        @include border-radius($border-radius-circle);
+        animation: spinner 0.75s linear infinite;
+    }
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+

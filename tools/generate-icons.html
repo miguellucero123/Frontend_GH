@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Iconos - ERP Constructora</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        .upload-area {
+            border: 2px dashed #2563eb;
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            background: #f0f4ff;
+        }
+        .upload-area.dragover {
+            background: #e0e7ff;
+            border-color: #1e40af;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        .preview {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .preview img {
+            max-width: 200px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+        .sizes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .size-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
+        .size-item canvas {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        .download-all {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .info {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Generador de Iconos PWA</h1>
+        
+        <div class="info">
+            <strong>Instrucciones:</strong>
+            <ol>
+                <li>Sube una imagen cuadrada (recomendado: 512x512px o mayor)</li>
+                <li>Revisa las previsualizaciones de todos los tamaños</li>
+                <li>Descarga todos los iconos generados</li>
+                <li>Coloca los archivos en la carpeta <code>assets/icons/</code></li>
+            </ol>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <p>📁 Arrastra una imagen aquí o haz clic para seleccionar</p>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="preview" id="preview" style="display: none;">
+            <h3>Vista Previa del Icono Original</h3>
+            <img id="previewImg" alt="Preview">
+        </div>
+
+        <div id="sizesContainer" style="display: none;">
+            <h3>Iconos Generados</h3>
+            <div class="sizes" id="sizes"></div>
+            
+            <div class="download-all">
+                <button class="btn" id="downloadAll">📥 Descargar Todos los Iconos</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sizes = [16, 32, 72, 96, 128, 144, 152, 192, 384, 512];
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const previewImg = document.getElementById('previewImg');
+        const sizesContainer = document.getElementById('sizesContainer');
+        const sizesDiv = document.getElementById('sizes');
+        const downloadAllBtn = document.getElementById('downloadAll');
+
+        let originalImage = null;
+        const generatedIcons = {};
+
+        // Event listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFile(file);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+
+        downloadAllBtn.addEventListener('click', () => {
+            Object.keys(generatedIcons).forEach(size => {
+                const link = document.createElement('a');
+                link.download = `icon-${size}x${size}.png`;
+                link.href = generatedIcons[size];
+                link.click();
+            });
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    originalImage = img;
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                    generateIcons();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function generateIcons() {
+            sizesDiv.innerHTML = '';
+            sizes.forEach(size => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                // Dibujar imagen redimensionada
+                ctx.drawImage(originalImage, 0, 0, size, size);
+                
+                // Convertir a blob y guardar
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    generatedIcons[size] = url;
+                    
+                    // Crear elemento visual
+                    const sizeItem = document.createElement('div');
+                    sizeItem.className = 'size-item';
+                    sizeItem.innerHTML = `
+                        <canvas width="${size}" height="${size}"></canvas>
+                        <div>${size}x${size}</div>
+                        <a href="${url}" download="icon-${size}x${size}.png" class="btn" style="display: inline-block; text-decoration: none; margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem;">Descargar</a>
+                    `;
+                    
+                    // Copiar canvas al elemento visual
+                    const visualCanvas = sizeItem.querySelector('canvas');
+                    const visualCtx = visualCanvas.getContext('2d');
+                    visualCtx.drawImage(canvas, 0, 0);
+                    
+                    sizesDiv.appendChild(sizeItem);
+                }, 'image/png');
+            });
+            
+            sizesContainer.style.display = 'block';
+            downloadAllBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>
+

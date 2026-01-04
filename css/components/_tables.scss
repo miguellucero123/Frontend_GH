@@ -1,0 +1,112 @@
+/**
+ * ============================================
+ * TABLES
+ * Tablas profesionales estilo Bootstrap
+ * ============================================
+ */
+
+.table {
+    width: 100%;
+    margin-bottom: $spacer;
+    color: $text-primary;
+    border-collapse: collapse;
+    
+    th,
+    td {
+        padding: $table-cell-padding-y $table-cell-padding-x;
+        vertical-align: top;
+        border-top: $table-border-width solid $table-border-color;
+    }
+    
+    thead th {
+        vertical-align: bottom;
+        border-bottom: ($table-border-width * 2) solid $table-border-color;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+    }
+    
+    tbody + tbody {
+        border-top: ($table-border-width * 2) solid $table-border-color;
+    }
+}
+
+// ===== TABLE VARIANTS =====
+.table-striped {
+    tbody tr:nth-of-type(odd) {
+        background-color: $bg-secondary;
+    }
+}
+
+.table-hover {
+    tbody tr {
+        @include transition($transition-base);
+        
+        &:hover {
+            background-color: $bg-tertiary;
+        }
+    }
+}
+
+.table-bordered {
+    border: $table-border-width solid $table-border-color;
+    
+    th,
+    td {
+        border: $table-border-width solid $table-border-color;
+    }
+    
+    thead {
+        th,
+        td {
+            border-bottom-width: ($table-border-width * 2);
+        }
+    }
+}
+
+.table-borderless {
+    th,
+    td,
+    thead th,
+    tbody + tbody {
+        border: 0;
+    }
+}
+
+// ===== TABLE SIZES =====
+.table-sm {
+    th,
+    td {
+        padding: 0.5rem;
+    }
+}
+
+// ===== RESPONSIVE TABLES =====
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    > .table {
+        margin-bottom: 0;
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $next: breakpoint-next($breakpoint, $grid-breakpoints);
+    $infix: if($next, "-#{$next}", "");
+    
+    @include media-breakpoint-down($next) {
+        .table-responsive#{$infix} {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            
+            > .table {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Uploads (desarrollo local)
+uploads/
+temp/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Backend (si está en el mismo repo)
+backend/__pycache__/
+backend/.env
+backend/uploads/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

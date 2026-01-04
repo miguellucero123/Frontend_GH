@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor SVG a PNG - Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .loading {
+            background: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Generador de Iconos PNG</h1>
+        <p>Este script convertirá imágenes SVG a PNG y las descargará automáticamente.</p>
+        
+        <div id="status" class="status loading">Preparando generador...</div>
+        <canvas id="canvas"></canvas>
+        
+        <button onclick="generateAllIcons()">Generar Iconos</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const statusDiv = document.getElementById('status');
+
+        function updateStatus(message, type = 'loading') {
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+            console.log(`[${type}] ${message}`);
+        }
+
+        function createAndDownloadIcon(size) {
+            return new Promise((resolve, reject) => {
+                // Crear SVG
+                const svgString = `
+                    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="${size}" height="${size}" fill="#2563eb" rx="${Math.round(size * 0.1)}"/>
+                        <text x="${size/2}" y="${size * 0.65}" font-family="Arial, sans-serif" font-size="${Math.round(size * 0.6)}" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">G&H</text>
+                    </svg>
+                `;
+
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = size;
+                    canvas.height = size;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    canvas.toBlob(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `icon-${size}x${size}.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        updateStatus(`✓ Icono ${size}x${size} descargado`, 'success');
+                        setTimeout(resolve, 500);
+                    }, 'image/png');
+                };
+                
+                img.onerror = () => {
+                    updateStatus(`✗ Error al cargar icono ${size}x${size}`, 'error');
+                    reject(new Error(`Failed to load image for size ${size}`));
+                };
+                
+                const blob = new Blob([svgString], { type: 'image/svg+xml' });
+                img.src = URL.createObjectURL(blob);
+            });
+        }
+
+        async function generateAllIcons() {
+            try {
+                updateStatus('Generando iconos...', 'loading');
+                const sizes = [32, 144, 152, 192, 196, 512];
+                
+                for (const size of sizes) {
+                    await createAndDownloadIcon(size);
+                }
+                
+                updateStatus('✓ ¡Todos los iconos han sido generados exitosamente!', 'success');
+            } catch (error) {
+                updateStatus(`✗ Error: ${error.message}`, 'error');
+                console.error(error);
+            }
+        }
+
+        // Generar automáticamente al cargar
+        window.addEventListener('load', () => {
+            updateStatus('Listo para generar iconos. Haz clic en el botón o espera a que se generen automáticamente...', 'loading');
+            setTimeout(() => {
+                generateAllIcons();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

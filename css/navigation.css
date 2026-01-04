@@ -1,0 +1,62 @@
+/**
+ * ============================================================
+ * ESTILOS NAVEGACIÓN UNIFICADA
+ * ============================================================
+ */
+
+.unified-navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.nav-link:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    border-color: #d97706;
+}
+
+.nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.nav-link.active i {
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .unified-navigation {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0.5rem;
+    }
+
+    .nav-link {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+

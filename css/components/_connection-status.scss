@@ -1,0 +1,70 @@
+/**
+ * ============================================
+ * CONNECTION STATUS
+ * Indicador de estado de conexión
+ * ============================================
+ */
+
+.connection-status {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: $z-index-fixed;
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    padding: $spacer * 0.5 $spacer;
+    background-color: $bg-primary;
+    border: $border-width solid $border-color;
+    @include border-radius($border-radius);
+    @include box-shadow($box-shadow);
+    @include transition($transition-base);
+    transform: translateY(-100px);
+    opacity: 0;
+    
+    &.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    &.online {
+        border-color: $color-success;
+        background-color: tint($color-success, 95%);
+        
+        .connection-icon {
+            color: $color-success;
+        }
+    }
+    
+    &.offline {
+        border-color: $color-warning;
+        background-color: tint($color-warning, 95%);
+        
+        .connection-icon {
+            color: $color-warning;
+        }
+    }
+    
+    &.syncing {
+        border-color: $color-info;
+        background-color: tint($color-info, 95%);
+        
+        .connection-icon {
+            color: $color-info;
+            animation: spin 1s linear infinite;
+        }
+    }
+}
+
+.connection-icon {
+    font-size: $font-size-lg;
+}
+
+.connection-text {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

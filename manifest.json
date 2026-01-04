@@ -1,0 +1,21 @@
+{
+  "name": "ERP Constructora G&H - Enterprise Edition",
+  "short_name": "ERP G&H",
+  "description": "Sistema de gestión para constructoras e ingeniería de alta gama.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

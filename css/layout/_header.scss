@@ -1,0 +1,98 @@
+/**
+ * ============================================
+ * HEADER
+ * Estilos del header empresarial profesional
+ * ============================================
+ */
+
+.panel-header {
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    border-bottom: 2px solid $border-color;
+    padding: $spacer * 1.25 $spacer * 2;
+    @include flex-between();
+    @include box-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+    position: sticky;
+    top: 0;
+    z-index: $z-index-sticky;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    .header-left {
+        @include flex-center();
+        gap: $spacer * 1.5;
+    }
+    
+    .header-right {
+        @include flex-center();
+        gap: $spacer;
+    }
+    
+    .logo-small {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        @include transition($transition-base);
+        @include border-radius($border-radius);
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 2px;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+    
+    .project-title,
+    .admin-title {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        margin: 0;
+        color: $text-primary;
+        font-family: $font-family-heading;
+        letter-spacing: -0.02em;
+    }
+    
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: $spacer;
+        padding: $spacer * 0.5 $spacer;
+        @include border-radius($border-radius);
+        @include transition($transition-base);
+        
+        &:hover {
+            background-color: $bg-tertiary;
+        }
+    }
+    
+    .user-name {
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        font-size: $font-size-sm;
+    }
+    
+    .btn-icon {
+        @include transition($transition-base);
+        
+        &:hover {
+            background-color: $bg-tertiary;
+            color: $color-primary;
+            transform: scale(1.1);
+        }
+    }
+    
+    .btn-notification {
+        position: relative;
+        
+        &:hover {
+            .notification-badge {
+                animation: bounce 0.5s ease;
+            }
+        }
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
