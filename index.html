@@ -339,7 +339,8 @@
                     }
                 }
                 
-                auth.saveSession(accessToken, refreshToken, user);
+                // Formato correcto: saveSession(accessToken, user, refreshToken)
+                auth.saveSession(accessToken, user, refreshToken);
 
                 btnText.textContent = 'Acceso Concedido';
                 btnIcon.className = 'fas fa-check-circle relative z-10 text-xl text-emerald-400';
