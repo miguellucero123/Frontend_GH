@@ -1,6 +1,6 @@
 # FastAPI y servidor
 fastapi==0.104.1
-uvicorn[standard]==0.24.0
+uvicorn[standard]==0.40.0
 
 # Base de datos
 sqlalchemy==2.0.23
