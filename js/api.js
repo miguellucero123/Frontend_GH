@@ -6,8 +6,16 @@
 class APIClient {
     constructor() {
         // URL base de la API (usar configuración global si está disponible)
+        // Si API_BASE_URL es null, significa que estamos en modo demo
         this.baseURL = window.CONFIG?.API_BASE_URL || 'http://localhost:8002/api';
         this.timeout = window.CONFIG?.API_TIMEOUT || 30000;
+        
+        // Verificar si estamos en modo demo
+        this.isDemoMode = window.CONFIG?.DEMO_MODE === true || this.baseURL === null;
+        
+        if (this.isDemoMode) {
+            console.log('[API] Modo DEMO activado - No se realizarán peticiones al backend');
+        }
     }
 
     /**
@@ -31,8 +39,20 @@ class APIClient {
      */
     async request(endpoint, options = {}) {
         // Lógica de Modo DEMO (Mejora Fase 4)
-        if (window.CONFIG?.DEMO_MODE) {
+        // Verificar modo demo de múltiples formas para asegurar que funcione
+        const isDemo = this.isDemoMode || 
+                      window.CONFIG?.DEMO_MODE === true || 
+                      this.baseURL === null ||
+                      !this.baseURL;
+        
+        if (isDemo) {
             console.log(`[DEMO] Interceptando: ${endpoint}`);
+            return this.getDemoResponse(endpoint, options.method);
+        }
+
+        // Si no hay baseURL, activar modo demo
+        if (!this.baseURL) {
+            console.warn('[API] No hay baseURL configurada, activando modo demo');
             return this.getDemoResponse(endpoint, options.method);
         }
 
@@ -490,6 +510,28 @@ class APIClient {
     async getDemoResponse(endpoint, method) {
         // Simular latencia de red
         await new Promise(resolve => setTimeout(resolve, 400));
+
+        // MOCK: Login
+        if (endpoint.includes('/auth/login')) {
+            // Validar credenciales demo
+            const demoUsers = {
+                'admin@constructora.com': { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                'admin': { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                'trabajador@constructora.com': { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                'trabajador': { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                'cliente@constructora.com': { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' },
+                'cliente': { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' }
+            };
+            
+            // En modo demo, siempre aceptar si la contraseña es 'admin123'
+            // El username/email se valida en el frontend
+            return {
+                access_token: 'demo_token_' + Date.now(),
+                refresh_token: 'demo_refresh_' + Date.now(),
+                token_type: 'bearer',
+                user: demoUsers['admin@constructora.com'] // Por defecto admin, se ajustará en el frontend
+            };
+        }
 
         if (endpoint.includes('/projects/stats/global')) {
             return {

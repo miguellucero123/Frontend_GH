@@ -273,8 +273,43 @@
                     throw new Error('API no está disponible. Por favor, recarga la página.');
                 }
                 
-                // Intentar login real a través de la API
-                const response = await api.login(username, password);
+                // Verificar si estamos en modo demo
+                const isDemoMode = window.CONFIG?.DEMO_MODE === true || 
+                                  window.CONFIG?.API_BASE_URL === null ||
+                                  !window.CONFIG?.API_BASE_URL;
+                
+                let response;
+                
+                if (isDemoMode) {
+                    // Modo demo: validar credenciales localmente
+                    console.log('[DEMO] Validando credenciales en modo demo...');
+                    
+                    const demoUsers = {
+                        'admin@constructora.com': { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                        'admin': { email: 'admin@constructora.com', username: 'admin', name: 'Administrador', role: 'jefe' },
+                        'trabajador@constructora.com': { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                        'trabajador': { email: 'trabajador@constructora.com', username: 'trabajador', name: 'Juan Pérez', role: 'trabajador' },
+                        'cliente@constructora.com': { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' },
+                        'cliente': { email: 'cliente@constructora.com', username: 'cliente', name: 'María González', role: 'cliente' }
+                    };
+                    
+                    const user = demoUsers[username] || demoUsers[username.toLowerCase()];
+                    
+                    if (!user || password !== 'admin123') {
+                        throw new Error('Credenciales inválidas. Usa: admin/admin123, trabajador/admin123 o cliente/admin123');
+                    }
+                    
+                    // Simular respuesta de API
+                    response = {
+                        access_token: 'demo_token_' + Date.now(),
+                        refresh_token: 'demo_refresh_' + Date.now(),
+                        token_type: 'bearer',
+                        user: user
+                    };
+                } else {
+                    // Intentar login real a través de la API
+                    response = await api.login(username, password);
+                }
 
                 // Guardar sesión usando el manager de autenticación
                 auth.saveSession(response.token || 'demo_token_' + Date.now(), response.user);
