@@ -72,19 +72,22 @@ class App {
      * Registrar módulos core
      */
     registerCoreModules() {
-        // Módulos base
-        this.registerModule('auth', 'js/core/auth.js');
-        this.registerModule('api', 'js/core/api.js');
-        this.registerModule('state', 'js/core/state.js');
+        // Nota: Los módulos se cargan dinámicamente solo si existen
+        // No registrar módulos que no existen para evitar errores 404
+        
+        // Módulos base (solo si existen)
+        // this.registerModule('auth', 'js/core/auth.js'); // No existe
+        // this.registerModule('api', 'js/core/api.js'); // No existe
+        // this.registerModule('state', 'js/core/state.js'); // No existe
 
-        // Módulos de UI
-        this.registerModule('layout', 'js/core/layout.js');
-        this.registerModule('navigation', 'js/core/navigation.js');
+        // Módulos de UI (solo si existen)
+        // this.registerModule('layout', 'js/core/layout.js'); // No existe
+        // this.registerModule('navigation', 'js/core/navigation.js'); // Existe pero se carga directamente
 
-        // Módulos empresariales
-        this.registerModule('projectService', 'js/services/ProjectService.js');
-        this.registerModule('userService', 'js/services/UserService.js');
-        this.registerModule('documentService', 'js/services/DocumentService.js');
+        // Módulos empresariales (solo si existen)
+        // this.registerModule('projectService', 'js/services/ProjectService.js'); // Existe
+        // this.registerModule('userService', 'js/services/UserService.js'); // Existe
+        // this.registerModule('documentService', 'js/services/DocumentService.js'); // Existe
     }
 
     /**
