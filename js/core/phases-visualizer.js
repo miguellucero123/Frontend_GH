@@ -141,8 +141,7 @@ class PhasesVisualizer {
             : 'Nunca';
 
         return `
-            <div class="glass-effect rounded-xl p-6 border ${statusColor} hover:scale-105 transition-all cursor-pointer"
-                 onclick="phasesVisualizer.navigateToPhase('${phase.id}')">
+            <div class="glass-effect rounded-xl p-6 border ${statusColor} hover:scale-105 transition-all cursor-pointer phase-card" data-phase-id="${phase.id}">
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex-1">
                         <h3 class="text-lg font-bold text-white mb-2">${phase.name}</h3>
@@ -169,8 +168,8 @@ class PhasesVisualizer {
                 </div>
 
                 <div class="mt-4 pt-4 border-t border-slate-700">
-                    <button class="w-full px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-all"
-                            onclick="event.stopPropagation(); phasesVisualizer.navigateToPhase('${phase.id}')">
+                    <button class="phase-btn w-full px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-all"
+                            data-phase-id="${phase.id}">
                         <i class="fas fa-arrow-right mr-2"></i>
                         ${isAvailable ? 'Abrir' : 'Ver Detalles'}
                     </button>
@@ -248,8 +247,8 @@ class PhasesVisualizer {
                         <span><i class="fas fa-cube mr-1"></i>${phase.modules.length} módulos</span>
                         <span><i class="fas fa-chart-line mr-1"></i>${usageCount} usos</span>
                     </div>
-                    <button class="mt-3 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all"
-                            onclick="phasesVisualizer.navigateToPhase('${phase.id}')">
+                    <button class="phase-btn mt-3 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all"
+                            data-phase-id="${phase.id}">
                         Ver Detalles
                     </button>
                 </div>
@@ -314,16 +313,48 @@ class PhasesVisualizer {
                 this.render();
             });
         }
+        
+        // Event delegation para botones de fases (se ejecuta después de render)
+        setTimeout(() => {
+            if (this.container) {
+                // Botones de fase
+                this.container.addEventListener('click', (e) => {
+                    const phaseBtn = e.target.closest('.phase-btn');
+                    if (phaseBtn) {
+                        e.stopPropagation();
+                        const phaseId = phaseBtn.dataset.phaseId;
+                        if (phaseId) {
+                            this.navigateToPhase(phaseId);
+                        }
+                    }
+                    
+                    // Click en la tarjeta completa
+                    const phaseCard = e.target.closest('.phase-card');
+                    if (phaseCard && !e.target.closest('.phase-btn')) {
+                        const phaseId = phaseCard.dataset.phaseId;
+                        if (phaseId) {
+                            this.navigateToPhase(phaseId);
+                        }
+                    }
+                });
+            }
+        }, 100);
     }
 
     /**
      * Navegar a fase
      */
     navigateToPhase(phaseId) {
+        console.log('navigateToPhase llamado con:', phaseId);
         if (typeof window.phaseManager !== 'undefined') {
             window.phaseManager.navigateToPhase(phaseId);
         } else {
             console.warn('PhaseManager no está disponible');
+            // Fallback: intentar navegar directamente
+            const phase = window.phaseManager?.phases?.get?.(phaseId);
+            if (phase && phase.html) {
+                window.location.href = phase.html;
+            }
         }
     }
 
