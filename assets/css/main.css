@@ -3,11 +3,12 @@
  * CSS PRINCIPAL EMPRESARIAL - SISTEMA MODULAR
  * ============================================================================
  * Arquitectura 7-1 con integración Bootstrap profesional
+ * Solo importa archivos que existen para evitar errores 404
  * ============================================================================
  */
 
 /* ============================================================================
-   IMPORTS - ORDEN CRÍTICO
+   IMPORTS - SOLO ARCHIVOS EXISTENTES
    ============================================================================ */
 
 /* 1. Variables y Configuración */
@@ -18,32 +19,36 @@
 @import url('./base/reset.css');
 @import url('./base/typography.css');
 
-/* 3. Layout */
-@import url('./layout/header.css');
-@import url('./layout/sidebar.css');
-@import url('./layout/footer.css');
-@import url('./layout/grid.css');
-
-/* 4. Componentes */
+/* 3. Componentes (solo los que existen) */
 @import url('./components/buttons.css');
 @import url('./components/cards.css');
-@import url('./components/forms.css');
-@import url('./components/modals.css');
-@import url('./components/tables.css');
-@import url('./components/navigation.css');
 
-/* 5. Páginas */
-@import url('./pages/dashboard.css');
-@import url('./pages/login.css');
-@import url('./pages/projects.css');
+/* ============================================================================
+   ESTILOS ADICIONALES
+   ============================================================================ */
 
-/* 6. Temas */
-@import url('./themes/dark.css');
-@import url('./themes/light.css');
+/* Estilos base */
+* {
+    box-sizing: border-box;
+}
 
-/* 7. Utilidades */
-@import url('./utilities/spacing.css');
-@import url('./utilities/display.css');
-@import url('./utilities/flexbox.css');
-@import url('./utilities/animations.css');
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
 
+/* Utilidades básicas */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+}

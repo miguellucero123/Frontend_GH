@@ -50,16 +50,21 @@ class App {
      */
     async initializeAssets() {
         if (typeof assetManager !== 'undefined') {
-            // Cargar Bootstrap 5.3.3
-            await assetManager.loadBootstrap({
-                version: '5.3.3',
-                css: true,
-                js: true,
-                icons: true
-            });
+            try {
+                // Cargar Bootstrap 5.3.3
+                await assetManager.loadBootstrap({
+                    version: '5.3.3',
+                    css: true,
+                    js: true,
+                    icons: true
+                });
 
-            // Preload críticos
-            assetManager.preloadCritical();
+                // Preload críticos
+                assetManager.preloadCritical();
+            } catch (error) {
+                // Si falla Bootstrap, continuar sin él (modo degradado)
+                console.warn('No se pudo cargar Bootstrap, continuando sin él:', error);
+            }
         }
     }
 

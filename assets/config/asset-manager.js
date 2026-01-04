@@ -102,9 +102,15 @@ class AssetManager {
                 promises.push(this.loadJS(`${baseUrl}/dist/js/bootstrap.bundle.min.js`));
             }
 
-            // Icons (si se requiere)
+            // Icons (si se requiere) - Usar CDN alternativo si falla
             if (config.icons) {
-                promises.push(this.loadCSS(`${baseUrl}/dist/css/bootstrap-icons.min.css`));
+                promises.push(
+                    this.loadCSS(`${baseUrl}/dist/css/bootstrap-icons.min.css`)
+                        .catch(() => {
+                            // Fallback a CDN alternativo
+                            return this.loadCSS('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css');
+                        })
+                );
             }
 
             Promise.all(promises)
