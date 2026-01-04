@@ -250,7 +250,7 @@ class KPIDetailsModal {
      */
     generateProjectsContent() {
         // Obtener proyectos desde el estado global o API
-        const projects = window.coreState?.get('projects') || [];
+        const projects = (window.coreState?.getState('projects')) || [];
 
         return `
             <div class="glass-effect rounded-xl p-6">

@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', async () => {
      * Obtener ID del proyecto actual
      */
     function getCurrentProjectId() {
-        const projects = coreState.get('projects');
+        const projects = coreState.getState('projects');
         if (projects && projects.length > 0) {
             // Retornar el primer proyecto como predeterminado si no hay selección
             return projects[0].project_id;
