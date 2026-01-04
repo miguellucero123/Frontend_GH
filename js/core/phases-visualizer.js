@@ -192,8 +192,7 @@ class PhasesVisualizer {
         const usageCount = stats?.count || 0;
 
         return `
-            <div class="glass-effect rounded-lg p-4 border border-slate-700 hover:border-indigo-500 transition-all cursor-pointer flex items-center justify-between"
-                 onclick="phasesVisualizer.navigateToPhase('${phase.id}')">
+            <div class="glass-effect rounded-lg p-4 border border-slate-700 hover:border-indigo-500 transition-all cursor-pointer flex items-center justify-between phase-card-list" data-phase-id="${phase.id}">
                 <div class="flex items-center gap-4 flex-1">
                     <div class="w-3 h-3 rounded-full ${statusColor}"></div>
                     <div class="flex-1">
@@ -205,8 +204,8 @@ class PhasesVisualizer {
                         <div class="text-xs text-slate-500">${phase.modules.length} módulos</div>
                     </div>
                 </div>
-                <button class="ml-4 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all"
-                        onclick="event.stopPropagation(); phasesVisualizer.navigateToPhase('${phase.id}')">
+                <button class="phase-btn ml-4 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all"
+                        data-phase-id="${phase.id}">
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
@@ -328,8 +327,8 @@ class PhasesVisualizer {
                         }
                     }
                     
-                    // Click en la tarjeta completa
-                    const phaseCard = e.target.closest('.phase-card');
+                    // Click en la tarjeta completa (grid y list)
+                    const phaseCard = e.target.closest('.phase-card, .phase-card-list');
                     if (phaseCard && !e.target.closest('.phase-btn')) {
                         const phaseId = phaseCard.dataset.phaseId;
                         if (phaseId) {
