@@ -166,11 +166,44 @@
         </div>
     </div>
 
-    <!-- Scripts Base - Cargar PRIMERO -->
+    <!-- Scripts Base - Cargar PRIMERO (sin defer para asegurar orden) -->
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/api-backend-integration.js"></script>
+    
+    <script>
+        // Asegurar que api y auth estén disponibles antes de continuar
+        (function() {
+            let attempts = 0;
+            const maxAttempts = 50; // 5 segundos máximo
+            
+            function checkScripts() {
+                attempts++;
+                
+                if (typeof api !== 'undefined' && typeof auth !== 'undefined') {
+                    // Scripts cargados, continuar con inicialización
+                    console.log('✅ Scripts base cargados correctamente');
+                    window.scriptsReady = true;
+                    return;
+                }
+                
+                if (attempts < maxAttempts) {
+                    setTimeout(checkScripts, 100);
+                } else {
+                    console.error('❌ Timeout esperando scripts base');
+                    window.scriptsReady = false;
+                }
+            }
+            
+            // Iniciar verificación
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkScripts);
+            } else {
+                checkScripts();
+            }
+        })();
+    </script>
 
     <script>
         // Usuarios disponibles
@@ -327,18 +360,12 @@
             }
         }
 
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', () => {
-            // Verificar que api y auth estén disponibles
-            if (typeof api === 'undefined') {
-                console.error('Error: api no está definido');
-                showError('Error de inicialización: api no disponible');
-                return;
-            }
-            
-            if (typeof auth === 'undefined') {
-                console.error('Error: auth no está definido');
-                showError('Error de inicialización: auth no disponible');
+        // Inicializar cuando el DOM y scripts estén listos
+        function initializeApp() {
+            // Verificar que los scripts estén listos
+            if (!window.scriptsReady || typeof api === 'undefined' || typeof auth === 'undefined') {
+                // Reintentar después de un breve delay
+                setTimeout(initializeApp, 100);
                 return;
             }
 
@@ -358,8 +385,17 @@
                 usernameInput.focus();
             }
 
-            checkAPIStatus();
-        });
+            // Verificar estado de API después de un delay
+            setTimeout(checkAPIStatus, 500);
+        }
+
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            // DOM ya está listo, esperar scripts
+            initializeApp();
+        }
     </script>
 </body>
 
