@@ -309,6 +309,98 @@ class PredictiveAnalysis {
     }
 
     /**
+     * Generar datos para curva S (S-Curve)
+     * Muestra el progreso acumulado del proyecto en el tiempo
+     */
+    generarDatosSCurve() {
+        const resumen = this.gestorGerencia.obtenerResumenFinanciero();
+        const historial = this.gestorGerencia.obtenerHistorialPagos();
+        const cronograma = this.gestorGerencia.obtenerCronograma();
+        const hitos = this.gestorGerencia.obtenerHitos();
+        
+        const duracionTotal = cronograma.duracionPlanificada || 365;
+        const diasTranscurridos = this.gestorGerencia.calcularDiasTranscurridos();
+        // Obtener fecha de inicio desde datosGerencia (formato ISO)
+        const fechaInicioStr = this.gestorGerencia.datosGerencia.cronograma.fechaInicio;
+        const fechaInicio = fechaInicioStr ? new Date(fechaInicioStr) : new Date(Date.now() - diasTranscurridos * 24 * 60 * 60 * 1000);
+        
+        // Generar puntos de tiempo (mensuales)
+        const puntosTiempo = [];
+        const meses = Math.ceil(duracionTotal / 30);
+        
+        for (let i = 0; i <= meses; i++) {
+            const fecha = new Date(fechaInicio);
+            fecha.setMonth(fecha.getMonth() + i);
+            puntosTiempo.push({
+                mes: i,
+                fecha: fecha,
+                porcentajeTiempo: (i / meses) * 100
+            });
+        }
+        
+        // Calcular progreso planificado (curva S típica - lenta al inicio, rápida en medio, lenta al final)
+        const progresoPlanificado = puntosTiempo.map(punto => {
+            const t = punto.porcentajeTiempo / 100;
+            // Función sigmoide para crear curva S: 1 / (1 + e^(-10*(t-0.5)))
+            const sCurve = 1 / (1 + Math.exp(-10 * (t - 0.5)));
+            return {
+                ...punto,
+                costoPlanificado: resumen.presupuestoInicial * sCurve,
+                progresoPlanificado: sCurve * 100
+            };
+        });
+        
+        // Calcular progreso real basado en historial de pagos
+        const progresoReal = progresoPlanificado.map(punto => {
+            // Historial de pagos tiene fecha como string formateado, necesitamos la fecha original
+            const historialRaw = this.gestorGerencia.datosGerencia.financiero.pagosRealizados.historial;
+            const costoAcumulado = historialRaw
+                .filter(pago => {
+                    const fechaPago = new Date(pago.fecha);
+                    return fechaPago <= punto.fecha;
+                })
+                .reduce((suma, pago) => suma + pago.monto, 0);
+            
+            const hitosRaw = this.gestorGerencia.datosGerencia.cronograma.hitos;
+            const hitosCompletados = hitosRaw
+                .filter(hito => {
+                    if (!hito.fechaReal || hito.estado !== 'completado') return false;
+                    const fechaHito = new Date(hito.fechaReal);
+                    return fechaHito <= punto.fecha;
+                }).length;
+            
+            const progresoRealPorcentaje = hitos.length > 0 ? (hitosCompletados / hitos.length) * 100 : 0;
+            
+            return {
+                ...punto,
+                costoReal: costoAcumulado,
+                progresoReal: progresoRealPorcentaje
+            };
+        });
+        
+        // Agregar predicción futura
+        const prediccionCosto = this.predecirCostoFinal();
+        const prediccionFecha = this.predecirFechaTermino();
+        
+        return {
+            labels: progresoReal.map(p => p.fecha.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })),
+            datos: progresoReal,
+            prediccion: {
+                costoFinal: prediccionCosto.costoProyectado,
+                fechaFinal: prediccionFecha.fechaEstimada,
+                costoMinimo: prediccionCosto.costoMinimo,
+                costoMaximo: prediccionCosto.costoMaximo
+            },
+            metricas: {
+                presupuestoInicial: resumen.presupuestoInicial,
+                costoActual: resumen.costoFinal || 0,
+                progresoActual: (diasTranscurridos / duracionTotal) * 100,
+                variacion: ((resumen.costoFinal - resumen.presupuestoInicial) / resumen.presupuestoInicial) * 100
+            }
+        };
+    }
+
+    /**
      * Formatear número
      */
     formatNumber(num) {

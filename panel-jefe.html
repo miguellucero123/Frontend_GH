@@ -197,7 +197,7 @@
 
             <!-- FASE 2: Visualización Financiera Pro -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                <div class="glass-effect rounded-2xl p-6 h-[400px] flex flex-col">
+                <div class="glass-effect rounded-2xl p-6 h-[600px] flex flex-col">
                     <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                         <i class="fas fa-chart-line text-emerald-400"></i>
                         Evolución Financiera
@@ -206,7 +206,7 @@
                         <canvas id="financialChart"></canvas>
                     </div>
                 </div>
-                <div class="glass-effect rounded-2xl p-6 h-[400px] flex flex-col">
+                <div class="glass-effect rounded-2xl p-6 h-[600px] flex flex-col">
                     <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                         <i class="fas fa-chart-pie text-blue-400"></i>
                         Inversión por Proyecto
@@ -215,7 +215,7 @@
                         <canvas id="distributionChart"></canvas>
                     </div>
                 </div>
-                <div class="glass-effect rounded-2xl p-6 h-[400px] flex flex-col">
+                <div class="glass-effect rounded-2xl p-6 h-[600px] flex flex-col">
                     <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                         <i class="fas fa-tasks text-amber-400"></i>
                         Cumplimiento de Hitos
@@ -238,8 +238,20 @@
                         <i class="fas fa-sync-alt mr-2"></i>Actualizar
                     </button>
                 </div>
-                <div id="predictiveContent" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div id="predictiveContent" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <!-- Contenido se carga dinámicamente -->
+                </div>
+                <!-- Gráfico de S-Curve (Curva S) -->
+                <div class="mt-6">
+                    <div class="glass-effect rounded-xl p-6 border border-cyan-500/20">
+                        <h4 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-area text-cyan-400"></i>
+                            Curva S - Progreso Acumulado del Proyecto
+                        </h4>
+                        <div class="h-[500px] relative">
+                            <canvas id="sCurveChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 

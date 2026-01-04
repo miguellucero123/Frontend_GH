@@ -150,6 +150,9 @@ class PredictiveWidget {
 
         // Renderizar escenarios si hay
         this.renderScenarios(container);
+        
+        // Renderizar gráfico de S-Curve
+        this.renderSCurve();
     }
 
     /**
@@ -262,6 +265,227 @@ class PredictiveWidget {
      */
     formatNumber(num) {
         return new Intl.NumberFormat('es-ES').format(num);
+    }
+
+    /**
+     * Renderizar gráfico de S-Curve (Curva S)
+     */
+    renderSCurve() {
+        const canvas = document.getElementById('sCurveChart');
+        if (!canvas || typeof Chart === 'undefined') return;
+        
+        // Destruir chart anterior si existe
+        if (this.sCurveChart) {
+            try {
+                this.sCurveChart.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo S-Curve chart anterior:', e);
+            }
+        }
+        
+        const ctx = canvas.getContext('2d');
+        const datosSCurve = this.predictiveAnalysis.generarDatosSCurve();
+        
+        // Crear gradientes
+        const planificadoGradient = ctx.createLinearGradient(0, 0, 0, 500);
+        planificadoGradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+        planificadoGradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+        
+        const realGradient = ctx.createLinearGradient(0, 0, 0, 500);
+        realGradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+        realGradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
+        
+        const prediccionGradient = ctx.createLinearGradient(0, 0, 0, 500);
+        prediccionGradient.addColorStop(0, 'rgba(168, 85, 247, 0.2)');
+        prediccionGradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+        
+        const datasets = [
+            {
+                label: 'Costo Planificado (Acumulado)',
+                data: datosSCurve.datos.map(d => d.costoPlanificado),
+                borderColor: 'rgb(59, 130, 246)',
+                backgroundColor: planificadoGradient,
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            },
+            {
+                label: 'Costo Real (Acumulado)',
+                data: datosSCurve.datos.map(d => d.costoReal),
+                borderColor: 'rgb(16, 185, 129)',
+                backgroundColor: realGradient,
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            }
+        ];
+        
+        // Agregar línea de predicción si hay datos futuros
+        const hoy = new Date();
+        const ultimoPunto = datosSCurve.datos[datosSCurve.datos.length - 1];
+        const fechaPrediccion = new Date(datosSCurve.prediccion.fechaFinal);
+        
+        if (fechaPrediccion > ultimoPunto.fecha) {
+            // Calcular puntos de predicción
+            const mesesFuturos = Math.ceil((fechaPrediccion - ultimoPunto.fecha) / (30 * 24 * 60 * 60 * 1000));
+            const costoActual = datosSCurve.datos.filter(d => d.fecha <= hoy)
+                .reduce((max, d) => Math.max(max, d.costoReal), 0);
+            
+            const costoRestante = datosSCurve.prediccion.costoFinal - costoActual;
+            const puntosPrediccion = [];
+            
+            for (let i = 0; i <= mesesFuturos; i++) {
+                const progreso = i / mesesFuturos;
+                // Curva S suave para predicción
+                const sCurve = 1 / (1 + Math.exp(-8 * (progreso - 0.5)));
+                puntosPrediccion.push(costoActual + (costoRestante * sCurve));
+            }
+            
+            // Extender labels para predicción
+            const labelsCompletos = [...datosSCurve.labels];
+            for (let i = 1; i <= mesesFuturos; i++) {
+                const fecha = new Date(ultimoPunto.fecha);
+                fecha.setMonth(fecha.getMonth() + i);
+                labelsCompletos.push(fecha.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' }));
+            }
+            
+            // Extender datos planificados y reales con nulls para predicción
+            const datosCompletos = datosSCurve.datos.map(d => d.costoPlanificado).concat(new Array(mesesFuturos).fill(null));
+            const realesCompletos = datosSCurve.datos.map(d => d.costoReal).concat(new Array(mesesFuturos).fill(null));
+            
+            datasets[0].data = datosCompletos;
+            datasets[1].data = realesCompletos;
+            
+            datasets.push({
+                label: 'Predicción de Costo Final',
+                data: [...datosSCurve.datos.map(d => null), ...puntosPrediccion],
+                borderColor: 'rgb(168, 85, 247)',
+                backgroundColor: prediccionGradient,
+                borderWidth: 3,
+                borderDash: [10, 5],
+                tension: 0.4,
+                fill: true,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: 'rgb(168, 85, 247)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
+            });
+            
+            datosSCurve.labels = labelsCompletos;
+        }
+        
+        this.sCurveChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: datosSCurve.labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#cbd5e1',
+                            font: { family: 'Inter', size: 12 },
+                            padding: 15,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        titleColor: '#fff',
+                        bodyColor: '#cbd5e1',
+                        borderColor: 'rgba(255,255,255,0.2)',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: (context) => {
+                                const value = context.parsed.y;
+                                if (value === null) return '';
+                                return `${context.dataset.label}: $${this.formatNumber(Math.round(value))}`;
+                            }
+                        }
+                    },
+                    annotation: {
+                        annotations: {
+                            presupuestoLine: {
+                                type: 'line',
+                                yMin: datosSCurve.metricas.presupuestoInicial,
+                                yMax: datosSCurve.metricas.presupuestoInicial,
+                                borderColor: 'rgba(251, 191, 36, 0.8)',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                label: {
+                                    content: `Presupuesto: $${this.formatNumber(datosSCurve.metricas.presupuestoInicial)}`,
+                                    enabled: true,
+                                    position: 'end',
+                                    backgroundColor: 'rgba(251, 191, 36, 0.8)',
+                                    color: '#fff',
+                                    font: { size: 11, weight: 'bold' },
+                                    padding: 6
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            color: 'rgba(255,255,255,0.05)'
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { size: 11 },
+                            maxRotation: 45,
+                            minRotation: 45
+                        },
+                        title: {
+                            display: true,
+                            text: 'Tiempo (Meses)',
+                            color: '#cbd5e1',
+                            font: { size: 13, weight: 'bold' }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255,255,255,0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { size: 11 },
+                            callback: (value) => `$${this.formatNumber(Math.round(value))}`
+                        },
+                        title: {
+                            display: true,
+                            text: 'Costo Acumulado ($)',
+                            color: '#cbd5e1',
+                            font: { size: 13, weight: 'bold' }
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverBorderWidth: 3
+                    }
+                }
+            }
+        });
     }
 
     /**
