@@ -55,15 +55,81 @@ class ConnectionManager {
     }
 
     /**
+     * Verificar si estamos en modo demo
+     */
+    isDemoMode() {
+        // Detectar GitHub Pages
+        const isGitHubPages = window.location.hostname.includes('github.io') || 
+                              window.location.hostname.includes('github.com');
+        
+        // Detectar localhost
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                           window.location.hostname === '127.0.0.1';
+        
+        // Modo demo si:
+        // 1. CONFIG.DEMO_MODE es explícitamente true
+        // 2. Estamos en GitHub Pages
+        // 3. API_BASE_URL es null y NO estamos en localhost
+        return window.CONFIG?.DEMO_MODE === true || 
+               isGitHubPages || 
+               (window.CONFIG?.API_BASE_URL === null && !isLocalhost);
+    }
+
+    /**
      * Verificar conexión activamente
      */
     async checkConnection() {
+        // No verificar conexión en modo demo (GitHub Pages)
+        if (this.isDemoMode()) {
+            // En modo demo, asumir que estamos online pero sin backend
+            this.isOnline = navigator.onLine;
+            return;
+        }
+
+        // Solo intentar conectar si hay un backend configurado
+        const apiUrl = window.CONFIG?.API_BASE_URL;
+        if (!apiUrl) {
+            this.isOnline = navigator.onLine;
+            return;
+        }
+
         try {
-            const response = await fetch('/api/health', {
-                method: 'HEAD',
-                cache: 'no-cache',
-                timeout: 5000
-            });
+            // Intentar primero /health (FastAPI)
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            
+            let response;
+            try {
+                response = await fetch('/health', {
+                    method: 'HEAD',
+                    cache: 'no-cache',
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+            } catch (e) {
+                clearTimeout(timeoutId);
+                // Si falla, no intentar fallback en modo demo
+                if (this.isDemoMode()) {
+                    this.isOnline = navigator.onLine;
+                    return;
+                }
+                // Fallback a /api/health solo si no estamos en modo demo
+                const controller2 = new AbortController();
+                const timeoutId2 = setTimeout(() => controller2.abort(), 3000);
+                try {
+                    response = await fetch('/api/health', {
+                        method: 'HEAD',
+                        cache: 'no-cache',
+                        signal: controller2.signal
+                    });
+                    clearTimeout(timeoutId2);
+                } catch (e2) {
+                    clearTimeout(timeoutId2);
+                    // Si ambos fallan, usar navigator.onLine
+                    this.isOnline = navigator.onLine;
+                    return;
+                }
+            }
             
             const wasOffline = !this.isOnline;
             this.isOnline = response.ok;
@@ -74,10 +140,11 @@ class ConnectionManager {
                 this.handleOffline();
             }
         } catch (error) {
+            // En caso de error, usar navigator.onLine
             const wasOffline = !this.isOnline;
-            this.isOnline = false;
+            this.isOnline = navigator.onLine;
             
-            if (!wasOffline) {
+            if (!wasOffline && !this.isOnline) {
                 this.handleOffline();
             }
         }

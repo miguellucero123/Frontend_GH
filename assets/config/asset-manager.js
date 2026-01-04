@@ -241,9 +241,8 @@ class AssetManager {
      */
     preloadCritical() {
         const criticalAssets = [
-            { type: 'css', href: 'css/main.css' },
-            { type: 'css', href: 'css/styles.css' },
-            { type: 'js', src: 'js/core/app.js' }
+            { type: 'css', href: 'assets/css/main.css' }
+            // js/core/app.js removido del preload para evitar 404 en GitHub Pages
         ];
 
         criticalAssets.forEach(asset => {

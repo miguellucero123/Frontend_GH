@@ -33,31 +33,57 @@ class TooltipManager {
     }
 
     /**
+     * Obtener elemento HTML válido desde un target (puede ser TextNode)
+     */
+    getValidElement(target) {
+        if (!target) return null;
+        // Si es un Element (nodo tipo 1), retornarlo
+        if (target.nodeType === Node.ELEMENT_NODE) {
+            return target;
+        }
+        // Si es un TextNode (nodo tipo 3) u otro, obtener el elemento padre
+        if (target.nodeType === Node.TEXT_NODE && target.parentElement) {
+            return target.parentElement;
+        }
+        // Si tiene parentElement, usarlo
+        if (target.parentElement) {
+            return target.parentElement;
+        }
+        return null;
+    }
+
+    /**
      * Configurar tooltips
      */
     setupTooltips() {
         // Tooltips automáticos para elementos con title
         document.addEventListener('mouseenter', (e) => {
-            const target = e.target;
-            // Verificar que target sea un elemento válido
-            if (!target || typeof target.getAttribute !== 'function') return;
+            const rawTarget = e.target;
+            const target = this.getValidElement(rawTarget);
+            
+            // Verificar que target sea un elemento HTML válido
+            if (!target || target.nodeType !== Node.ELEMENT_NODE) return;
+            if (typeof target.getAttribute !== 'function' || typeof target.hasAttribute !== 'function') return;
             
             const title = target.getAttribute('title');
             
-            if (title && typeof target.hasAttribute === 'function' && !target.hasAttribute('data-tooltip-custom')) {
-                e.preventDefault();
+            if (title && !target.hasAttribute('data-tooltip-custom')) {
+                // No prevenir el comportamiento por defecto aquí
                 target.removeAttribute('title');
                 target.setAttribute('data-tooltip', title);
                 this.showTooltip(target, title);
-            } else if (typeof target.hasAttribute === 'function' && target.hasAttribute('data-tooltip')) {
+            } else if (target.hasAttribute('data-tooltip')) {
                 this.showTooltip(target, target.getAttribute('data-tooltip'));
             }
         }, true);
 
         document.addEventListener('mouseleave', (e) => {
-            const target = e.target;
-            // Verificar que target sea un elemento válido
-            if (!target || typeof target.hasAttribute !== 'function') return;
+            const rawTarget = e.target;
+            const target = this.getValidElement(rawTarget);
+            
+            // Verificar que target sea un elemento HTML válido
+            if (!target || target.nodeType !== Node.ELEMENT_NODE) return;
+            if (typeof target.hasAttribute !== 'function') return;
             
             if (target.hasAttribute('data-tooltip')) {
                 this.hideTooltip();

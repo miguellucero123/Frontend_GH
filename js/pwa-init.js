@@ -10,7 +10,12 @@ if ('serviceWorker' in navigator) {
                 console.log('[PWA] Service Worker registrado con éxito:', registration.scope);
             })
             .catch((error) => {
-                console.error('[PWA] Error en el registro del Service Worker:', error);
+                // Falla silenciosamente si el Service Worker no existe (por ejemplo, en GitHub Pages)
+                if (error.message && error.message.includes('404')) {
+                    console.log('[PWA] Service Worker no disponible (modo demo o desarrollo)');
+                } else {
+                    console.warn('[PWA] Error en el registro del Service Worker:', error);
+                }
             });
     });
 }

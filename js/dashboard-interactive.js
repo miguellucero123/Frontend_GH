@@ -59,6 +59,17 @@ class DashboardInteractive {
         const canvas = document.getElementById('financialChart');
         if (!canvas) return;
 
+        // Destruir chart anterior si existe
+        if (this.charts.financial) {
+            try {
+                this.charts.financial.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart anterior:', e);
+            }
+            this.charts.financial = null;
+        }
+
+        // Obtener contexto del canvas (debe hacerse después de destruir el chart anterior)
         const ctx = canvas.getContext('2d');
         const data = this.getFinancialData();
 
@@ -161,6 +172,16 @@ class DashboardInteractive {
         const canvas = document.getElementById('distributionChart');
         if (!canvas) return;
 
+        // Destruir chart anterior si existe
+        if (this.charts.distribution) {
+            try {
+                this.charts.distribution.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart anterior:', e);
+            }
+            this.charts.distribution = null;
+        }
+
         const ctx = canvas.getContext('2d');
         const data = this.getDistributionData();
 
@@ -234,6 +255,16 @@ class DashboardInteractive {
     initMilestonesChart() {
         const canvas = document.getElementById('milestonesChart');
         if (!canvas) return;
+
+        // Destruir chart anterior si existe
+        if (this.charts.milestones) {
+            try {
+                this.charts.milestones.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart anterior:', e);
+            }
+            this.charts.milestones = null;
+        }
 
         const ctx = canvas.getContext('2d');
         const data = this.getMilestonesData();
