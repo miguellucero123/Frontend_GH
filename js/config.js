@@ -60,7 +60,7 @@ const CONFIG = {
     // true = forzar modo demo (siempre funciona)
     // false = forzar backend (requiere servidor corriendo)
     // null = auto-detect (intenta backend, si falla usa demo)
-    DEMO_MODE: null, // Auto-detect: intenta backend primero, fallback a demo si falla
+    DEMO_MODE: isGitHubPages ? true : null, // Auto-activar en GitHub Pages
 
     // Error Reporting
     ERROR_REPORTING_ENABLED: false, // Activar para producción
