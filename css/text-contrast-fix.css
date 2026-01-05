@@ -247,74 +247,12 @@ body #sectionUsuarios span.text-slate-400 {
    FIXES DE ALINEACIÓN Y RESPONSIVE
    ============================================ */
 
-/* Asegurar alineación correcta de texto en contenedores */
-body .content-section,
-body .glass-effect,
-body .card,
-body .stat-card {
-    text-align: left !important;
+/* Asegurar que el texto se ajuste correctamente en contenedores - solo word-wrap, sin forzar display */
+body .content-section p,
+body .glass-effect p,
+body .card p {
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
-}
-
-/* Alineación de texto en elementos inline y flex - solo para elementos de texto, no romper layout */
-body .content-section p.text-slate-400,
-body .content-section p.text-slate-300,
-body .glass-effect p.text-slate-400,
-body .glass-effect p.text-slate-300 {
-    text-align: left !important;
-    box-sizing: border-box !important;
-}
-
-/* Fix para elementos flex que desalinean texto */
-body .flex.items-center p,
-body .flex.items-center div,
-body .flex.items-center span {
-    text-align: left !important;
-}
-
-/* Responsive: ajustar padding y márgenes en móviles */
-@media (max-width: 768px) {
-    body .content-section,
-    body .glass-effect,
-    body .card {
-        padding: 1rem !important;
-        margin: 0.5rem 0 !important;
-    }
-    
-    body .content-section p,
-    body .glass-effect p,
-    body .card p {
-        font-size: 0.875rem !important;
-        line-height: 1.5 !important;
-        margin: 0.5rem 0 !important;
-    }
-    
-    /* Asegurar que el texto no se desborde */
-    body .content-section *,
-    body .glass-effect *,
-    body .card * {
-        max-width: 100% !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-    }
-}
-
-/* Fix para tablas responsive */
-@media (max-width: 768px) {
-    body table,
-    body .table {
-        display: block !important;
-        width: 100% !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-    
-    body table td,
-    body table th {
-        white-space: nowrap !important;
-        min-width: 100px !important;
-    }
 }
 
 /* Texto en visualizador de fases */
