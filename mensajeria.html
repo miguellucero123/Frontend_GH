@@ -55,6 +55,76 @@
             color: white;
             background: rgba(59, 130, 246, 0.2);
         }
+
+        /* Mejoras profesionales para el chat */
+        #chatChannelsContainer {
+            min-height: calc(100vh - 300px);
+        }
+
+        /* Override estilos básicos para hacerlo más profesional */
+        .chat-input-container {
+            background: rgba(30, 41, 59, 0.8) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 1rem 1.5rem !important;
+        }
+
+        .chat-input {
+            background: rgba(15, 23, 42, 0.9) !important;
+            border: 1px solid rgba(59, 130, 246, 0.3) !important;
+            color: white !important;
+            padding: 0.875rem 1.25rem !important;
+            border-radius: 12px !important;
+            font-size: 0.9375rem !important;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .chat-input:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+            outline: none !important;
+        }
+
+        .btn-send, .btn-icon.btn-send {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-send:hover, .btn-icon.btn-send:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5) !important;
+        }
+
+        .chat-messages {
+            background: rgba(15, 23, 42, 0.5) !important;
+            padding: 1.5rem !important;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 1.25rem 1.5rem !important;
+        }
+
+        .message-bubble {
+            border-radius: 16px !important;
+            padding: 0.875rem 1.125rem !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .message-sent {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+        }
+
+        .message-received {
+            background: rgba(30, 41, 59, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+        }
     </style>
 </head>
 
@@ -103,7 +173,7 @@
         </div>
 
         <!-- Chat Container -->
-        <div id="chatChannelsContainer" class="glass-effect rounded-2xl p-6 min-h-[600px]">
+        <div id="chatChannelsContainer" class="glass-effect rounded-2xl overflow-hidden shadow-2xl" style="min-height: 600px;">
             <div class="flex items-center justify-center h-full min-h-[600px]">
                 <div class="text-center">
                     <i class="fas fa-spinner fa-spin text-4xl text-indigo-400 mb-4"></i>
