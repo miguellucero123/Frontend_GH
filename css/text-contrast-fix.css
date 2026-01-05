@@ -268,5 +268,41 @@ body .nav-item:hover .text-slate-400 {
     color: #ffffff !important; /* blanco en hover */
 }
 
+/* ============================================
+   FIX PARA TÍTULOS (H1, H2, H3) EN SECCIONES
+   ============================================ */
+
+/* Títulos principales en secciones - forzar color blanco para contraste */
+body #sectionProyectos h2,
+body #sectionMensajeria h2,
+body #sectionConfiguracion h2,
+body #sectionUsuarios h2,
+html body #sectionProyectos h2,
+html body #sectionMensajeria h2,
+html body #sectionConfiguracion h2,
+html body #sectionUsuarios h2 {
+    color: #ffffff !important; /* blanco para máximo contraste */
+}
+
+/* Títulos secundarios (h3) en secciones */
+body #sectionProyectos h3,
+body #sectionMensajeria h3,
+body #sectionConfiguracion h3,
+body #sectionUsuarios h3,
+html body #sectionProyectos h3,
+html body #sectionMensajeria h3,
+html body #sectionConfiguracion h3,
+html body #sectionUsuarios h3 {
+    color: #ffffff !important; /* blanco para máximo contraste */
+}
+
+/* Títulos en contenido general - sobreescribir main.css que fuerza color oscuro */
+body .content-section h2,
+body .content-section h3,
+html body .content-section h2,
+html body .content-section h3 {
+    color: #ffffff !important; /* blanco para contraste en fondo oscuro */
+}
+
 /* Asegurar contraste mínimo WCAG AA (4.5:1) para texto normal */
 /* Fondo oscuro (#0f172a o #1e293b) con texto #e2e8f0 tiene ~8:1 - Excelente */
