@@ -583,11 +583,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Abrir modal de crear proyecto
         [btnCreateProject, btnNewProject, btnNewProjectFromSection].forEach(btn => {
             if (btn) {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Botón Nuevo Proyecto clickeado:', btn.id);
                     openProjectModal();
                 });
+            } else {
+                console.warn('Botón no encontrado:', btn?.id || 'desconocido');
             }
         });
+        
+        // También añadir listener directo al botón de la sección si existe
+        const btnNewProjectDirect = document.getElementById('btnNewProjectFromSection');
+        if (btnNewProjectDirect) {
+            btnNewProjectDirect.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Botón Nuevo Proyecto (directo) clickeado');
+                openProjectModal();
+            });
+        }
 
         // Botones de la sección de proyectos
         const btnFilterProjects = document.getElementById('btnFilterProjects');
