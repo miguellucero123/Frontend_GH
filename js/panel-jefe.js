@@ -868,13 +868,15 @@ document.addEventListener('DOMContentLoaded', async () => {
      * Editar proyecto
      */
     function editProject(id) {
-        const projects = coreState.get('projects') || [];
+        const projects = coreState.getState('projects') || [];
         const project = projects.find(p => p.project_id == id);
         if (project) {
             openProjectModal(project);
             // Marcar el formulario con el ID para saber que es edición
             const form = document.getElementById('projectForm');
             if (form) form.dataset.projectId = id;
+        } else {
+            console.error('Proyecto no encontrado:', id);
         }
     }
 
@@ -882,16 +884,19 @@ document.addEventListener('DOMContentLoaded', async () => {
      * Ver archivos del proyecto
      */
     function viewProjectFiles(id) {
-        const filePanel = document.getElementById('filesPanel');
-        if (filePanel) {
-            filePanel.style.display = 'flex';
-            // Cargar archivos usando DocumentService si existe
-            if (window.documentService) {
-                // Simulación o llamada real
-                console.log('Cargando archivos del proyecto:', id);
-                // Si existiera método loadProjectFiles en documentService:
-                // window.documentService.loadProjectFiles(id);
+        // Usar la función global viewProjectFiles si existe
+        if (typeof window.viewProjectFiles === 'function') {
+            window.viewProjectFiles(id);
+        } else {
+            const filePanel = document.getElementById('filesPanel');
+            if (filePanel) {
+                filePanel.style.display = 'flex';
+                // Cargar archivos usando DocumentService si existe
+                if (window.documentService) {
+                    console.log('Cargando archivos del proyecto:', id);
+                }
             }
+        }
         }
     }
 
