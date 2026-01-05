@@ -177,7 +177,60 @@ class PhaseManager {
             return;
         }
 
-        // Navegar usando router
+        // Manejo especial para fase 2 (Gestor Documental)
+        if (phaseId === 'fase2') {
+            // Si estamos en panel-jefe.html, abrir el panel de archivos directamente
+            if (window.location.pathname.includes('panel-jefe.html')) {
+                // Buscar un proyecto para abrir el panel (usar el primero disponible o un ID por defecto)
+                if (typeof window.projectService !== 'undefined' && typeof window.coreState !== 'undefined') {
+                    const projects = window.coreState.getState('projects') || [];
+                    const firstProjectId = projects.length > 0 ? projects[0].project_id : null;
+                    if (firstProjectId && typeof window.viewProjectFiles === 'function') {
+                        window.viewProjectFiles(firstProjectId);
+                    } else if (typeof window.viewProjectFiles === 'function') {
+                        // Si no hay proyectos, intentar abrir con un ID por defecto o mostrar mensaje
+                        const filesPanel = document.getElementById('filesPanel');
+                        if (filesPanel) {
+                            filesPanel.style.display = 'flex';
+                            const filesPanelContent = document.getElementById('filesPanelContent');
+                            if (filesPanelContent) {
+                                filesPanelContent.innerHTML = '<p class="text-center text-slate-400 py-8">Selecciona un proyecto para ver sus archivos</p>';
+                            }
+                        }
+                    }
+                } else {
+                    // Fallback: navegar directamente
+                    window.location.href = phase.html;
+                }
+                // Log
+                if (typeof window.auditLogger !== 'undefined') {
+                    window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+                }
+                return;
+            } else {
+                // Si no estamos en panel-jefe.html, navegar allí primero
+                window.location.href = 'panel-jefe.html';
+                // Luego abrir el panel cuando se cargue la página
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        if (typeof window.viewProjectFiles === 'function') {
+                            const projects = window.coreState?.getState('projects') || [];
+                            const firstProjectId = projects.length > 0 ? projects[0].project_id : null;
+                            if (firstProjectId) {
+                                window.viewProjectFiles(firstProjectId);
+                            }
+                        }
+                    }, 1000);
+                });
+                // Log
+                if (typeof window.auditLogger !== 'undefined') {
+                    window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+                }
+                return;
+            }
+        }
+
+        // Navegar usando router para otras fases
         if (typeof window.router !== 'undefined') {
             const routeName = this.getRouteNameForPhase(phaseId);
             if (routeName) {
