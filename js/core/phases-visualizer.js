@@ -470,8 +470,8 @@ class PhasesVisualizer {
                 this.currentView = 'timeline';
             }
 
-            // Re-renderizar solo el contenido, no los botones
-            this.updateViewContent();
+            // Re-renderizar completamente para mantener funcionalidad
+            this.render();
         };
 
         // Guardar referencia al handler para poder removerlo después
