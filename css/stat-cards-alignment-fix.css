@@ -2,12 +2,16 @@
  * ============================================
  * FIXES PARA ALINEAMIENTO DE TEXTO EN STAT CARDS
  * Corrección de alineamiento de texto - forzar izquierda
+ * PRIORIDAD MÁXIMA - Debe cargarse al final
  * ============================================
  */
 
-/* Forzar alineamiento a la izquierda en todas las stat-cards */
-.stat-card,
-.glass-effect.stat-card,
+/* Forzar alineamiento a la izquierda en todas las stat-cards - MÁXIMA ESPECIFICIDAD */
+html body .stat-card,
+html body .glass-effect.stat-card,
+body .glass-effect.rounded-2xl.p-6.stat-card,
+body .grid .stat-card,
+body .grid .glass-effect.stat-card,
 [class*="stat-card"] {
     text-align: left !important;
 }
@@ -38,21 +42,21 @@
     width: 100% !important;
 }
 
-/* Párrafos y títulos específicamente */
-.stat-card p,
-.stat-card h3,
-.stat-card h1,
-.stat-card h2,
-.stat-card h4,
-.stat-card h5,
-.stat-card h6,
-.glass-effect.stat-card p,
-.glass-effect.stat-card h3 {
+/* Párrafos y títulos específicamente - MÁXIMA ESPECIFICIDAD */
+html body .stat-card p,
+html body .stat-card h3,
+html body .glass-effect.stat-card p,
+html body .glass-effect.stat-card h3,
+body .glass-effect.rounded-2xl.p-6.stat-card p,
+body .glass-effect.rounded-2xl.p-6.stat-card h3,
+body .grid .stat-card p,
+body .grid .stat-card h3 {
     text-align: left !important;
     display: block !important;
     width: 100% !important;
     margin-left: 0 !important;
     margin-right: auto !important;
+    padding-left: 0 !important;
 }
 
 /* Spans y labels */
@@ -69,21 +73,31 @@
     justify-content: flex-start !important;
 }
 
-/* Contenedor para descripción y valor - forzar izquierda */
-.stat-card > div.text-left,
-.glass-effect.stat-card > div.text-left {
+/* Contenedor para descripción y valor - forzar izquierda - MÁXIMA ESPECIFICIDAD */
+html body .stat-card > div.text-left,
+html body .glass-effect.stat-card > div.text-left,
+body .glass-effect.rounded-2xl.p-6.stat-card > div.text-left,
+body .grid .stat-card > div.text-left,
+body .grid .glass-effect.stat-card > div.text-left {
     text-align: left !important;
     width: 100% !important;
-    margin-left: -0.375rem !important; /* -ml-1.5 equivalente */
+    margin-left: -0.5rem !important; /* -ml-2 equivalente - más agresivo */
     padding-left: 0 !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
 }
 
-.stat-card > div.text-left > *,
-.glass-effect.stat-card > div.text-left > * {
+html body .stat-card > div.text-left > *,
+html body .glass-effect.stat-card > div.text-left > *,
+body .glass-effect.rounded-2xl.p-6.stat-card > div.text-left > *,
+body .grid .stat-card > div.text-left > *,
+body .grid .glass-effect.stat-card > div.text-left > * {
     text-align: left !important;
     display: block !important;
     margin-left: 0 !important;
     padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 /* Asegurar que los textos descriptivos estén a la izquierda */
