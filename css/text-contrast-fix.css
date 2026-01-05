@@ -2,253 +2,337 @@
    FIX DE CONTRASTE DE TEXTO - MEJORA LEGIBILIDAD
    ============================================
    Corrige problemas de contraste en todas las pestañas
+   Alta especificidad para evitar bloqueos
+   ============================================ */
+
+/* ============================================
+   REGLAS GLOBALES - ALTA ESPECIFICIDAD
    ============================================ */
 
 /* Mejorar contraste de texto secundario - cambiar de slate-400/300 a slate-200/100 */
-.text-slate-400,
-.text-slate-300 {
+body .text-slate-400,
+body .text-slate-300,
+html body .text-slate-400,
+html body .text-slate-300 {
     color: #e2e8f0 !important; /* slate-200 - mejor contraste */
 }
 
 /* Texto muy pequeño también necesita mejor contraste */
-.text-xs.text-slate-400,
-.text-xs.text-slate-300 {
+body .text-xs.text-slate-400,
+body .text-xs.text-slate-300,
+html body .text-xs.text-slate-400,
+html body .text-xs.text-slate-300 {
     color: #f1f5f9 !important; /* slate-100 - máximo contraste para texto pequeño */
 }
 
 /* Labels y texto de ayuda */
-.form-label.text-slate-400,
-label.text-slate-400,
-.text-slate-400.text-sm {
+body .form-label.text-slate-400,
+body label.text-slate-400,
+body .text-slate-400.text-sm,
+html body .form-label.text-slate-400,
+html body label.text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Descripciones y texto secundario en cards */
-.stat-card .text-slate-400,
-.glass-effect .text-slate-400,
-.card .text-slate-400 {
+body .stat-card .text-slate-400,
+body .glass-effect .text-slate-400,
+body .card .text-slate-400,
+html body .stat-card .text-slate-400,
+html body .glass-effect .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en tabs y navegación */
-.tab-btn.text-slate-400,
-.nav-item .text-slate-400 {
+body .tab-btn.text-slate-400,
+body .nav-item .text-slate-400 {
     color: #cbd5e1 !important; /* slate-300 - un poco más claro */
 }
 
-.tab-btn.text-slate-400:hover {
+body .tab-btn.text-slate-400:hover,
+body .tab-btn.text-slate-400:focus {
     color: #ffffff !important; /* blanco en hover para máximo contraste */
 }
 
 /* Texto en secciones de contenido */
-.content-section .text-slate-400,
-.section-header .text-slate-400 {
+body .content-section .text-slate-400,
+body .section-header .text-slate-400,
+html body .content-section .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en modales */
-.modal .text-slate-400,
-.modal-content .text-slate-400 {
+body .modal .text-slate-400,
+body .modal-content .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en tablas */
-table .text-slate-400,
-.table .text-slate-400 {
+body table .text-slate-400,
+body .table .text-slate-400,
+body table td.text-slate-400,
+body table th.text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en listas */
-.list-group-item .text-slate-400,
-ul .text-slate-400,
-li .text-slate-400 {
+body .list-group-item .text-slate-400,
+body ul .text-slate-400,
+body li .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Asegurar que el texto principal siempre sea blanco */
-.text-white {
+body .text-white,
+html body .text-white {
     color: #ffffff !important;
 }
 
 /* Texto con color slate-500 también necesita mejor contraste */
-.text-slate-500 {
+body .text-slate-500,
+html body .text-slate-500 {
     color: #cbd5e1 !important; /* slate-300 */
 }
 
 /* Texto muted también debe ser más legible */
-.text-muted {
+body .text-muted,
+html body .text-muted {
     color: #cbd5e1 !important; /* slate-300 */
 }
 
-/* Texto en botones deshabilitados */
-button:disabled .text-slate-400,
-.btn:disabled .text-slate-400 {
-    color: #94a3b8 !important; /* slate-400 pero más claro */
-}
+/* ============================================
+   OVERRIDE ESPECÍFICO PARA PANEL-JEFE
+   ============================================ */
 
-/* Mejorar contraste en texto de placeholders */
-input::placeholder,
-textarea::placeholder {
-    color: #94a3b8 !important; /* slate-400 - suficiente para placeholders */
-    opacity: 0.8;
-}
-
-/* Texto en tooltips y popovers */
-.tooltip .text-slate-400,
-.popover .text-slate-400 {
-    color: #e2e8f0 !important; /* slate-200 */
-}
-
-/* Texto en badges y etiquetas */
-.badge .text-slate-400,
-.label .text-slate-400 {
-    color: #f1f5f9 !important; /* slate-100 para máximo contraste */
-}
-
-/* Texto en cards de usuario */
-.user-card .text-slate-400,
-.user-info .text-slate-400 {
-    color: #e2e8f0 !important; /* slate-200 */
-}
-
-/* Texto en mensajes y notificaciones */
-.message .text-slate-400,
-.notification .text-slate-400 {
-    color: #e2e8f0 !important; /* slate-200 */
-}
-
-/* Texto en el header */
-header .text-slate-400,
-.header .text-slate-400 {
-    color: #cbd5e1 !important; /* slate-300 - un poco más claro */
-}
-
-/* Asegurar contraste mínimo WCAG AA (4.5:1) para texto normal */
-/* Fondo oscuro (#0f172a o #1e293b) con texto #e2e8f0 tiene ~8:1 - Excelente */
-
-/* Override específico para panel-jefe */
-.panel-jefe .text-slate-400,
-#adminContent .text-slate-400,
-main .text-slate-400 {
+body .panel-jefe .text-slate-400,
+body #adminContent .text-slate-400,
+body main .text-slate-400,
+html body .panel-jefe .text-slate-400,
+html body #adminContent .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Override para todas las secciones de contenido */
-.content-section .text-slate-400,
-.content-section .text-slate-300 {
+body .content-section .text-slate-400,
+body .content-section .text-slate-300,
+html body .content-section .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
-/* Override específico para secciones problemáticas */
-#sectionProyectos .text-slate-400,
-#sectionProyectos .text-slate-300,
-#sectionProyectos .text-slate-500,
-#sectionMensajeria .text-slate-400,
-#sectionMensajeria .text-slate-300,
-#sectionMensajeria .text-slate-500,
-#sectionConfiguracion .text-slate-400,
-#sectionConfiguracion .text-slate-300,
-#sectionConfiguracion .text-slate-500,
-#sectionUsuarios .text-slate-400,
-#sectionUsuarios .text-slate-300,
-#sectionUsuarios .text-slate-500 {
+/* ============================================
+   OVERRIDE ESPECÍFICO PARA SECCIONES PROBLEMÁTICAS
+   ============================================ */
+
+/* Sección Proyectos */
+body #sectionProyectos .text-slate-400,
+body #sectionProyectos .text-slate-300,
+body #sectionProyectos .text-slate-500,
+html body #sectionProyectos .text-slate-400,
+html body #sectionProyectos .text-slate-300 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Sección Mensajería */
+body #sectionMensajeria .text-slate-400,
+body #sectionMensajeria .text-slate-300,
+body #sectionMensajeria .text-slate-500,
+html body #sectionMensajeria .text-slate-400,
+html body #sectionMensajeria .text-slate-300 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Sección Configuración */
+body #sectionConfiguracion .text-slate-400,
+body #sectionConfiguracion .text-slate-300,
+body #sectionConfiguracion .text-slate-500,
+html body #sectionConfiguracion .text-slate-400,
+html body #sectionConfiguracion .text-slate-300 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Sección Usuarios */
+body #sectionUsuarios .text-slate-400,
+body #sectionUsuarios .text-slate-300,
+body #sectionUsuarios .text-slate-500,
+html body #sectionUsuarios .text-slate-400,
+html body #sectionUsuarios .text-slate-300 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en tablas de estas secciones */
-#sectionProyectos table .text-slate-400,
-#sectionProyectos .table .text-slate-400,
-#sectionMensajeria table .text-slate-400,
-#sectionMensajeria .table .text-slate-400,
-#sectionConfiguracion table .text-slate-400,
-#sectionConfiguracion .table .text-slate-400,
-#sectionUsuarios table .text-slate-400,
-#sectionUsuarios .table .text-slate-400 {
+body #sectionProyectos table .text-slate-400,
+body #sectionProyectos .table .text-slate-400,
+body #sectionMensajeria table .text-slate-400,
+body #sectionMensajeria .table .text-slate-400,
+body #sectionConfiguracion table .text-slate-400,
+body #sectionConfiguracion .table .text-slate-400,
+body #sectionUsuarios table .text-slate-400,
+body #sectionUsuarios .table .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Labels y texto de formularios en estas secciones */
-#sectionProyectos label.text-slate-400,
-#sectionProyectos .form-label.text-slate-400,
-#sectionMensajeria label.text-slate-400,
-#sectionMensajeria .form-label.text-slate-400,
-#sectionConfiguracion label.text-slate-400,
-#sectionConfiguracion .form-label.text-slate-400,
-#sectionUsuarios label.text-slate-400,
-#sectionUsuarios .form-label.text-slate-400 {
+body #sectionProyectos label.text-slate-400,
+body #sectionProyectos .form-label.text-slate-400,
+body #sectionMensajeria label.text-slate-400,
+body #sectionMensajeria .form-label.text-slate-400,
+body #sectionConfiguracion label.text-slate-400,
+body #sectionConfiguracion .form-label.text-slate-400,
+body #sectionUsuarios label.text-slate-400,
+body #sectionUsuarios .form-label.text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en cards y contenedores de estas secciones */
-#sectionProyectos .card .text-slate-400,
-#sectionProyectos .glass-effect .text-slate-400,
-#sectionMensajeria .card .text-slate-400,
-#sectionMensajeria .glass-effect .text-slate-400,
-#sectionConfiguracion .card .text-slate-400,
-#sectionConfiguracion .glass-effect .text-slate-400,
-#sectionUsuarios .card .text-slate-400,
-#sectionUsuarios .glass-effect .text-slate-400 {
+body #sectionProyectos .card .text-slate-400,
+body #sectionProyectos .glass-effect .text-slate-400,
+body #sectionMensajeria .card .text-slate-400,
+body #sectionMensajeria .glass-effect .text-slate-400,
+body #sectionConfiguracion .card .text-slate-400,
+body #sectionConfiguracion .glass-effect .text-slate-400,
+body #sectionUsuarios .card .text-slate-400,
+body #sectionUsuarios .glass-effect .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto en listas de estas secciones */
-#sectionProyectos ul .text-slate-400,
-#sectionProyectos li .text-slate-400,
-#sectionMensajeria ul .text-slate-400,
-#sectionMensajeria li .text-slate-400,
-#sectionConfiguracion ul .text-slate-400,
-#sectionConfiguracion li .text-slate-400,
-#sectionUsuarios ul .text-slate-400,
-#sectionUsuarios li .text-slate-400 {
+body #sectionProyectos ul .text-slate-400,
+body #sectionProyectos li .text-slate-400,
+body #sectionMensajeria ul .text-slate-400,
+body #sectionMensajeria li .text-slate-400,
+body #sectionConfiguracion ul .text-slate-400,
+body #sectionConfiguracion li .text-slate-400,
+body #sectionUsuarios ul .text-slate-400,
+body #sectionUsuarios li .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Texto pequeño en estas secciones */
-#sectionProyectos .text-xs.text-slate-400,
-#sectionProyectos .text-sm.text-slate-400,
-#sectionMensajeria .text-xs.text-slate-400,
-#sectionMensajeria .text-sm.text-slate-400,
-#sectionConfiguracion .text-xs.text-slate-400,
-#sectionConfiguracion .text-sm.text-slate-400,
-#sectionUsuarios .text-xs.text-slate-400,
-#sectionUsuarios .text-sm.text-slate-400 {
+body #sectionProyectos .text-xs.text-slate-400,
+body #sectionProyectos .text-sm.text-slate-400,
+body #sectionMensajeria .text-xs.text-slate-400,
+body #sectionMensajeria .text-sm.text-slate-400,
+body #sectionConfiguracion .text-xs.text-slate-400,
+body #sectionConfiguracion .text-sm.text-slate-400,
+body #sectionUsuarios .text-xs.text-slate-400,
+body #sectionUsuarios .text-sm.text-slate-400 {
     color: #f1f5f9 !important; /* slate-100 - máximo contraste para texto pequeño */
 }
 
 /* Párrafos y descripciones en estas secciones */
-#sectionProyectos p.text-slate-400,
-#sectionProyectos p.text-slate-300,
-#sectionMensajeria p.text-slate-400,
-#sectionMensajeria p.text-slate-300,
-#sectionConfiguracion p.text-slate-400,
-#sectionConfiguracion p.text-slate-300,
-#sectionUsuarios p.text-slate-400,
-#sectionUsuarios p.text-slate-300 {
+body #sectionProyectos p.text-slate-400,
+body #sectionProyectos p.text-slate-300,
+body #sectionMensajeria p.text-slate-400,
+body #sectionMensajeria p.text-slate-300,
+body #sectionConfiguracion p.text-slate-400,
+body #sectionConfiguracion p.text-slate-300,
+body #sectionUsuarios p.text-slate-400,
+body #sectionUsuarios p.text-slate-300 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
 /* Divs y spans con texto en estas secciones */
-#sectionProyectos div.text-slate-400,
-#sectionProyectos span.text-slate-400,
-#sectionMensajeria div.text-slate-400,
-#sectionMensajeria span.text-slate-400,
-#sectionConfiguracion div.text-slate-400,
-#sectionConfiguracion span.text-slate-400,
-#sectionUsuarios div.text-slate-400,
-#sectionUsuarios span.text-slate-400 {
+body #sectionProyectos div.text-slate-400,
+body #sectionProyectos span.text-slate-400,
+body #sectionMensajeria div.text-slate-400,
+body #sectionMensajeria span.text-slate-400,
+body #sectionConfiguracion div.text-slate-400,
+body #sectionConfiguracion span.text-slate-400,
+body #sectionUsuarios div.text-slate-400,
+body #sectionUsuarios span.text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
+/* ============================================
+   FIXES DE ALINEACIÓN Y RESPONSIVE
+   ============================================ */
+
+/* Asegurar alineación correcta de texto en contenedores */
+body .content-section,
+body .glass-effect,
+body .card,
+body .stat-card {
+    text-align: left !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Alineación de texto en elementos inline y flex */
+body .content-section p,
+body .content-section div,
+body .content-section span,
+body .glass-effect p,
+body .glass-effect div,
+body .glass-effect span {
+    text-align: inherit !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Fix para elementos flex que desalinean texto */
+body .flex.items-center p,
+body .flex.items-center div,
+body .flex.items-center span {
+    text-align: left !important;
+}
+
+/* Responsive: ajustar padding y márgenes en móviles */
+@media (max-width: 768px) {
+    body .content-section,
+    body .glass-effect,
+    body .card {
+        padding: 1rem !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    body .content-section p,
+    body .glass-effect p,
+    body .card p {
+        font-size: 0.875rem !important;
+        line-height: 1.5 !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    /* Asegurar que el texto no se desborde */
+    body .content-section *,
+    body .glass-effect *,
+    body .card * {
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+}
+
+/* Fix para tablas responsive */
+@media (max-width: 768px) {
+    body table,
+    body .table {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    body table td,
+    body table th {
+        white-space: nowrap !important;
+        min-width: 100px !important;
+    }
+}
+
 /* Texto en visualizador de fases */
-.phases-visualizer .text-slate-400,
-.phases-visualizer .text-slate-500 {
+body .phases-visualizer .text-slate-400,
+body .phases-visualizer .text-slate-500 {
     color: #cbd5e1 !important; /* slate-300 */
 }
 
 /* Mejora adicional: texto en hover debe ser más claro */
-a:hover .text-slate-400,
-button:hover .text-slate-400,
-.nav-item:hover .text-slate-400 {
+body a:hover .text-slate-400,
+body button:hover .text-slate-400,
+body .nav-item:hover .text-slate-400 {
     color: #ffffff !important; /* blanco en hover */
 }
 
+/* Asegurar contraste mínimo WCAG AA (4.5:1) para texto normal */
+/* Fondo oscuro (#0f172a o #1e293b) con texto #e2e8f0 tiene ~8:1 - Excelente */
