@@ -540,7 +540,18 @@ class PhasesVisualizer {
         
         // Guardar referencia y agregar listener
         container._phaseButtonHandler = phaseButtonHandler;
-        container.addEventListener('click', phaseButtonHandler);
+        container.addEventListener('click', phaseButtonHandler, true); // Usar capture phase
+        
+        console.log('✅ Event listener agregado para botones de fase');
+        
+        // Verificar que los botones existan después de un breve delay
+        setTimeout(() => {
+            const phaseButtons = container.querySelectorAll('.phase-btn');
+            console.log(`✅ Botones de fase encontrados: ${phaseButtons.length}`);
+            phaseButtons.forEach((btn, index) => {
+                console.log(`  Botón ${index + 1}:`, btn.dataset.phaseId, btn);
+            });
+        }, 100);
     }
 
     /**
