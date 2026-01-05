@@ -302,35 +302,101 @@ class PhasesVisualizer {
 
         const statusColor = statusColors[phase.status] || statusColors.pending;
         const usageCount = stats?.count || 0;
+        const lastUsed = stats?.lastUsed 
+            ? new Date(stats.lastUsed).toLocaleDateString('es-CL')
+            : 'Nunca';
+
+        // Obtener mejoras disponibles
+        const enhancements = typeof window.phasesEnhancements !== 'undefined'
+            ? window.phasesEnhancements.getPhaseEnhancements(phase.id)
+            : null;
+        
+        const totalFeatures = enhancements 
+            ? Object.values(enhancements.improvements || {}).reduce((sum, imp) => sum + (imp.features?.length || 0), 0)
+            : 0;
+
+        // Obtener icono según fase
+        const phaseIcons = {
+            'fase1': 'fa-chart-line',
+            'fase2': 'fa-folder-open',
+            'fase3': 'fa-comments',
+            'fase4': 'fa-gamepad',
+            'fase5': 'fa-hard-hat',
+            'fase6': 'fa-file-excel'
+        };
+        const phaseIcon = phaseIcons[phase.id] || 'fa-cube';
 
         return `
             <div class="relative flex items-start gap-6">
                 <div class="relative z-10 flex-shrink-0">
-                    <div class="w-16 h-16 rounded-full ${statusColor} flex items-center justify-center text-white font-bold text-lg">
-                        ${index + 1}
+                    <div class="w-16 h-16 rounded-full ${statusColor} flex items-center justify-center text-white text-2xl shadow-lg">
+                        <i class="fas ${phaseIcon}"></i>
                     </div>
+                    ${index < this.getAllPhases().length - 1 ? `
+                        <div class="absolute top-16 left-1/2 transform -translate-x-1/2 w-0.5 h-full ${statusColor.replace('bg-', 'bg-').replace('-500', '-500/30')}"></div>
+                    ` : ''}
                 </div>
-                <div class="flex-1 glass-effect rounded-lg p-4 border border-slate-700">
-                    <div class="flex items-start justify-between mb-2">
-                        <div>
-                            <h3 class="text-lg font-bold text-white">${phase.name}</h3>
-                            <p class="text-sm text-slate-400 mt-1">${phase.description}</p>
+                <div class="flex-1 glass-effect rounded-lg p-4 border border-slate-700 hover:border-indigo-500 transition-all mb-8">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h3 class="text-lg font-bold text-white">${phase.name}</h3>
+                                <span class="px-3 py-1 rounded-full text-xs font-medium ${statusColor.replace('bg-', 'bg-').replace('-500', '-500/30')} ${statusColor === 'bg-emerald-500' ? 'text-emerald-300' : statusColor === 'bg-blue-500' ? 'text-blue-300' : 'text-amber-300'}">
+                                    ${phase.status === 'completed' ? 'Completo' : phase.status === 'implemented' ? 'Implementado' : 'Pendiente'}
+                                </span>
+                            </div>
+                            <p class="text-sm text-slate-400 mb-3">${phase.description}</p>
                         </div>
-                        <span class="px-3 py-1 rounded-full text-xs font-medium bg-slate-700 text-slate-300">
-                            ${phase.status === 'completed' ? 'Completo' : phase.status === 'implemented' ? 'Implementado' : 'Pendiente'}
-                        </span>
                     </div>
-                    <div class="flex items-center gap-4 text-sm text-slate-400">
-                        <span><i class="fas fa-cube mr-1"></i>${phase.modules.length} módulos</span>
-                        <span><i class="fas fa-chart-line mr-1"></i>${usageCount} usos</span>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+                        <div class="bg-white/5 rounded-lg p-2">
+                            <div class="text-xs text-slate-400 mb-1">Módulos</div>
+                            <div class="text-sm font-bold text-white">${phase.modules.length}</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-2">
+                            <div class="text-xs text-slate-400 mb-1">Características</div>
+                            <div class="text-sm font-bold text-purple-400">${totalFeatures}</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-2">
+                            <div class="text-xs text-slate-400 mb-1">Usos</div>
+                            <div class="text-sm font-bold text-white">${usageCount}</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-2">
+                            <div class="text-xs text-slate-400 mb-1">Último uso</div>
+                            <div class="text-sm font-bold text-slate-300">${lastUsed}</div>
+                        </div>
                     </div>
-                    <button class="phase-btn mt-3 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all"
+                    ${phase.dependencies && phase.dependencies.length > 0 ? `
+                        <div class="mb-3 pt-3 border-t border-slate-700">
+                            <div class="text-xs text-slate-400 mb-2">Depende de:</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${phase.dependencies.map(depId => {
+                                    const depPhase = typeof window.phaseManager !== 'undefined' 
+                                        ? window.phaseManager.phases?.get?.(depId)
+                                        : null;
+                                    if (!depPhase) return '';
+                                    return `<span class="px-2 py-1 rounded text-xs bg-slate-700/50 text-slate-300">${depPhase.name}</span>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    <button class="phase-btn w-full px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
                             data-phase-id="${phase.id}">
+                        <i class="fas fa-arrow-right"></i>
                         Ver Detalles
                     </button>
                 </div>
             </div>
         `;
+    }
+
+    /**
+     * Obtener todas las fases (helper para timeline)
+     */
+    getAllPhases() {
+        return typeof window.phaseManager !== 'undefined' 
+            ? window.phaseManager.getAllPhases() 
+            : [];
     }
 
     /**
