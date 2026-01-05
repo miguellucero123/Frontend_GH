@@ -432,31 +432,51 @@ class PhasesVisualizer {
      * Configurar event listeners
      */
     setupEventListeners() {
-        // Cambiar vista
-        const btnViewGrid = document.getElementById('btnViewGrid');
-        const btnViewList = document.getElementById('btnViewList');
-        const btnViewTimeline = document.getElementById('btnViewTimeline');
+        // Cambiar vista - usar event delegation para evitar perder listeners al re-renderizar
+        const container = this.container;
+        if (!container) return;
 
-        if (btnViewGrid) {
-            btnViewGrid.addEventListener('click', () => {
+        // Remover listeners anteriores si existen
+        const existingHandler = container._viewButtonHandler;
+        if (existingHandler) {
+            container.removeEventListener('click', existingHandler);
+        }
+
+        // Crear nuevo handler
+        const viewButtonHandler = (e) => {
+            const btn = e.target.closest('#btnViewGrid, #btnViewList, #btnViewTimeline');
+            if (!btn) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Remover clase active de todos los botones
+            const allButtons = container.querySelectorAll('#btnViewGrid, #btnViewList, #btnViewTimeline');
+            allButtons.forEach(b => {
+                b.classList.remove('bg-indigo-600');
+                b.classList.add('bg-slate-700');
+            });
+
+            // Agregar clase active al botón clickeado
+            btn.classList.remove('bg-slate-700');
+            btn.classList.add('bg-indigo-600');
+
+            // Cambiar vista según el botón
+            if (btn.id === 'btnViewGrid') {
                 this.currentView = 'grid';
-                this.render();
-            });
-        }
-
-        if (btnViewList) {
-            btnViewList.addEventListener('click', () => {
+            } else if (btn.id === 'btnViewList') {
                 this.currentView = 'list';
-                this.render();
-            });
-        }
-
-        if (btnViewTimeline) {
-            btnViewTimeline.addEventListener('click', () => {
+            } else if (btn.id === 'btnViewTimeline') {
                 this.currentView = 'timeline';
-                this.render();
-            });
-        }
+            }
+
+            // Re-renderizar solo el contenido, no los botones
+            this.updateViewContent();
+        };
+
+        // Guardar referencia al handler para poder removerlo después
+        container._viewButtonHandler = viewButtonHandler;
+        container.addEventListener('click', viewButtonHandler);
         
         // Event delegation para botones de fases (se ejecuta después de render)
         setTimeout(() => {
