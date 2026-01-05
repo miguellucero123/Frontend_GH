@@ -71,11 +71,31 @@ class VisualService {
      * Gráfico de línea: Evolución de costos vs presupuesto
      */
     renderFinancialChart(projects) {
-        const ctx = document.getElementById('financialChart')?.getContext('2d');
-        if (!ctx) return;
+        const canvas = document.getElementById('financialChart');
+        if (!canvas) return;
 
-        // Limpiar gráfico anterior si existe
-        if (this.charts.financial) this.charts.financial.destroy();
+        // Destruir gráfico anterior si existe (tanto en this.charts como en Chart.js)
+        if (this.charts.financial) {
+            try {
+                this.charts.financial.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart financiero anterior:', e);
+            }
+            this.charts.financial = null;
+        }
+
+        // Verificar si Chart.js tiene un chart registrado en este canvas
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            try {
+                existingChart.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart existente de Chart.js:', e);
+            }
+        }
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
         const labels = projects.map(p => p.mandante_nombre.substring(0, 15) + '...');
         const budgetData = projects.map(p => p.costo_inicial || 0);
