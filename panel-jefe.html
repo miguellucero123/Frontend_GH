@@ -131,6 +131,25 @@
             text-align: left !important;
             width: auto !important;
             display: block !important;
+            margin-left: 0 !important;
+            padding-left: 0 !important;
+        }
+        
+        /* Forzar contenedores de texto más a la izquierda - CRÍTICO */
+        body .stat-card > div.text-left,
+        body .glass-effect.stat-card > div.text-left {
+            margin-left: -0.5rem !important;
+            padding-left: 0 !important;
+            text-align: left !important;
+        }
+        
+        body .stat-card > div.text-left > p,
+        body .stat-card > div.text-left > h3,
+        body .glass-effect.stat-card > div.text-left > p,
+        body .glass-effect.stat-card > div.text-left > h3 {
+            margin-left: 0 !important;
+            padding-left: 0 !important;
+            text-align: left !important;
         }
         
         /* El contenedor flex debe mantener el layout pero el texto a la izquierda */
