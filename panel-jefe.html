@@ -697,8 +697,20 @@
             
             // Inicializar visualizador de fases
             setTimeout(() => {
-                if (typeof PhasesVisualizer !== 'undefined' && document.getElementById('phasesVisualizerContainer')) {
-                    window.phasesVisualizer = new PhasesVisualizer('phasesVisualizerContainer');
+                const container = document.getElementById('phasesVisualizerContainer');
+                if (typeof PhasesVisualizer !== 'undefined' && container) {
+                    try {
+                        console.log('✅ Inicializando visualizador de fases...');
+                        window.phasesVisualizer = new PhasesVisualizer('phasesVisualizerContainer');
+                        console.log('✅ Visualizador de fases inicializado correctamente');
+                    } catch (error) {
+                        console.error('❌ Error al inicializar visualizador de fases:', error);
+                    }
+                } else {
+                    console.warn('⚠️ PhasesVisualizer no disponible o contenedor no encontrado', {
+                        PhasesVisualizer: typeof PhasesVisualizer,
+                        container: !!container
+                    });
                 }
                 // Forzar estilos una vez más después de inicializar componentes
                 forceScrollAndButtons();

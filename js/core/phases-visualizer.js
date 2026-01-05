@@ -21,10 +21,11 @@ class PhasesVisualizer {
     init() {
         this.container = document.getElementById(this.containerId);
         if (!this.container) {
-            console.error(`Contenedor no encontrado: ${this.containerId}`);
+            console.error(`❌ Contenedor no encontrado: ${this.containerId}`);
             return;
         }
 
+        console.log(`✅ Contenedor encontrado: ${this.containerId}`, this.container);
         this.render();
         this.setupEventListeners();
     }
