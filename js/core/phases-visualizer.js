@@ -502,7 +502,12 @@ class PhasesVisualizer {
                 console.log('🔵 Botón de fase clickeado:', phaseId, phaseBtn);
                 if (phaseId) {
                     console.log('🔵 Navegando a fase:', phaseId);
-                    this.navigateToPhase(phaseId);
+                    // Usar phaseManager.navigateToPhase en lugar de this.navigateToPhase
+                    if (typeof window.phaseManager !== 'undefined') {
+                        window.phaseManager.navigateToPhase(phaseId);
+                    } else {
+                        console.error('❌ phaseManager no disponible');
+                    }
                 } else {
                     console.warn('⚠️ Botón de fase sin data-phase-id:', phaseBtn);
                 }

@@ -151,10 +151,10 @@ class PhaseManager {
         const phase = this.phases.get(phaseId);
         if (!phase) return false;
 
-        // Verificar dependencias
+        // Verificar dependencias - aceptar 'completed' o 'implemented'
         for (const depId of phase.dependencies) {
             const dep = this.phases.get(depId);
-            if (!dep || dep.status !== 'completed') {
+            if (!dep || (dep.status !== 'completed' && dep.status !== 'implemented')) {
                 return false;
             }
         }
@@ -282,7 +282,61 @@ class PhaseManager {
             }
         }
 
-        // Navegar usando router para otras fases
+        // Manejo especial para fase 3 (Canales de Comunicación)
+        if (phaseId === 'fase3') {
+            // Navegar a mensajeria.html
+            window.location.href = phase.html;
+            if (typeof window.auditLogger !== 'undefined') {
+                window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+            }
+            return;
+        }
+
+        // Manejo especial para fase 4 (UX Cliente Gamificada)
+        if (phaseId === 'fase4') {
+            // Navegar a dashboard-cliente.html
+            window.location.href = phase.html;
+            if (typeof window.auditLogger !== 'undefined') {
+                window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+            }
+            return;
+        }
+
+        // Manejo especial para fase 5 (UX Trabajador Operativa)
+        if (phaseId === 'fase5') {
+            // Navegar a dashboard-trabajador.html
+            window.location.href = phase.html;
+            if (typeof window.auditLogger !== 'undefined') {
+                window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+            }
+            return;
+        }
+
+        // Manejo especial para fase 6 (Automatización Excel)
+        if (phaseId === 'fase6') {
+            // Si estamos en panel-jefe.html, cambiar a la sección de excel-upload
+            if (window.location.pathname.includes('panel-jefe.html') || window.location.href.includes('panel-jefe.html')) {
+                // Navegar usando hash
+                window.location.hash = 'excel-upload';
+                // También intentar activar la sección si existe
+                const excelSection = document.getElementById('sectionExcelUpload') || document.getElementById('sectionExcel') || document.querySelector('[data-section="excel-upload"]');
+                if (excelSection) {
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    excelSection.classList.add('active');
+                }
+            } else {
+                // Si no estamos en panel-jefe.html, navegar allí con hash
+                window.location.href = 'panel-jefe.html#excel-upload';
+            }
+            if (typeof window.auditLogger !== 'undefined') {
+                window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+            }
+            return;
+        }
+
+        // Navegar usando router para otras fases (fallback)
         if (typeof window.router !== 'undefined') {
             const routeName = this.getRouteNameForPhase(phaseId);
             if (routeName) {
