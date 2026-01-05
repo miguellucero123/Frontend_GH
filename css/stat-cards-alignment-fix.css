@@ -19,6 +19,25 @@
     text-align: left !important;
 }
 
+/* Reducir padding izquierdo si es necesario - asegurar que el contenido esté pegado a la izquierda */
+.stat-card > div.text-left,
+.glass-effect.stat-card > div.text-left {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: left !important;
+}
+
+/* Asegurar que párrafos y h3 no tengan margen izquierdo */
+.stat-card > div.text-left > p,
+.stat-card > div.text-left > h3,
+.glass-effect.stat-card > div.text-left > p,
+.glass-effect.stat-card > div.text-left > h3 {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: left !important;
+    width: 100% !important;
+}
+
 /* Párrafos y títulos específicamente */
 .stat-card p,
 .stat-card h3,
