@@ -80,6 +80,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         if (typeof visualService !== 'undefined') {
                             visualService.animateSection(section.id);
                         }
+                        
+                        // Cargar datos cuando se activa la sección de proyectos
+                        if (sectionId === 'proyectos') {
+                            loadProjectsSection();
+                        }
                     }
                 });
             });
@@ -393,11 +398,182 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     /**
+     * Cargar y renderizar sección de proyectos
+     */
+    async function loadProjectsSection() {
+        console.log('📊 Cargando sección de proyectos...');
+        
+        try {
+            // Cargar proyectos
+            const projects = await projectService.fetchProjects() || [];
+            
+            // Actualizar estadísticas
+            updateProjectsStats(projects);
+            
+            // Renderizar tabla de proyectos
+            renderProjectsTable(projects);
+            
+            // Renderizar Gantt
+            if (typeof visualService !== 'undefined') {
+                visualService.renderGanttChart(projects);
+            }
+            
+            console.log('✅ Sección de proyectos cargada:', projects.length, 'proyectos');
+        } catch (error) {
+            console.error('❌ Error cargando sección de proyectos:', error);
+            // Mostrar mensaje de error en la tabla
+            const tbody = document.getElementById('projectsTableBody');
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="py-20 text-center">
+                            <i class="fas fa-exclamation-triangle text-3xl text-amber-400 mb-4"></i>
+                            <p class="text-red-400">Error al cargar proyectos</p>
+                            <p class="text-slate-500 text-sm mt-2">${error.message || 'Error desconocido'}</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+    }
+
+    /**
+     * Actualizar estadísticas de proyectos
+     */
+    function updateProjectsStats(projects) {
+        const total = projects.length;
+        const active = projects.filter(p => p.activo === true || p.estado === 'activo').length;
+        const pending = projects.filter(p => p.estado === 'pendiente' || !p.fecha_inicio).length;
+        const totalInvestment = projects.reduce((sum, p) => sum + (parseFloat(p.costo_final) || 0), 0);
+
+        updateStat('projectsTotalCount', total);
+        updateStat('projectsActiveCount', active);
+        updateStat('projectsPendingCount', pending);
+        updateStat('projectsTotalInvestment', formatCurrency(totalInvestment));
+    }
+
+    /**
+     * Renderizar tabla de proyectos
+     */
+    function renderProjectsTable(projects) {
+        const tbody = document.getElementById('projectsTableBody');
+        if (!tbody) return;
+
+        if (projects.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="py-20 text-center">
+                        <i class="fas fa-inbox text-4xl text-slate-500 mb-4"></i>
+                        <p class="text-slate-400">No hay proyectos registrados</p>
+                        <button id="btnNewProjectFromTable" class="mt-4 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm transition-all">
+                            <i class="fas fa-plus mr-2"></i>Crear Primer Proyecto
+                        </button>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = projects.map(project => {
+            const mandante = project.mandante_nombre || project.customer_name || 'Sin nombre';
+            const ciudad = project.ciudad || project.city || 'S/C';
+            const direccion = project.direccion || project.address || 'S/D';
+            const estado = project.estado || (project.activo ? 'activo' : 'pendiente');
+            const presupuesto = parseFloat(project.costo_final) || 0;
+            const fechaInicio = project.fecha_inicio || project.start_date || '';
+            const fechaFin = project.fecha_termino_estimada || project.end_date || '';
+            const progreso = project.progreso || 0;
+
+            // Determinar color del estado
+            let estadoColor = 'bg-slate-500';
+            let estadoText = estado;
+            if (estado === 'activo' || project.activo) {
+                estadoColor = 'bg-emerald-500';
+                estadoText = 'Activo';
+            } else if (estado === 'pendiente') {
+                estadoColor = 'bg-amber-500';
+                estadoText = 'Pendiente';
+            } else if (estado === 'completado') {
+                estadoColor = 'bg-blue-500';
+                estadoText = 'Completado';
+            } else if (estado === 'pausado') {
+                estadoColor = 'bg-red-500';
+                estadoText = 'Pausado';
+            }
+
+            return `
+                <tr class="hover:bg-slate-800/50 transition-colors">
+                    <td class="py-4 px-4">
+                        <div class="font-semibold text-white">${escapeHtml(mandante)}</div>
+                        <div class="text-xs text-slate-400 mt-1">ID: ${project.project_id}</div>
+                    </td>
+                    <td class="py-4 px-4 text-slate-300">${escapeHtml(mandante)}</td>
+                    <td class="py-4 px-4">
+                        <div class="text-slate-300">${escapeHtml(ciudad)}</div>
+                        <div class="text-xs text-slate-500">${escapeHtml(direccion)}</div>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${estadoColor} text-white">
+                            ${estadoText}
+                        </span>
+                    </td>
+                    <td class="py-4 px-4 text-right font-semibold text-white">${formatCurrency(presupuesto)}</td>
+                    <td class="py-4 px-4">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 bg-slate-700 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full transition-all" style="width: ${progreso}%"></div>
+                            </div>
+                            <span class="text-sm text-slate-300 w-12 text-right">${progreso}%</span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-4 text-slate-400 text-sm">
+                        <div>Inicio: ${formatDate(fechaInicio)}</div>
+                        <div class="text-xs mt-1">Fin: ${formatDate(fechaFin)}</div>
+                    </td>
+                    <td class="py-4 px-4">
+                        <div class="flex items-center justify-center gap-2">
+                            <button class="p-2 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 transition-all" 
+                                data-action="view" data-id="${project.project_id}" title="Ver detalles">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="p-2 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 transition-all" 
+                                data-action="edit" data-id="${project.project_id}" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="p-2 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 transition-all" 
+                                data-action="files" data-id="${project.project_id}" title="Archivos">
+                                <i class="fas fa-folder-open"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        // Actualizar paginación
+        updateProjectsPagination(projects.length);
+    }
+
+    /**
+     * Actualizar paginación
+     */
+    function updateProjectsPagination(total) {
+        const showingFrom = document.getElementById('projectsShowingFrom');
+        const showingTo = document.getElementById('projectsShowingTo');
+        const projectsTotal = document.getElementById('projectsTotal');
+
+        if (showingFrom) showingFrom.textContent = '1';
+        if (showingTo) showingTo.textContent = total.toString();
+        if (projectsTotal) projectsTotal.textContent = total.toString();
+    }
+
+    /**
      * Inicializar sección de proyectos
      */
     function initProjectsSection() {
         const btnCreateProject = document.getElementById('btnCreateProject');
         const btnNewProject = document.getElementById('btnNewProject');
+        const btnNewProjectFromSection = document.getElementById('btnNewProjectFromSection');
         const projectModal = document.getElementById('projectModal');
         const projectForm = document.getElementById('projectForm');
         const btnCloseProjectModal = document.getElementById('btnCloseProjectModal');
