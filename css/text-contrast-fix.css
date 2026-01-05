@@ -219,16 +219,32 @@ body #sectionUsuarios .text-sm.text-slate-400 {
     color: #f1f5f9 !important; /* slate-100 - máximo contraste para texto pequeño */
 }
 
-/* Párrafos y descripciones en estas secciones */
+/* Párrafos y descripciones en estas secciones - MÁXIMA ESPECIFICIDAD */
 body #sectionProyectos p.text-slate-400,
 body #sectionProyectos p.text-slate-300,
+body #sectionProyectos p,
 body #sectionMensajeria p.text-slate-400,
 body #sectionMensajeria p.text-slate-300,
+body #sectionMensajeria p,
 body #sectionConfiguracion p.text-slate-400,
 body #sectionConfiguracion p.text-slate-300,
+body #sectionConfiguracion p,
 body #sectionUsuarios p.text-slate-400,
-body #sectionUsuarios p.text-slate-300 {
-    color: #e2e8f0 !important; /* slate-200 */
+body #sectionUsuarios p.text-slate-300,
+body #sectionUsuarios p,
+html body #sectionProyectos p.text-slate-400,
+html body #sectionProyectos p.text-slate-300,
+html body #sectionProyectos p,
+html body #sectionMensajeria p.text-slate-400,
+html body #sectionMensajeria p.text-slate-300,
+html body #sectionMensajeria p,
+html body #sectionConfiguracion p.text-slate-400,
+html body #sectionConfiguracion p.text-slate-300,
+html body #sectionConfiguracion p,
+html body #sectionUsuarios p.text-slate-400,
+html body #sectionUsuarios p.text-slate-300,
+html body #sectionUsuarios p {
+    color: #e2e8f0 !important; /* slate-200 - mejor contraste */
 }
 
 /* Divs y spans con texto en estas secciones */
