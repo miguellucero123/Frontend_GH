@@ -1317,6 +1317,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     /**
+     * Escapar HTML para prevenir XSS
+     */
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    /**
      * Formatear moneda
      */
     function formatCurrency(amount) {
