@@ -45,18 +45,20 @@
     display: inline-block !important;
 }
 
-/* Contenedor flex - usar gap en lugar de justify-between */
-.stat-card .flex.items-center.justify-between {
-    justify-content: flex-start !important;
-    gap: 0.75rem !important;
-}
-
+/* Contenedor flex - mantener gap pero texto a la izquierda */
 .stat-card .flex.items-center.gap-3 {
     justify-content: flex-start !important;
 }
 
-.stat-card .flex.items-center > * {
+/* Contenedor para descripción y valor - forzar izquierda */
+.stat-card > div.text-left {
     text-align: left !important;
+    width: 100% !important;
+}
+
+.stat-card > div.text-left > * {
+    text-align: left !important;
+    display: block !important;
 }
 
 /* Asegurar que los textos descriptivos estén a la izquierda */
