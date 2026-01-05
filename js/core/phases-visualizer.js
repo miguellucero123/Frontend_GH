@@ -522,7 +522,12 @@ class PhasesVisualizer {
                 const phaseId = phaseCard.dataset.phaseId;
                 console.log('🔵 Tarjeta de fase clickeada:', phaseId);
                 if (phaseId) {
-                    this.navigateToPhase(phaseId);
+                    // Usar phaseManager.navigateToPhase
+                    if (typeof window.phaseManager !== 'undefined') {
+                        window.phaseManager.navigateToPhase(phaseId);
+                    } else {
+                        console.error('❌ phaseManager no disponible');
+                    }
                 }
                 return;
             }
