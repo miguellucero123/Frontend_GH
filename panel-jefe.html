@@ -114,15 +114,23 @@
             text-align: left !important;
         }
         
-        /* Asegurar alineamiento izquierdo en stat-cards */
+        /* CRÍTICO: Override del display: flex que centra el contenido */
         body .stat-card,
-        body .glass-effect.stat-card {
+        body .glass-effect.stat-card,
+        body .glass-effect.rounded-2xl.p-6.stat-card {
             text-align: left !important;
+            display: block !important; /* Override del display: flex */
+            align-items: unset !important;
+            justify-content: unset !important;
         }
         
+        /* Forzar que los elementos hijos se apilen verticalmente */
         body .stat-card > *,
-        body .glass-effect.stat-card > * {
+        body .glass-effect.stat-card > *,
+        body .glass-effect.rounded-2xl.p-6.stat-card > * {
             text-align: left !important;
+            display: block !important;
+            width: 100% !important;
         }
         
         /* Labels y valores alineados a la izquierda */
