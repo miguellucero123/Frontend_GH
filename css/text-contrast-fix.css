@@ -139,6 +139,106 @@ main .text-slate-400 {
     color: #e2e8f0 !important; /* slate-200 */
 }
 
+/* Override específico para secciones problemáticas */
+#sectionProyectos .text-slate-400,
+#sectionProyectos .text-slate-300,
+#sectionProyectos .text-slate-500,
+#sectionMensajeria .text-slate-400,
+#sectionMensajeria .text-slate-300,
+#sectionMensajeria .text-slate-500,
+#sectionConfiguracion .text-slate-400,
+#sectionConfiguracion .text-slate-300,
+#sectionConfiguracion .text-slate-500,
+#sectionUsuarios .text-slate-400,
+#sectionUsuarios .text-slate-300,
+#sectionUsuarios .text-slate-500 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en tablas de estas secciones */
+#sectionProyectos table .text-slate-400,
+#sectionProyectos .table .text-slate-400,
+#sectionMensajeria table .text-slate-400,
+#sectionMensajeria .table .text-slate-400,
+#sectionConfiguracion table .text-slate-400,
+#sectionConfiguracion .table .text-slate-400,
+#sectionUsuarios table .text-slate-400,
+#sectionUsuarios .table .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Labels y texto de formularios en estas secciones */
+#sectionProyectos label.text-slate-400,
+#sectionProyectos .form-label.text-slate-400,
+#sectionMensajeria label.text-slate-400,
+#sectionMensajeria .form-label.text-slate-400,
+#sectionConfiguracion label.text-slate-400,
+#sectionConfiguracion .form-label.text-slate-400,
+#sectionUsuarios label.text-slate-400,
+#sectionUsuarios .form-label.text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en cards y contenedores de estas secciones */
+#sectionProyectos .card .text-slate-400,
+#sectionProyectos .glass-effect .text-slate-400,
+#sectionMensajeria .card .text-slate-400,
+#sectionMensajeria .glass-effect .text-slate-400,
+#sectionConfiguracion .card .text-slate-400,
+#sectionConfiguracion .glass-effect .text-slate-400,
+#sectionUsuarios .card .text-slate-400,
+#sectionUsuarios .glass-effect .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en listas de estas secciones */
+#sectionProyectos ul .text-slate-400,
+#sectionProyectos li .text-slate-400,
+#sectionMensajeria ul .text-slate-400,
+#sectionMensajeria li .text-slate-400,
+#sectionConfiguracion ul .text-slate-400,
+#sectionConfiguracion li .text-slate-400,
+#sectionUsuarios ul .text-slate-400,
+#sectionUsuarios li .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto pequeño en estas secciones */
+#sectionProyectos .text-xs.text-slate-400,
+#sectionProyectos .text-sm.text-slate-400,
+#sectionMensajeria .text-xs.text-slate-400,
+#sectionMensajeria .text-sm.text-slate-400,
+#sectionConfiguracion .text-xs.text-slate-400,
+#sectionConfiguracion .text-sm.text-slate-400,
+#sectionUsuarios .text-xs.text-slate-400,
+#sectionUsuarios .text-sm.text-slate-400 {
+    color: #f1f5f9 !important; /* slate-100 - máximo contraste para texto pequeño */
+}
+
+/* Párrafos y descripciones en estas secciones */
+#sectionProyectos p.text-slate-400,
+#sectionProyectos p.text-slate-300,
+#sectionMensajeria p.text-slate-400,
+#sectionMensajeria p.text-slate-300,
+#sectionConfiguracion p.text-slate-400,
+#sectionConfiguracion p.text-slate-300,
+#sectionUsuarios p.text-slate-400,
+#sectionUsuarios p.text-slate-300 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Divs y spans con texto en estas secciones */
+#sectionProyectos div.text-slate-400,
+#sectionProyectos span.text-slate-400,
+#sectionMensajeria div.text-slate-400,
+#sectionMensajeria span.text-slate-400,
+#sectionConfiguracion div.text-slate-400,
+#sectionConfiguracion span.text-slate-400,
+#sectionUsuarios div.text-slate-400,
+#sectionUsuarios span.text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
 /* Texto en visualizador de fases */
 .phases-visualizer .text-slate-400,
 .phases-visualizer .text-slate-500 {
