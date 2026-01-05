@@ -434,7 +434,12 @@ class PhasesVisualizer {
     setupEventListeners() {
         // Cambiar vista - usar event delegation para evitar perder listeners al re-renderizar
         const container = this.container;
-        if (!container) return;
+        if (!container) {
+            console.warn('⚠️ Container no encontrado en setupEventListeners');
+            return;
+        }
+        
+        console.log('✅ Configurando event listeners en container:', container);
 
         // Remover listeners anteriores si existen
         const existingHandler = container._viewButtonHandler;
