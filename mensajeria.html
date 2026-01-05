@@ -4,46 +4,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Mensajería</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <meta name="description" content="Sistema de Mensajería - Canales de Comunicación">
+    <title>Sistema de Mensajería | ERP Constructora</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script>
+        // Suprimir advertencia de Tailwind CDN
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+            if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+                return;
+            }
+            originalWarn.apply(console, args);
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/chat-channels.css">
+    <link rel="stylesheet" href="css/text-contrast-fix.css">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            min-height: 100vh;
+        }
+
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(59, 130, 246, 0.2);
+        }
+    </style>
 </head>
 
-<body>
-    <header>
-        <h1>Sistema de Mensajería</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="dashboard-gerencia.html">Dashboard</a></li>
-                <li><a href="gestion-archivos.html">Gestión Documental</a></li>
-            </ul>
-        </nav>
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <span class="text-xl font-bold text-white">G&H</span>
+                </div>
+                <div class="hidden sm:block">
+                    <h1 class="text-xl font-bold text-white">ERP Constructora</h1>
+                </div>
+            </div>
+
+            <nav class="flex items-center gap-2" role="navigation" aria-label="Navegación principal">
+                <a href="index.html" class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <i class="fas fa-home mr-2"></i><span class="hidden md:inline">Inicio</span>
+                </a>
+                <a href="panel-jefe.html" class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <i class="fas fa-th-large mr-2"></i><span class="hidden md:inline">Dashboard</span>
+                </a>
+                <a href="panel-jefe.html#proyectos" class="nav-item px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <i class="fas fa-project-diagram mr-2"></i><span class="hidden md:inline">Proyectos</span>
+                </a>
+                <a href="mensajeria.html" class="nav-item active px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <i class="fas fa-comment-alt mr-2"></i><span class="hidden md:inline">Mensajería</span>
+                </a>
+                <button onclick="logout()" class="px-4 py-2 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all">
+                    <i class="fas fa-sign-out-alt mr-2"></i><span class="hidden md:inline">Salir</span>
+                </button>
+            </nav>
+        </div>
     </header>
-    <main>
-        <section class="chat-cliente-gerencia">
-            <h2>Chat Cliente-Gerencia</h2>
-            <div class="chat-window">
-                <!-- Mensajes dinámicos -->
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                <i class="fas fa-comments text-indigo-400"></i>
+                Sistema de Mensajería
+            </h2>
+            <p class="text-slate-400">Comunicación en tiempo real con canales separados por roles</p>
+        </div>
+
+        <!-- Chat Container -->
+        <div id="chatChannelsContainer" class="glass-effect rounded-2xl p-6 min-h-[600px]">
+            <div class="flex items-center justify-center h-full min-h-[600px]">
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin text-4xl text-indigo-400 mb-4"></i>
+                    <p class="text-slate-400">Cargando sistema de mensajería...</p>
+                </div>
             </div>
-            <form class="chat-form">
-                <input type="text" placeholder="Escribe un mensaje...">
-                <button type="submit">Enviar</button>
-            </form>
-        </section>
-        <section class="chat-gerencia-trabajadores">
-            <h2>Chat Gerencia-Trabajadores</h2>
-            <div class="chat-window">
-                <!-- Mensajes dinámicos -->
-            </div>
-            <form class="chat-form">
-                <input type="text" placeholder="Escribe un mensaje...">
-                <button type="submit">Enviar</button>
-            </form>
-        </section>
+        </div>
     </main>
-    <footer>
-        <p>© 2025 G&H Construcciones SPA</p>
+
+    <!-- Footer -->
+    <footer class="glass-effect border-t border-white/10 mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <p class="text-center text-slate-400 text-sm">© 2025 G&H Construcciones SPA. Todos los derechos reservados.</p>
+        </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    
+    <!-- Chat System -->
+    <script src="js/chat-channels-manager.js"></script>
+    <script src="js/chat.js"></script>
+
+    <script>
+        function logout() {
+            if (typeof auth !== 'undefined' && auth.logout) {
+                auth.logout();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Inicializar sistema de mensajería
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Verificar autenticación
+            if (typeof auth === 'undefined' || !auth.isAuthenticated()) {
+                console.warn('Usuario no autenticado, redirigiendo...');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const user = auth.getCurrentUser();
+            if (!user) {
+                console.error('Usuario no encontrado');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const userRole = user.role || user.rol;
+            console.log('✅ Usuario autenticado:', { name: user.name || user.username, role: userRole });
+
+            // Obtener proyecto (usar el primero disponible o un ID por defecto)
+            let projectId = null;
+            try {
+                if (typeof api !== 'undefined' && api.getProjects) {
+                    const projects = await api.getProjects();
+                    if (projects && projects.length > 0) {
+                        projectId = projects[0].project_id || projects[0].id;
+                    }
+                }
+            } catch (error) {
+                console.warn('No se pudo obtener proyectos, usando proyecto por defecto:', error);
+            }
+
+            // Si no hay proyecto, usar un ID por defecto o mostrar mensaje
+            if (!projectId) {
+                projectId = '1'; // ID por defecto para desarrollo
+                console.warn('⚠️ Usando proyecto por defecto:', projectId);
+            }
+
+            // Inicializar sistema de canales
+            if (typeof chatChannelsManager !== 'undefined') {
+                console.log('✅ Inicializando sistema de canales...');
+                chatChannelsManager.init(projectId, 'chatChannelsContainer', userRole);
+            } else {
+                console.error('❌ ChatChannelsManager no disponible');
+                document.getElementById('chatChannelsContainer').innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-exclamation-triangle text-4xl text-amber-400 mb-4"></i>
+                        <p class="text-red-400 text-lg font-semibold mb-2">Error al cargar el sistema de mensajería</p>
+                        <p class="text-slate-400">El sistema de canales no está disponible. Por favor, recarga la página.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
 </body>
 
 </html>
