@@ -580,13 +580,146 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btnCancelProject = document.getElementById('btnCancelProject');
 
         // Abrir modal de crear proyecto
-        [btnCreateProject, btnNewProject].forEach(btn => {
+        [btnCreateProject, btnNewProject, btnNewProjectFromSection].forEach(btn => {
             if (btn) {
                 btn.addEventListener('click', () => {
                     openProjectModal();
                 });
             }
         });
+
+        // Botones de la sección de proyectos
+        const btnFilterProjects = document.getElementById('btnFilterProjects');
+        const btnExportProjects = document.getElementById('btnExportProjects');
+        const btnGanttZoomIn = document.getElementById('btnGanttZoomIn');
+        const btnGanttZoomOut = document.getElementById('btnGanttZoomOut');
+        const btnGanttToday = document.getElementById('btnGanttToday');
+        const btnViewGrid = document.getElementById('btnViewGrid');
+        const btnViewList = document.getElementById('btnViewList');
+        const projectsSearchInput = document.getElementById('projectsSearchInput');
+        const projectsStatusFilter = document.getElementById('projectsStatusFilter');
+        const projectsSortBy = document.getElementById('projectsSortBy');
+
+        // Filtros
+        if (btnFilterProjects) {
+            btnFilterProjects.addEventListener('click', () => {
+                // Toggle panel de filtros avanzados
+                console.log('Filtros de proyectos');
+                // TODO: Implementar panel de filtros avanzados
+            });
+        }
+
+        // Exportar proyectos
+        if (btnExportProjects) {
+            btnExportProjects.addEventListener('click', async () => {
+                try {
+                    console.log('Exportando proyectos...');
+                    if (typeof reportingService !== 'undefined') {
+                        await reportingService.exportProjectsToExcel();
+                    } else {
+                        alert('Funcionalidad de exportación no disponible');
+                    }
+                } catch (error) {
+                    console.error('Error exportando proyectos:', error);
+                    alert('Error al exportar proyectos');
+                }
+            });
+        }
+
+        // Controles del Gantt
+        if (btnGanttZoomIn) {
+            btnGanttZoomIn.addEventListener('click', () => {
+                console.log('Zoom in Gantt');
+                if (typeof visualService !== 'undefined' && visualService.zoomGantt) {
+                    visualService.zoomGantt(1.2);
+                }
+            });
+        }
+
+        if (btnGanttZoomOut) {
+            btnGanttZoomOut.addEventListener('click', () => {
+                console.log('Zoom out Gantt');
+                if (typeof visualService !== 'undefined' && visualService.zoomGantt) {
+                    visualService.zoomGantt(0.8);
+                }
+            });
+        }
+
+        if (btnGanttToday) {
+            btnGanttToday.addEventListener('click', () => {
+                console.log('Centrar Gantt en hoy');
+                if (typeof visualService !== 'undefined' && visualService.centerGanttOnToday) {
+                    visualService.centerGanttOnToday();
+                }
+            });
+        }
+
+        // Vistas de tabla
+        if (btnViewGrid) {
+            btnViewGrid.addEventListener('click', () => {
+                btnViewGrid.classList.add('bg-indigo-600');
+                btnViewGrid.classList.remove('bg-slate-700');
+                btnViewList.classList.remove('bg-indigo-600');
+                btnViewList.classList.add('bg-slate-700');
+                // TODO: Cambiar a vista de grid
+                console.log('Vista Grid');
+            });
+        }
+
+        if (btnViewList) {
+            btnViewList.addEventListener('click', () => {
+                btnViewList.classList.add('bg-indigo-600');
+                btnViewList.classList.remove('bg-slate-700');
+                btnViewGrid.classList.remove('bg-indigo-600');
+                btnViewGrid.classList.add('bg-slate-700');
+                // Vista de lista ya está activa
+                console.log('Vista List');
+            });
+        }
+
+        // Búsqueda y filtros
+        if (projectsSearchInput) {
+            let searchTimeout;
+            projectsSearchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    filterProjectsTable(e.target.value);
+                }, 300);
+            });
+        }
+
+        if (projectsStatusFilter) {
+            projectsStatusFilter.addEventListener('change', (e) => {
+                filterProjectsTable(null, e.target.value);
+            });
+        }
+
+        if (projectsSortBy) {
+            projectsSortBy.addEventListener('change', (e) => {
+                sortProjectsTable(e.target.value);
+            });
+        }
+
+        // Event delegation para botones de acción en la tabla
+        const projectsTableBody = document.getElementById('projectsTableBody');
+        if (projectsTableBody) {
+            projectsTableBody.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-action]');
+                if (!btn) return;
+
+                const action = btn.dataset.action;
+                const id = btn.dataset.id;
+
+                if (action === 'view') {
+                    console.log('Ver proyecto:', id);
+                    // TODO: Mostrar detalles del proyecto
+                } else if (action === 'edit') {
+                    editProject(id);
+                } else if (action === 'files') {
+                    viewProjectFiles(id);
+                }
+            });
+        }
 
         // Cerrar modal
         [btnCloseProjectModal, btnCancelProject].forEach(btn => {
