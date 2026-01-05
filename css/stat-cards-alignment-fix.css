@@ -1,0 +1,80 @@
+/**
+ * ============================================
+ * FIXES PARA ALINEAMIENTO DE TEXTO EN STAT CARDS
+ * Corrección de alineamiento de texto - forzar izquierda
+ * ============================================
+ */
+
+/* Forzar alineamiento a la izquierda en todas las stat-cards */
+.stat-card,
+.glass-effect.stat-card,
+[class*="stat-card"] {
+    text-align: left !important;
+}
+
+/* Todos los elementos dentro de stat-card */
+.stat-card *,
+.glass-effect.stat-card *,
+[class*="stat-card"] * {
+    text-align: left !important;
+}
+
+/* Párrafos y títulos específicamente */
+.stat-card p,
+.stat-card h3,
+.stat-card h1,
+.stat-card h2,
+.stat-card h4,
+.stat-card h5,
+.stat-card h6,
+.glass-effect.stat-card p,
+.glass-effect.stat-card h3 {
+    text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+/* Spans y labels */
+.stat-card span,
+.stat-card label,
+.glass-effect.stat-card span,
+.glass-effect.stat-card label {
+    text-align: left !important;
+    display: inline-block !important;
+}
+
+/* Contenedor flex - mantener layout pero texto a la izquierda */
+.stat-card .flex.items-center.justify-between {
+    justify-content: space-between !important;
+}
+
+.stat-card .flex.items-center.justify-between > * {
+    text-align: left !important;
+}
+
+/* Asegurar que los textos descriptivos estén a la izquierda */
+.stat-card .text-slate-400,
+.stat-card .text-sm,
+.stat-card .text-xs {
+    text-align: left !important;
+    display: block !important;
+}
+
+/* Valores numéricos */
+.stat-card h3.text-3xl,
+.stat-card h3.font-bold,
+.stat-card [id^="stat"] {
+    text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Labels como ACTIVOS, PERSONAL, etc. */
+.stat-card span.uppercase,
+.stat-card span.font-bold {
+    text-align: left !important;
+    display: inline-block !important;
+}
+
