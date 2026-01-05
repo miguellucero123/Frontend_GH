@@ -1,0 +1,154 @@
+/* ============================================
+   FIX DE CONTRASTE DE TEXTO - MEJORA LEGIBILIDAD
+   ============================================
+   Corrige problemas de contraste en todas las pestañas
+   ============================================ */
+
+/* Mejorar contraste de texto secundario - cambiar de slate-400/300 a slate-200/100 */
+.text-slate-400,
+.text-slate-300 {
+    color: #e2e8f0 !important; /* slate-200 - mejor contraste */
+}
+
+/* Texto muy pequeño también necesita mejor contraste */
+.text-xs.text-slate-400,
+.text-xs.text-slate-300 {
+    color: #f1f5f9 !important; /* slate-100 - máximo contraste para texto pequeño */
+}
+
+/* Labels y texto de ayuda */
+.form-label.text-slate-400,
+label.text-slate-400,
+.text-slate-400.text-sm {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Descripciones y texto secundario en cards */
+.stat-card .text-slate-400,
+.glass-effect .text-slate-400,
+.card .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en tabs y navegación */
+.tab-btn.text-slate-400,
+.nav-item .text-slate-400 {
+    color: #cbd5e1 !important; /* slate-300 - un poco más claro */
+}
+
+.tab-btn.text-slate-400:hover {
+    color: #ffffff !important; /* blanco en hover para máximo contraste */
+}
+
+/* Texto en secciones de contenido */
+.content-section .text-slate-400,
+.section-header .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en modales */
+.modal .text-slate-400,
+.modal-content .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en tablas */
+table .text-slate-400,
+.table .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en listas */
+.list-group-item .text-slate-400,
+ul .text-slate-400,
+li .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Asegurar que el texto principal siempre sea blanco */
+.text-white {
+    color: #ffffff !important;
+}
+
+/* Texto con color slate-500 también necesita mejor contraste */
+.text-slate-500 {
+    color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Texto muted también debe ser más legible */
+.text-muted {
+    color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Texto en botones deshabilitados */
+button:disabled .text-slate-400,
+.btn:disabled .text-slate-400 {
+    color: #94a3b8 !important; /* slate-400 pero más claro */
+}
+
+/* Mejorar contraste en texto de placeholders */
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8 !important; /* slate-400 - suficiente para placeholders */
+    opacity: 0.8;
+}
+
+/* Texto en tooltips y popovers */
+.tooltip .text-slate-400,
+.popover .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en badges y etiquetas */
+.badge .text-slate-400,
+.label .text-slate-400 {
+    color: #f1f5f9 !important; /* slate-100 para máximo contraste */
+}
+
+/* Texto en cards de usuario */
+.user-card .text-slate-400,
+.user-info .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en mensajes y notificaciones */
+.message .text-slate-400,
+.notification .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en el header */
+header .text-slate-400,
+.header .text-slate-400 {
+    color: #cbd5e1 !important; /* slate-300 - un poco más claro */
+}
+
+/* Asegurar contraste mínimo WCAG AA (4.5:1) para texto normal */
+/* Fondo oscuro (#0f172a o #1e293b) con texto #e2e8f0 tiene ~8:1 - Excelente */
+
+/* Override específico para panel-jefe */
+.panel-jefe .text-slate-400,
+#adminContent .text-slate-400,
+main .text-slate-400 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Override para todas las secciones de contenido */
+.content-section .text-slate-400,
+.content-section .text-slate-300 {
+    color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Texto en visualizador de fases */
+.phases-visualizer .text-slate-400,
+.phases-visualizer .text-slate-500 {
+    color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Mejora adicional: texto en hover debe ser más claro */
+a:hover .text-slate-400,
+button:hover .text-slate-400,
+.nav-item:hover .text-slate-400 {
+    color: #ffffff !important; /* blanco en hover */
+}
+
