@@ -441,31 +441,195 @@
 
         <!-- SECTION: PROYECTOS -->
         <section id="sectionProyectos" class="content-section">
+            <!-- Header con acciones -->
             <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h2 class="text-3xl font-bold">Gestión de Proyectos</h2>
-                    <p class="text-slate-400">Administra y monitorea el estado detallado de cada obra</p>
+                    <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                            <i class="fas fa-project-diagram text-white"></i>
+                        </div>
+                        Gestión de Proyectos
+                    </h2>
+                    <p class="text-white ml-16">Administra y monitorea el estado detallado de cada obra</p>
+                </div>
+                <div class="flex gap-3">
+                    <button id="btnFilterProjects" class="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium transition-all flex items-center gap-2">
+                        <i class="fas fa-filter"></i>
+                        <span class="hidden md:inline">Filtros</span>
+                    </button>
+                    <button id="btnExportProjects" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium transition-all flex items-center gap-2">
+                        <i class="fas fa-file-export"></i>
+                        <span class="hidden md:inline">Exportar</span>
+                    </button>
+                    <button id="btnNewProjectFromSection" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-all flex items-center gap-2 shadow-lg shadow-blue-500/30">
+                        <i class="fas fa-plus"></i>
+                        <span class="hidden md:inline">Nuevo Proyecto</span>
+                    </button>
                 </div>
             </div>
 
+            <!-- Estadísticas rápidas de proyectos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="glass-effect rounded-2xl p-6 border border-blue-500/20 hover:border-blue-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                            <i class="fas fa-building text-blue-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-blue-400 uppercase">Total</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-1" id="projectsTotalCount">0</h3>
+                    <p class="text-slate-400 text-sm">Proyectos Registrados</p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 border border-emerald-500/20 hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
+                            <i class="fas fa-check-circle text-emerald-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-400 uppercase">Activos</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-1" id="projectsActiveCount">0</h3>
+                    <p class="text-slate-400 text-sm">En Ejecución</p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 border border-amber-500/20 hover:border-amber-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
+                            <i class="fas fa-clock text-amber-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 uppercase">Pendientes</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-1" id="projectsPendingCount">0</h3>
+                    <p class="text-slate-400 text-sm">Por Iniciar</p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                            <i class="fas fa-dollar-sign text-purple-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-purple-400 uppercase">Inversión</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-1" id="projectsTotalInvestment">$0</h3>
+                    <p class="text-slate-400 text-sm">Presupuesto Total</p>
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda y filtros -->
             <div class="glass-effect rounded-2xl p-6 mb-8">
-                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                    <i class="fas fa-stream text-blue-400"></i>
-                    Cronograma Global (Gantt)
-                </h3>
-                <div id="ganttContainer" class="overflow-x-auto min-h-[300px] rounded-xl bg-white/5 p-4">
-                    <!-- Gantt Chart will render here -->
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <div class="flex-1 w-full">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="projectsSearchInput" placeholder="Buscar proyectos por nombre, ciudad, mandante..." 
+                                class="w-full pl-12 pr-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="projectsStatusFilter" class="px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                            <option value="all">Todos los Estados</option>
+                            <option value="activo">Activos</option>
+                            <option value="pendiente">Pendientes</option>
+                            <option value="completado">Completados</option>
+                            <option value="pausado">Pausados</option>
+                        </select>
+                        <select id="projectsSortBy" class="px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                            <option value="nombre">Ordenar por Nombre</option>
+                            <option value="fecha_inicio">Fecha de Inicio</option>
+                            <option value="presupuesto">Presupuesto</option>
+                            <option value="progreso">Progreso</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass-effect rounded-2xl p-6">
-                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                    <i class="fas fa-table text-blue-400"></i>
-                    Listado Detallado de Obras
-                </h3>
-                <div id="projectsTableContainer">
-                    <p class="text-slate-500 italic text-center py-10">Use la vista de Dashboard para gestionar los
-                        proyectos individuales.</p>
+            <!-- Cronograma Global (Gantt) mejorado -->
+            <div class="glass-effect rounded-2xl p-6 mb-8 border border-blue-500/20">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                            <i class="fas fa-stream text-blue-400"></i>
+                        </div>
+                        Cronograma Global (Gantt)
+                    </h3>
+                    <div class="flex gap-2">
+                        <button id="btnGanttZoomIn" class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm transition-all">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button id="btnGanttZoomOut" class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm transition-all">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button id="btnGanttToday" class="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm transition-all">
+                            <i class="fas fa-calendar-day mr-2"></i>Hoy
+                        </button>
+                    </div>
+                </div>
+                <div id="ganttContainer" class="overflow-x-auto min-h-[400px] rounded-xl bg-slate-900/50 p-6 border border-slate-700/50">
+                    <div class="flex items-center justify-center h-full min-h-[400px]">
+                        <div class="text-center">
+                            <i class="fas fa-chart-gantt text-4xl text-blue-400/50 mb-4"></i>
+                            <p class="text-slate-400">Cronograma interactivo de proyectos</p>
+                            <p class="text-slate-500 text-sm mt-2">Visualiza todas las obras en una línea de tiempo unificada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listado Detallado de Obras mejorado -->
+            <div class="glass-effect rounded-2xl p-6 border border-indigo-500/20">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center">
+                            <i class="fas fa-table text-indigo-400"></i>
+                        </div>
+                        Listado Detallado de Obras
+                    </h3>
+                    <div class="flex gap-2">
+                        <button id="btnViewGrid" class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm transition-all">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button id="btnViewList" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Vista de tabla profesional -->
+                <div id="projectsTableContainer" class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-slate-700/50">
+                                <th class="text-left py-4 px-4 text-sm font-bold text-slate-300 uppercase">Proyecto</th>
+                                <th class="text-left py-4 px-4 text-sm font-bold text-slate-300 uppercase">Mandante</th>
+                                <th class="text-left py-4 px-4 text-sm font-bold text-slate-300 uppercase">Ubicación</th>
+                                <th class="text-center py-4 px-4 text-sm font-bold text-slate-300 uppercase">Estado</th>
+                                <th class="text-right py-4 px-4 text-sm font-bold text-slate-300 uppercase">Presupuesto</th>
+                                <th class="text-center py-4 px-4 text-sm font-bold text-slate-300 uppercase">Progreso</th>
+                                <th class="text-left py-4 px-4 text-sm font-bold text-slate-300 uppercase">Fechas</th>
+                                <th class="text-center py-4 px-4 text-sm font-bold text-slate-300 uppercase">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTableBody" class="divide-y divide-slate-700/30">
+                            <tr>
+                                <td colspan="8" class="py-20 text-center">
+                                    <i class="fas fa-spinner fa-spin text-3xl text-slate-500 mb-4"></i>
+                                    <p class="text-slate-400">Cargando proyectos...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <div id="projectsPagination" class="flex items-center justify-between mt-6 pt-6 border-t border-slate-700/50">
+                    <div class="text-sm text-slate-400">
+                        Mostrando <span id="projectsShowingFrom">0</span> - <span id="projectsShowingTo">0</span> de <span id="projectsTotal">0</span> proyectos
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btnProjectsPrev" class="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-chevron-left mr-2"></i>Anterior
+                        </button>
+                        <button id="btnProjectsNext" class="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            Siguiente<i class="fas fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
