@@ -85,6 +85,43 @@
         body main#adminContent #sectionProyectos p.text-slate-400 {
             color: #ffffff !important; /* BLANCO PURO - máximo contraste */
         }
+        
+        /* FIX: Corregir textos que se salen de los boxes en stat cards */
+        body .stat-card,
+        body .glass-effect.stat-card {
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+        }
+        
+        body .stat-card *,
+        body .glass-effect.stat-card * {
+            box-sizing: border-box !important;
+            max-width: 100% !important;
+        }
+        
+        body .stat-card p,
+        body .stat-card h3,
+        body .stat-card span,
+        body .glass-effect.stat-card p,
+        body .glass-effect.stat-card h3,
+        body .glass-effect.stat-card span {
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: normal !important;
+            display: block !important;
+            width: 100% !important;
+        }
+        
+        body .stat-card .flex.items-center.justify-between {
+            flex-wrap: wrap !important;
+            gap: 0.5rem !important;
+        }
+        
+        body .stat-card .flex.items-center.justify-between span {
+            flex-shrink: 1 !important;
+            min-width: 0 !important;
+        }
     </style>
 </head>
 
