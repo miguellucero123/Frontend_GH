@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initUsersSection();
     initMessagesSection();
     initExcelUploadSection(); // FASE 6: Carga de Excel/Word
+    initProjectsSection(); // Inicializar sección de proyectos
 
     // Cargar dashboard con mejoras
     loadDashboard();
