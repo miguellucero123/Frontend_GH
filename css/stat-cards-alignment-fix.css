@@ -19,20 +19,32 @@ body .grid .glass-effect.stat-card,
     justify-content: unset !important;
 }
 
-/* Forzar que los elementos hijos se apilen verticalmente */
-html body .stat-card > *,
-html body .glass-effect.stat-card > *,
-body .glass-effect.rounded-2xl.p-6.stat-card > *,
-body .grid .stat-card > *,
-body .grid .glass-effect.stat-card > * {
+/* Permitir que el contenedor flex del icono+label funcione correctamente */
+html body .stat-card > .flex.items-center.justify-between,
+html body .glass-effect.stat-card > .flex.items-center.justify-between,
+body .glass-effect.rounded-2xl.p-6.stat-card > .flex.items-center.justify-between,
+body .grid .stat-card > .flex.items-center.justify-between,
+body .grid .glass-effect.stat-card > .flex.items-center.justify-between {
+    display: flex !important; /* Permitir flex solo para icono+label */
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+/* Todos los demás elementos hijos deben ser block */
+html body .stat-card > *:not(.flex.items-center.justify-between),
+html body .glass-effect.stat-card > *:not(.flex.items-center.justify-between),
+body .glass-effect.rounded-2xl.p-6.stat-card > *:not(.flex.items-center.justify-between),
+body .grid .stat-card > *:not(.flex.items-center.justify-between),
+body .grid .glass-effect.stat-card > *:not(.flex.items-center.justify-between) {
     display: block !important;
     width: 100% !important;
 }
 
 /* Todos los elementos dentro de stat-card */
-.stat-card *,
-.glass-effect.stat-card *,
-[class*="stat-card"] * {
+html body .stat-card *,
+html body .glass-effect.stat-card *,
+body .glass-effect.rounded-2xl.p-6.stat-card * {
     text-align: left !important;
 }
 
