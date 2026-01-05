@@ -820,9 +820,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (modalEl) {
-            const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            bsModal.show();
+            console.log('Intentando abrir modal de proyecto...');
+            
+            // Intentar con Bootstrap 5
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                try {
+                    const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    bsModal.show();
+                    console.log('✅ Modal abierto con Bootstrap 5');
+                } catch (error) {
+                    console.error('❌ Error abriendo modal con Bootstrap 5:', error);
+                    // Fallback manual
+                    showModalManually(modalEl);
+                }
+            } else {
+                console.warn('⚠️ Bootstrap no disponible, usando fallback manual');
+                showModalManually(modalEl);
+            }
+        } else {
+            console.error('❌ Modal de proyecto no encontrado en el DOM');
+            alert('Error: No se pudo encontrar el modal de proyecto. Por favor, recarga la página.');
         }
+    }
+
+    /**
+     * Mostrar modal manualmente (fallback)
+     */
+    function showModalManually(modalEl) {
+        modalEl.style.display = 'block';
+        modalEl.classList.add('show');
+        modalEl.setAttribute('aria-hidden', 'false');
+        modalEl.setAttribute('aria-modal', 'true');
+        document.body.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
+        
+        // Crear backdrop
+        let backdrop = document.querySelector('.modal-backdrop');
+        if (!backdrop) {
+            backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop fade show';
+            document.body.appendChild(backdrop);
+            
+            // Cerrar al hacer clic en backdrop
+            backdrop.addEventListener('click', () => {
+                closeProjectModal();
+            });
+        }
+        
+        // Cerrar con botón X
+        const closeBtn = modalEl.querySelector('[data-bs-dismiss="modal"], .btn-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeProjectModal);
+        }
+    }
     }
 
     /**
@@ -831,8 +881,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     function closeProjectModal() {
         const modalEl = document.getElementById('projectModal');
         if (modalEl) {
-            const bsModal = bootstrap.Modal.getInstance(modalEl);
-            if (bsModal) bsModal.hide();
+            // Intentar con Bootstrap
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl);
+                if (bsModal) {
+                    bsModal.hide();
+                    return;
+                }
+            }
+            
+            // Fallback manual
+            modalEl.style.display = 'none';
+            modalEl.classList.remove('show');
+            modalEl.setAttribute('aria-hidden', 'true');
+            modalEl.removeAttribute('aria-modal');
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            
+            // Remover backdrop
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
         }
     }
 
