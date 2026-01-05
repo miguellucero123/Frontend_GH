@@ -257,16 +257,12 @@ body .stat-card {
     overflow-wrap: break-word !important;
 }
 
-/* Alineación de texto en elementos inline y flex */
-body .content-section p,
-body .content-section div,
-body .content-section span,
-body .glass-effect p,
-body .glass-effect div,
-body .glass-effect span {
-    text-align: inherit !important;
-    display: block !important;
-    width: 100% !important;
+/* Alineación de texto en elementos inline y flex - solo para elementos de texto, no romper layout */
+body .content-section p.text-slate-400,
+body .content-section p.text-slate-300,
+body .glass-effect p.text-slate-400,
+body .glass-effect p.text-slate-300 {
+    text-align: left !important;
     box-sizing: border-box !important;
 }
 
