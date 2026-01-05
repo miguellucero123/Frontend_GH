@@ -70,14 +70,20 @@
 }
 
 /* Contenedor para descripción y valor - forzar izquierda */
-.stat-card > div.text-left {
+.stat-card > div.text-left,
+.glass-effect.stat-card > div.text-left {
     text-align: left !important;
     width: 100% !important;
+    margin-left: -0.375rem !important; /* -ml-1.5 equivalente */
+    padding-left: 0 !important;
 }
 
-.stat-card > div.text-left > * {
+.stat-card > div.text-left > *,
+.glass-effect.stat-card > div.text-left > * {
     text-align: left !important;
     display: block !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
 }
 
 /* Asegurar que los textos descriptivos estén a la izquierda */
