@@ -110,8 +110,35 @@
             word-wrap: break-word !important;
             overflow-wrap: break-word !important;
             white-space: normal !important;
+            text-align: left !important;
+        }
+        
+        /* Asegurar alineamiento izquierdo en stat-cards */
+        body .stat-card,
+        body .glass-effect.stat-card {
+            text-align: left !important;
+        }
+        
+        body .stat-card > *,
+        body .glass-effect.stat-card > * {
+            text-align: left !important;
+        }
+        
+        /* Labels y valores alineados a la izquierda */
+        body .stat-card p.text-slate-400,
+        body .stat-card h3 {
+            text-align: left !important;
+            width: auto !important;
             display: block !important;
-            width: 100% !important;
+        }
+        
+        /* El contenedor flex debe mantener el layout pero el texto a la izquierda */
+        body .stat-card .flex.items-center.justify-between {
+            justify-content: space-between !important;
+        }
+        
+        body .stat-card .flex.items-center.justify-between > * {
+            text-align: left !important;
         }
         
         body .stat-card .flex.items-center.justify-between {
@@ -211,10 +238,10 @@
                             class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
                             <i class="fas fa-users text-2xl"></i>
                         </div>
-                        <span class="text-xs font-bold text-emerald-400 uppercase">Personal</span>
+                        <span class="text-xs font-bold text-emerald-400 uppercase text-left">Personal</span>
                     </div>
-                    <p class="text-slate-400 text-sm">Equipo Total</p>
-                    <h3 class="text-3xl font-bold mt-1" id="statTotalUsers">0</h3>
+                    <p class="text-slate-400 text-sm text-left">Equipo Total</p>
+                    <h3 class="text-3xl font-bold mt-1 text-left" id="statTotalUsers">0</h3>
                 </div>
 
                 <!-- Mensajes -->
@@ -228,10 +255,10 @@
                             class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
                             <i class="fas fa-envelope text-2xl"></i>
                         </div>
-                        <span class="text-xs font-bold text-amber-400 uppercase">Pendientes</span>
+                        <span class="text-xs font-bold text-amber-400 uppercase text-left">Pendientes</span>
                     </div>
-                    <p class="text-slate-400 text-sm">Mensajes No Leídos</p>
-                    <h3 class="text-3xl font-bold mt-1" id="statUnreadMessages">0</h3>
+                    <p class="text-slate-400 text-sm text-left">Mensajes No Leídos</p>
+                    <h3 class="text-3xl font-bold mt-1 text-left" id="statUnreadMessages">0</h3>
                 </div>
 
                 <!-- Presupuesto -->
@@ -245,10 +272,10 @@
                             class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
                             <i class="fas fa-dollar-sign text-2xl"></i>
                         </div>
-                        <span class="text-xs font-bold text-purple-400 uppercase">Inversión</span>
+                        <span class="text-xs font-bold text-purple-400 uppercase text-left">Inversión</span>
                     </div>
-                    <p class="text-slate-400 text-sm">Costo Total Estimado</p>
-                    <h3 class="text-3xl font-bold mt-1" id="statTotalCost">$0</h3>
+                    <p class="text-slate-400 text-sm text-left">Costo Total Estimado</p>
+                    <h3 class="text-3xl font-bold mt-1 text-left" id="statTotalCost">$0</h3>
                 </div>
             </div>
 
