@@ -241,20 +241,48 @@ class PhasesVisualizer {
         const statusColor = statusColors[phase.status] || statusColors.pending;
         const usageCount = stats?.count || 0;
 
+        // Obtener mejoras disponibles
+        const enhancements = typeof window.phasesEnhancements !== 'undefined'
+            ? window.phasesEnhancements.getPhaseEnhancements(phase.id)
+            : null;
+        
+        const totalFeatures = enhancements 
+            ? Object.values(enhancements.improvements || {}).reduce((sum, imp) => sum + (imp.features?.length || 0), 0)
+            : 0;
+
+        // Obtener icono según fase
+        const phaseIcons = {
+            'fase1': 'fa-chart-line',
+            'fase2': 'fa-folder-open',
+            'fase3': 'fa-comments',
+            'fase4': 'fa-gamepad',
+            'fase5': 'fa-hard-hat',
+            'fase6': 'fa-file-excel'
+        };
+        const phaseIcon = phaseIcons[phase.id] || 'fa-cube';
+
         return `
             <div class="glass-effect rounded-lg p-4 border border-slate-700 hover:border-indigo-500 transition-all cursor-pointer flex items-center justify-between phase-card-list" data-phase-id="${phase.id}">
                 <div class="flex items-center gap-4 flex-1">
-                    <div class="w-3 h-3 rounded-full ${statusColor}"></div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white">${phase.name}</h3>
-                        <p class="text-sm text-slate-400">${phase.description}</p>
+                    <div class="w-10 h-10 rounded-lg ${statusColor.replace('bg-', 'bg-').replace('-500', '-500/20')} flex items-center justify-center flex-shrink-0">
+                        <i class="fas ${phaseIcon} ${statusColor === 'bg-emerald-500' ? 'text-emerald-400' : statusColor === 'bg-blue-500' ? 'text-blue-400' : 'text-amber-400'}"></i>
                     </div>
-                    <div class="text-right">
-                        <div class="text-sm text-slate-400">Usos: <span class="text-white font-medium">${usageCount}</span></div>
-                        <div class="text-xs text-slate-500">${phase.modules.length} módulos</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <h3 class="text-lg font-bold text-white">${phase.name}</h3>
+                            <span class="px-2 py-0.5 rounded text-xs font-medium ${statusColor.replace('bg-', 'bg-').replace('-500', '-500/30')} ${statusColor === 'bg-emerald-500' ? 'text-emerald-300' : statusColor === 'bg-blue-500' ? 'text-blue-300' : 'text-amber-300'}">
+                                ${phase.status === 'completed' ? 'Completo' : phase.status === 'implemented' ? 'Implementado' : 'Pendiente'}
+                            </span>
+                        </div>
+                        <p class="text-sm text-slate-400 mb-2">${phase.description}</p>
+                        <div class="flex items-center gap-4 text-xs text-slate-500">
+                            <span><i class="fas fa-cube mr-1"></i>${phase.modules.length} módulos</span>
+                            <span><i class="fas fa-star mr-1"></i>${totalFeatures} características</span>
+                            <span><i class="fas fa-chart-line mr-1"></i>${usageCount} usos</span>
+                        </div>
                     </div>
                 </div>
-                <button class="phase-btn ml-4 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all"
+                <button class="phase-btn ml-4 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-all flex-shrink-0"
                         data-phase-id="${phase.id}">
                     <i class="fas fa-arrow-right"></i>
                 </button>
