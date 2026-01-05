@@ -795,7 +795,14 @@ class ChatChannelsManager {
      * Intentar reconectar WebSocket
      */
     attemptReconnect() {
+        // No intentar reconectar en modo DEMO
+        if (this.isDemoMode()) {
+            return;
+        }
+
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+            console.warn('⚠️ Máximo de intentos de reconexión alcanzado - Usando modo DEMO');
+            this.loadDemoMessages();
             return;
         }
 
@@ -803,6 +810,7 @@ class ChatChannelsManager {
         const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
 
         setTimeout(() => {
+            console.log(`🔄 Intentando reconectar WebSocket (intento ${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
             this.connectWebSocket();
         }, delay);
     }
