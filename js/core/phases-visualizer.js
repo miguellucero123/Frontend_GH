@@ -493,7 +493,7 @@ class PhasesVisualizer {
         // Remover listener anterior si existe
         const existingPhaseHandler = container._phaseButtonHandler;
         if (existingPhaseHandler) {
-            container.removeEventListener('click', existingPhaseHandler);
+            container.removeEventListener('click', existingPhaseHandler, true);
         }
         
         // Crear handler para botones de fase
