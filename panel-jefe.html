@@ -78,6 +78,13 @@
             overflow: visible !important;
             padding-bottom: 2rem !important;
         }
+        
+        /* FIX CRÍTICO: Forzar contraste en subtítulo de Gestión de Proyectos */
+        body #sectionProyectos p.text-slate-400,
+        body.gradient-bg #sectionProyectos p.text-slate-400,
+        body main#adminContent #sectionProyectos p.text-slate-400 {
+            color: #ffffff !important; /* BLANCO PURO - máximo contraste */
+        }
     </style>
 </head>
 
