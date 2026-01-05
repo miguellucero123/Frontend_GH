@@ -177,6 +177,51 @@ class PhaseManager {
             return;
         }
 
+        // Manejo especial para fase 1 (Datos de Gerencia)
+        if (phaseId === 'fase1') {
+            // Si estamos en panel-jefe.html, cambiar a la sección de dashboard
+            if (window.location.pathname.includes('panel-jefe.html')) {
+                // Cambiar a la sección de dashboard
+                const dashboardSection = document.getElementById('sectionDashboard');
+                if (dashboardSection) {
+                    // Ocultar todas las secciones
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    // Mostrar dashboard
+                    dashboardSection.classList.add('active');
+                    // Actualizar hash sin recargar
+                    window.history.pushState(null, '', 'panel-jefe.html#dashboard');
+                    // Activar botón de navegación correspondiente
+                    document.querySelectorAll('.nav-item').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    const dashboardBtn = document.querySelector('[data-section="dashboard"]');
+                    if (dashboardBtn) {
+                        dashboardBtn.classList.add('active');
+                    }
+                    // Scroll al inicio del dashboard
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    // Si no existe la sección, usar hash para que el sistema de navegación la active
+                    window.location.hash = 'dashboard';
+                }
+                // Log
+                if (typeof window.auditLogger !== 'undefined') {
+                    window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+                }
+                return;
+            } else {
+                // Si no estamos en panel-jefe.html, navegar allí con hash de dashboard
+                window.location.href = 'panel-jefe.html#dashboard';
+                // Log
+                if (typeof window.auditLogger !== 'undefined') {
+                    window.auditLogger.logAccess(`phase-${phaseId}`, 'NAVIGATE');
+                }
+                return;
+            }
+        }
+
         // Manejo especial para fase 2 (Gestor Documental)
         if (phaseId === 'fase2') {
             // Si estamos en panel-jefe.html, abrir el panel de archivos directamente
