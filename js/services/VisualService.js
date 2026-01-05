@@ -24,10 +24,31 @@ class VisualService {
      * Gráfico de barras: Cumplimiento de Hitos por proyecto
      */
     renderMilestonesChart(projects) {
-        const ctx = document.getElementById('milestonesChart')?.getContext('2d');
-        if (!ctx) return;
+        const canvas = document.getElementById('milestonesChart');
+        if (!canvas) return;
 
-        if (this.charts.milestones) this.charts.milestones.destroy();
+        // Destruir gráfico anterior si existe
+        if (this.charts.milestones) {
+            try {
+                this.charts.milestones.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart de milestones anterior:', e);
+            }
+            this.charts.milestones = null;
+        }
+
+        // Verificar si Chart.js tiene un chart registrado en este canvas
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            try {
+                existingChart.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart existente de Chart.js:', e);
+            }
+        }
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
         const labels = projects.map(p => p.mandante_nombre.substring(0, 10) + '...');
         const data = projects.map(p => p.avance || 0);
