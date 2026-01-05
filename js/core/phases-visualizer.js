@@ -444,6 +444,12 @@ class PhasesVisualizer {
 
         // Crear nuevo handler
         const viewButtonHandler = (e) => {
+            // Primero verificar si es un botón de fase - si es así, no procesar aquí
+            const phaseBtn = e.target.closest('.phase-btn');
+            if (phaseBtn) {
+                return; // Dejar que el handler de fase lo procese
+            }
+            
             const btn = e.target.closest('#btnViewGrid, #btnViewList, #btnViewTimeline');
             if (!btn) return;
 
@@ -478,46 +484,67 @@ class PhasesVisualizer {
         container._viewButtonHandler = viewButtonHandler;
         container.addEventListener('click', viewButtonHandler);
         
-        // Event delegation para botones de fases (se ejecuta después de render)
-        setTimeout(() => {
-            if (this.container) {
-                // Botones de fase
-                this.container.addEventListener('click', (e) => {
-                    const phaseBtn = e.target.closest('.phase-btn');
-                    if (phaseBtn) {
-                        e.stopPropagation();
-                        const phaseId = phaseBtn.dataset.phaseId;
-                        if (phaseId) {
-                            this.navigateToPhase(phaseId);
-                        }
-                    }
-                    
-                    // Click en la tarjeta completa (grid y list)
-                    const phaseCard = e.target.closest('.phase-card, .phase-card-list');
-                    if (phaseCard && !e.target.closest('.phase-btn')) {
-                        const phaseId = phaseCard.dataset.phaseId;
-                        if (phaseId) {
-                            this.navigateToPhase(phaseId);
-                        }
-                    }
-                });
+        // Event delegation para botones de fases - usar el mismo contenedor
+        // Remover listener anterior si existe
+        const existingPhaseHandler = container._phaseButtonHandler;
+        if (existingPhaseHandler) {
+            container.removeEventListener('click', existingPhaseHandler);
+        }
+        
+        // Crear handler para botones de fase
+        const phaseButtonHandler = (e) => {
+            // Verificar si es un botón de fase
+            const phaseBtn = e.target.closest('.phase-btn');
+            if (phaseBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                const phaseId = phaseBtn.dataset.phaseId;
+                console.log('🔵 Botón de fase clickeado:', phaseId, phaseBtn);
+                if (phaseId) {
+                    console.log('🔵 Navegando a fase:', phaseId);
+                    this.navigateToPhase(phaseId);
+                } else {
+                    console.warn('⚠️ Botón de fase sin data-phase-id:', phaseBtn);
+                }
+                return;
             }
-        }, 100);
+            
+            // Click en la tarjeta completa (grid y list) - solo si no es un botón
+            const phaseCard = e.target.closest('.phase-card, .phase-card-list');
+            if (phaseCard && !e.target.closest('.phase-btn') && !e.target.closest('#btnViewGrid, #btnViewList, #btnViewTimeline')) {
+                e.preventDefault();
+                e.stopPropagation();
+                const phaseId = phaseCard.dataset.phaseId;
+                console.log('🔵 Tarjeta de fase clickeada:', phaseId);
+                if (phaseId) {
+                    this.navigateToPhase(phaseId);
+                }
+                return;
+            }
+        };
+        
+        // Guardar referencia y agregar listener
+        container._phaseButtonHandler = phaseButtonHandler;
+        container.addEventListener('click', phaseButtonHandler);
     }
 
     /**
      * Navegar a fase
      */
     navigateToPhase(phaseId) {
-        console.log('navigateToPhase llamado con:', phaseId);
+        console.log('🔵 PhasesVisualizer.navigateToPhase llamado con:', phaseId);
         if (typeof window.phaseManager !== 'undefined') {
+            console.log('🔵 Llamando a phaseManager.navigateToPhase');
             window.phaseManager.navigateToPhase(phaseId);
         } else {
-            console.warn('PhaseManager no está disponible');
+            console.error('❌ PhaseManager no está disponible');
             // Fallback: intentar navegar directamente
             const phase = window.phaseManager?.phases?.get?.(phaseId);
             if (phase && phase.html) {
+                console.log('🔵 Navegando directamente a:', phase.html);
                 window.location.href = phase.html;
+            } else {
+                console.error('❌ No se pudo navegar: fase no encontrada');
             }
         }
     }

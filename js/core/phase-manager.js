@@ -179,11 +179,14 @@ class PhaseManager {
 
         // Manejo especial para fase 1 (Datos de Gerencia)
         if (phaseId === 'fase1') {
+            console.log('🔵 Navegando a fase1 (Datos de Gerencia)');
             // Si estamos en panel-jefe.html, cambiar a la sección de dashboard
-            if (window.location.pathname.includes('panel-jefe.html')) {
+            if (window.location.pathname.includes('panel-jefe.html') || window.location.href.includes('panel-jefe.html')) {
+                console.log('🔵 Estamos en panel-jefe.html, cambiando a sección dashboard');
                 // Cambiar a la sección de dashboard
                 const dashboardSection = document.getElementById('sectionDashboard');
                 if (dashboardSection) {
+                    console.log('🔵 Sección dashboard encontrada, activándola');
                     // Ocultar todas las secciones
                     document.querySelectorAll('.content-section').forEach(section => {
                         section.classList.remove('active');
@@ -199,10 +202,13 @@ class PhaseManager {
                     const dashboardBtn = document.querySelector('[data-section="dashboard"]');
                     if (dashboardBtn) {
                         dashboardBtn.classList.add('active');
+                        console.log('🔵 Botón de navegación dashboard activado');
                     }
                     // Scroll al inicio del dashboard
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                    console.log('✅ Navegación a dashboard completada');
                 } else {
+                    console.warn('⚠️ Sección dashboard no encontrada, usando hash');
                     // Si no existe la sección, usar hash para que el sistema de navegación la active
                     window.location.hash = 'dashboard';
                 }
@@ -212,6 +218,7 @@ class PhaseManager {
                 }
                 return;
             } else {
+                console.log('🔵 No estamos en panel-jefe.html, navegando allí');
                 // Si no estamos en panel-jefe.html, navegar allí con hash de dashboard
                 window.location.href = 'panel-jefe.html#dashboard';
                 // Log
