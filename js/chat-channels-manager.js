@@ -632,13 +632,44 @@ class ChatChannelsManager {
     }
 
     /**
+     * Verificar si estamos en modo DEMO
+     */
+    isDemoMode() {
+        // Detectar GitHub Pages
+        const isGitHubPages = window.location.hostname.includes('github.io') || 
+                              window.location.hostname.includes('github.com');
+        
+        // Verificar configuración
+        const config = window.CONFIG || {};
+        const isDemoConfig = config.DEMO_MODE === true || config.API_BASE_URL === null;
+        
+        return isDemoConfig || isGitHubPages;
+    }
+
+    /**
      * Conectar WebSocket
      */
     connectWebSocket() {
         if (!auth.isAuthenticated()) return;
 
+        // NO intentar conectar WebSocket en modo DEMO
+        if (this.isDemoMode()) {
+            console.log('[DEMO] WebSocket deshabilitado - Modo DEMO activo');
+            // Cargar mensajes de ejemplo en modo DEMO
+            this.loadDemoMessages();
+            return;
+        }
+
         const config = window.CONFIG || {};
         const apiURL = config.API_BASE_URL || 'http://localhost:8002/api';
+        
+        // Si no hay API_BASE_URL, no intentar conectar
+        if (!apiURL) {
+            console.log('[DEMO] No hay backend configurado - Usando modo DEMO');
+            this.loadDemoMessages();
+            return;
+        }
+
         const wsProtocol = apiURL.startsWith('https') ? 'wss:' : 'ws:';
         const apiHost = apiURL.replace(/^https?:\/\//, '').replace(/\/api.*$/, '');
         const wsURL = `${wsProtocol}//${apiHost}/ws/chat?token=${auth.getToken()}&project_id=${this.currentProjectId}`;
@@ -647,7 +678,7 @@ class ChatChannelsManager {
             this.ws = new WebSocket(wsURL);
 
             this.ws.onopen = () => {
-                console.log('WebSocket de canales conectado');
+                console.log('✅ WebSocket de canales conectado');
                 this.reconnectAttempts = 0;
             };
 
@@ -657,15 +688,70 @@ class ChatChannelsManager {
             };
 
             this.ws.onerror = (error) => {
-                console.error('Error en WebSocket:', error);
+                // Solo mostrar error si no es un error de conexión esperado (modo DEMO)
+                if (!this.isDemoMode()) {
+                    console.warn('⚠️ Error en WebSocket (puede ser normal si el backend no está disponible):', error);
+                }
             };
 
-            this.ws.onclose = () => {
-                console.log('WebSocket desconectado');
-                this.attemptReconnect();
+            this.ws.onclose = (event) => {
+                // Solo intentar reconectar si no estamos en modo DEMO y no fue un cierre normal
+                if (!this.isDemoMode() && event.code !== 1000) {
+                    console.log('WebSocket desconectado, intentando reconectar...');
+                    this.attemptReconnect();
+                } else if (!this.isDemoMode()) {
+                    console.log('WebSocket desconectado');
+                }
             };
         } catch (error) {
-            console.error('Error al conectar WebSocket:', error);
+            // En modo DEMO, no mostrar errores
+            if (!this.isDemoMode()) {
+                console.error('Error al conectar WebSocket:', error);
+            } else {
+                console.log('[DEMO] WebSocket no disponible - Usando modo DEMO');
+                this.loadDemoMessages();
+            }
+        }
+    }
+
+    /**
+     * Cargar mensajes de ejemplo en modo DEMO
+     */
+    loadDemoMessages() {
+        // Mensajes de ejemplo para modo DEMO
+        const demoMessages = {
+            'cliente-gerencia': [
+                {
+                    message_id: 'demo-1',
+                    sender: 'Administrador',
+                    sender_id: 1,
+                    content: 'Bienvenido al sistema de mensajería. Este es el canal de comunicación con clientes.',
+                    timestamp: new Date().toISOString(),
+                    channel: 'cliente-gerencia'
+                }
+            ],
+            'trabajador-gerencia': [
+                {
+                    message_id: 'demo-2',
+                    sender: 'Administrador',
+                    sender_id: 1,
+                    content: 'Necesito los planos actualizados para la siguiente etapa.',
+                    timestamp: new Date(Date.now() - 3600000).toISOString(), // Hace 1 hora
+                    channel: 'trabajador-gerencia'
+                }
+            ]
+        };
+
+        // Cargar mensajes en los canales correspondientes
+        Object.keys(demoMessages).forEach(channelId => {
+            if (this.channels[channelId]) {
+                this.channels[channelId].mensajes = demoMessages[channelId];
+            }
+        });
+
+        // Renderizar mensajes si hay un canal activo
+        if (this.currentChannel) {
+            this.renderChannelMessages(this.currentChannel);
         }
     }
 
