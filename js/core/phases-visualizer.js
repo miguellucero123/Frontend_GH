@@ -332,8 +332,8 @@ class PhasesVisualizer {
                     <div class="w-16 h-16 rounded-full ${statusColor} flex items-center justify-center text-white text-2xl shadow-lg">
                         <i class="fas ${phaseIcon}"></i>
                     </div>
-                    ${index < this.getAllPhases().length - 1 ? `
-                        <div class="absolute top-16 left-1/2 transform -translate-x-1/2 w-0.5 h-full ${statusColor.replace('bg-', 'bg-').replace('-500', '-500/30')}"></div>
+                    ${typeof window.phaseManager !== 'undefined' && index < window.phaseManager.getAllPhases().length - 1 ? `
+                        <div class="absolute top-16 left-1/2 transform -translate-x-1/2 w-0.5 h-20 ${statusColor.replace('bg-', 'bg-').replace('-500', '-500/30')}"></div>
                     ` : ''}
                 </div>
                 <div class="flex-1 glass-effect rounded-lg p-4 border border-slate-700 hover:border-indigo-500 transition-all mb-8">
