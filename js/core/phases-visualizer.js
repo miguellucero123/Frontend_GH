@@ -168,9 +168,9 @@ class PhasesVisualizer {
                         <div class="w-12 h-12 rounded-xl ${statusColor.replace('/20', '/30')} flex items-center justify-center flex-shrink-0">
                             <i class="fas ${phaseIcon} text-2xl ${phase.status === 'completed' ? 'text-emerald-400' : phase.status === 'implemented' ? 'text-blue-400' : 'text-amber-400'}"></i>
                         </div>
-                        <div class="flex-1">
-                            <h3 class="text-lg font-bold text-white mb-1">${phase.name}</h3>
-                            <p class="text-sm text-slate-400 mb-3">${phase.description}</p>
+                        <div class="flex-1 text-left">
+                            <h3 class="text-lg font-bold text-white mb-1 text-left">${phase.name}</h3>
+                            <p class="text-sm text-slate-400 mb-3 text-left">${phase.description}</p>
                         </div>
                     </div>
                     <span class="px-3 py-1 rounded-full text-xs font-medium ${statusColor} whitespace-nowrap">
@@ -180,23 +180,23 @@ class PhasesVisualizer {
 
                 <div class="space-y-3 mb-4">
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-white/5 rounded-lg p-3">
-                            <div class="text-xs text-slate-400 mb-1">Módulos</div>
-                            <div class="text-lg font-bold text-white">${phase.modules.length}</div>
+                        <div class="bg-white/5 rounded-lg p-3 text-left">
+                            <div class="text-xs text-slate-400 mb-1 text-left">Módulos</div>
+                            <div class="text-lg font-bold text-white text-left">${phase.modules.length}</div>
                         </div>
-                        <div class="bg-white/5 rounded-lg p-3">
-                            <div class="text-xs text-slate-400 mb-1">Características</div>
-                            <div class="text-lg font-bold text-purple-400">${totalFeatures}</div>
+                        <div class="bg-white/5 rounded-lg p-3 text-left">
+                            <div class="text-xs text-slate-400 mb-1 text-left">Características</div>
+                            <div class="text-lg font-bold text-purple-400 text-left">${totalFeatures}</div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between text-sm bg-white/5 rounded-lg p-3">
-                        <span class="text-slate-400">
+                    <div class="flex items-center justify-between text-sm bg-white/5 rounded-lg p-3 text-left">
+                        <span class="text-slate-400 text-left">
                             <i class="fas fa-chart-line mr-1"></i>Usos:
                         </span>
                         <span class="text-white font-medium">${usageCount}</span>
                     </div>
-                    <div class="flex items-center justify-between text-sm bg-white/5 rounded-lg p-3">
-                        <span class="text-slate-400">
+                    <div class="flex items-center justify-between text-sm bg-white/5 rounded-lg p-3 text-left">
+                        <span class="text-slate-400 text-left">
                             <i class="fas fa-clock mr-1"></i>Último uso:
                         </span>
                         <span class="text-white font-medium">${lastUsed}</span>
@@ -204,15 +204,15 @@ class PhasesVisualizer {
                 </div>
 
                 ${phase.dependencies && phase.dependencies.length > 0 ? `
-                    <div class="mb-4 pt-3 border-t border-slate-700">
-                        <div class="text-xs text-slate-400 mb-2">Depende de:</div>
-                        <div class="flex flex-wrap gap-2">
+                    <div class="mb-4 pt-3 border-t border-slate-700 text-left">
+                        <div class="text-xs text-slate-400 mb-2 text-left">Depende de:</div>
+                        <div class="flex flex-wrap gap-2 justify-start">
                             ${phase.dependencies.map(depId => {
                                 const depPhase = typeof window.phaseManager !== 'undefined' 
                                     ? window.phaseManager.phases?.get?.(depId)
                                     : null;
                                 if (!depPhase) return '';
-                                return `<span class="px-2 py-1 rounded text-xs bg-slate-700/50 text-slate-300">${depPhase.name}</span>`;
+                                return `<span class="px-2 py-1 rounded text-xs bg-slate-700/50 text-slate-300 text-left">${depPhase.name}</span>`;
                             }).join('')}
                         </div>
                     </div>

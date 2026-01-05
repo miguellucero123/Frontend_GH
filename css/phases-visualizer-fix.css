@@ -1,0 +1,63 @@
+/**
+ * ============================================
+ * FIXES PARA VISUALIZADOR DE FASES
+ * Corrección de alineamiento de texto
+ * ============================================
+ */
+
+/* Asegurar que el texto en las tarjetas de fase esté alineado a la izquierda */
+.phases-visualizer .phase-card,
+.phases-visualizer .phase-card-list {
+    text-align: left !important;
+}
+
+/* Texto en los boxes de métricas */
+.phases-visualizer .phase-card .bg-white\/5,
+.phases-visualizer .phase-card [class*="bg-white/5"] {
+    text-align: left !important;
+}
+
+/* Títulos y descripciones */
+.phases-visualizer .phase-card h3,
+.phases-visualizer .phase-card p {
+    text-align: left !important;
+}
+
+/* Labels y valores en los boxes pequeños */
+.phases-visualizer .phase-card .text-xs,
+.phases-visualizer .phase-card .text-sm {
+    text-align: left !important;
+}
+
+/* Números en los boxes de métricas */
+.phases-visualizer .phase-card .text-lg {
+    text-align: left !important;
+}
+
+/* Dependencias */
+.phases-visualizer .phase-card .flex.flex-wrap {
+    justify-content: flex-start !important;
+}
+
+/* Asegurar que los elementos dentro de los boxes no se centren */
+.phases-visualizer .phase-card > * {
+    text-align: left !important;
+}
+
+/* Grid de métricas - alinear contenido a la izquierda */
+.phases-visualizer .phase-card .grid > div {
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+}
+
+/* Flex items con justify-between - mantener alineación izquierda para labels */
+.phases-visualizer .phase-card .flex.items-center.justify-between {
+    text-align: left !important;
+}
+
+.phases-visualizer .phase-card .flex.items-center.justify-between > span:first-child {
+    text-align: left !important;
+}
+
