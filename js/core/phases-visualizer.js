@@ -140,37 +140,87 @@ class PhasesVisualizer {
             ? new Date(stats.lastUsed).toLocaleDateString('es-CL')
             : 'Nunca';
 
+        // Obtener mejoras disponibles
+        const enhancements = typeof window.phasesEnhancements !== 'undefined'
+            ? window.phasesEnhancements.getPhaseEnhancements(phase.id)
+            : null;
+        
+        const totalFeatures = enhancements 
+            ? Object.values(enhancements.improvements || {}).reduce((sum, imp) => sum + (imp.features?.length || 0), 0)
+            : 0;
+
+        // Obtener icono según fase
+        const phaseIcons = {
+            'fase1': 'fa-chart-line',
+            'fase2': 'fa-folder-open',
+            'fase3': 'fa-comments',
+            'fase4': 'fa-gamepad',
+            'fase5': 'fa-hard-hat',
+            'fase6': 'fa-file-excel'
+        };
+        const phaseIcon = phaseIcons[phase.id] || 'fa-cube';
+
         return `
-            <div class="glass-effect rounded-xl p-6 border ${statusColor} hover:scale-105 transition-all cursor-pointer phase-card" data-phase-id="${phase.id}">
+            <div class="glass-effect rounded-xl p-6 border ${statusColor} hover:scale-105 transition-all cursor-pointer phase-card group" data-phase-id="${phase.id}">
                 <div class="flex items-start justify-between mb-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white mb-2">${phase.name}</h3>
-                        <p class="text-sm text-slate-400 mb-4">${phase.description}</p>
+                    <div class="flex items-start gap-3 flex-1">
+                        <div class="w-12 h-12 rounded-xl ${statusColor.replace('/20', '/30')} flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${phaseIcon} text-2xl ${phase.status === 'completed' ? 'text-emerald-400' : phase.status === 'implemented' ? 'text-blue-400' : 'text-amber-400'}"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-white mb-1">${phase.name}</h3>
+                            <p class="text-sm text-slate-400 mb-3">${phase.description}</p>
+                        </div>
                     </div>
-                    <span class="px-3 py-1 rounded-full text-xs font-medium ${statusColor}">
+                    <span class="px-3 py-1 rounded-full text-xs font-medium ${statusColor} whitespace-nowrap">
                         ${phase.status === 'completed' ? 'Completo' : phase.status === 'implemented' ? 'Implementado' : 'Pendiente'}
                     </span>
                 </div>
 
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-slate-400">Módulos:</span>
-                        <span class="text-white font-medium">${phase.modules.length}</span>
+                <div class="space-y-3 mb-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white/5 rounded-lg p-3">
+                            <div class="text-xs text-slate-400 mb-1">Módulos</div>
+                            <div class="text-lg font-bold text-white">${phase.modules.length}</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-3">
+                            <div class="text-xs text-slate-400 mb-1">Características</div>
+                            <div class="text-lg font-bold text-purple-400">${totalFeatures}</div>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-slate-400">Usos:</span>
+                    <div class="flex items-center justify-between text-sm bg-white/5 rounded-lg p-3">
+                        <span class="text-slate-400">
+                            <i class="fas fa-chart-line mr-1"></i>Usos:
+                        </span>
                         <span class="text-white font-medium">${usageCount}</span>
                     </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-slate-400">Último uso:</span>
+                    <div class="flex items-center justify-between text-sm bg-white/5 rounded-lg p-3">
+                        <span class="text-slate-400">
+                            <i class="fas fa-clock mr-1"></i>Último uso:
+                        </span>
                         <span class="text-white font-medium">${lastUsed}</span>
                     </div>
                 </div>
 
+                ${phase.dependencies && phase.dependencies.length > 0 ? `
+                    <div class="mb-4 pt-3 border-t border-slate-700">
+                        <div class="text-xs text-slate-400 mb-2">Depende de:</div>
+                        <div class="flex flex-wrap gap-2">
+                            ${phase.dependencies.map(depId => {
+                                const depPhase = typeof window.phaseManager !== 'undefined' 
+                                    ? window.phaseManager.phases?.get?.(depId)
+                                    : null;
+                                if (!depPhase) return '';
+                                return `<span class="px-2 py-1 rounded text-xs bg-slate-700/50 text-slate-300">${depPhase.name}</span>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
                 <div class="mt-4 pt-4 border-t border-slate-700">
-                    <button class="phase-btn w-full px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-all"
+                    <button class="phase-btn w-full px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
                             data-phase-id="${phase.id}">
-                        <i class="fas fa-arrow-right mr-2"></i>
+                        <i class="fas fa-arrow-right"></i>
                         ${isAvailable ? 'Abrir' : 'Ver Detalles'}
                     </button>
                 </div>
