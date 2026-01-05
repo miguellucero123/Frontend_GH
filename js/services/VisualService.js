@@ -201,10 +201,31 @@ class VisualService {
      * Gráfico circular: Distribución por obra
      */
     renderDistributionChart(projects) {
-        const ctx = document.getElementById('distributionChart')?.getContext('2d');
-        if (!ctx) return;
+        const canvas = document.getElementById('distributionChart');
+        if (!canvas) return;
 
-        if (this.charts.distribution) this.charts.distribution.destroy();
+        // Destruir gráfico anterior si existe
+        if (this.charts.distribution) {
+            try {
+                this.charts.distribution.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart de distribución anterior:', e);
+            }
+            this.charts.distribution = null;
+        }
+
+        // Verificar si Chart.js tiene un chart registrado en este canvas
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            try {
+                existingChart.destroy();
+            } catch (e) {
+                console.warn('Error destruyendo chart existente de Chart.js:', e);
+            }
+        }
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
         const data = projects.map(p => p.costo_final || 0);
         const labels = projects.map(p => p.mandante_nombre);
