@@ -22,7 +22,7 @@ jobs:
     
     steps:
     - name: Checkout código
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       
     - name: Configurar Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
@@ -85,7 +85,7 @@ jobs:
     
     steps:
     - name: Checkout código
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       
     - name: Configurar Python
       uses: actions/setup-python@v5
