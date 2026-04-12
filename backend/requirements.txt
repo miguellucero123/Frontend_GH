@@ -22,7 +22,7 @@ bcrypt==4.1.1
 aiofiles==23.2.1
 
 # Redis (opcional para WebSockets escalables)
-redis==5.0.1
+redis==7.4.0
 
 # Testing
 pytest==7.4.3
